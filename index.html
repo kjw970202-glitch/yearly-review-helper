@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>올해의"O_O" 결산 도우미</title>
+  <title>올해의 결산 도우미</title>
 
   <style>
     :root{
@@ -502,11 +502,11 @@
     <section id="startScreen" class="screen visible">
       <div class="start-card">
         <div class="start-deco" aria-hidden="true"></div>
-        <span class="start-badge">🎁 연말연초 결산</span>
-        <h1 class="start-title" id="startTitle">2025년 고생했고, 연말결산 시작할 준비 되셨나요?</h1>
+        <span class="start-badge">🎁 연말 결산</span>
+        <h1 class="start-title" id="startTitle">2025년 고생하셨습니다. 연말결산 시작할 준비 되셨나요?</h1>
         <p class="start-sub">
-          질문이 하나씩 나와요. 답해도 되고, 비워두고 넘어가면 자동으로 패스됩니다.<br/>
-          작성한 내용은 <b>내 브라우저에만</b> 저장돼요.
+          질문이 하나씩 나와요. 답해도 되고, 비워두고 넘어가도 됩니다.<br/>
+          걱정마세요! 작성한 내용은 <b>내 브라우저에만</b> 저장돼요.
         </p>
         <div class="start-cta">
           <button class="primary" id="startBtn">시작하기</button>
@@ -520,8 +520,8 @@
     <section id="appScreen" class="screen hidden">
       <header>
         <div class="brand">
-          <h1 class="title">올해의 00 결산 도우미</h1>
-          <p class="subtitle">질문을 하나씩 던져주고, 답을 모아 한 번에 정리해주는 결산 페이지 (수정/중단/복사/스토리 카드 PNG)</p>
+          <h1 class="title">올해의 결산 도우미</h1>
+          <p class="subtitle">질문에 답하다보면, 어느새 연말결산 끝! (수정/복사/스토리 카드 제작)</p>
         </div>
         <div class="pill" id="yearPill">🎁 <span id="yearText"></span> 연말 결산</div>
       </header>
@@ -544,10 +544,9 @@
               <p class="qtext" id="qText">질문이 여기에 표시됩니다</p>
             </div>
 
-            <textarea id="answer" placeholder="여기에 답을 입력해줘. (비워두고 다음으로 넘어가면 ‘패스’로 처리돼)"></textarea>
+            <textarea id="answer" placeholder="여기에 답변해줘! (비워두고 넘어가도 괜찮아!)"></textarea>
             <div class="hint">
               <span>팁: 답이 길어도 괜찮아. 줄바꿈 그대로 저장돼.</span>
-              <span>패스는 <code>다음</code>만 눌러도 OK</span>
             </div>
 
             <div class="btns">
@@ -573,7 +572,7 @@
                   <button id="applyQuestionsBtn">질문 적용 (진행 초기화)</button>
                   <button id="resetQuestionsBtn">기본 질문으로 복원</button>
                 </div>
-                <p class="small">* 서버 없이 동작: 진행 상태는 내 브라우저(localStorage)에만 저장돼.</p>
+                <p class="small">* 서버 없이 동작: 진행 상태는 내 브라우저에만 저장돼.</p>
               </div>
             </details>
           </div>
@@ -820,7 +819,7 @@
 
   // ====== State ======
   let state = load() || {
-    title: "올해의 00 결산 도우미",
+    title: "올해의 결산 도우미",
     questions: uniqueQuestions(DEFAULT_QUESTIONS),
     idx: 0,
     answers: {},     // { [index]: string }
@@ -1052,7 +1051,7 @@
   startResetBtn.addEventListener("click", () => {
     localStorage.removeItem(LS_KEY);
     state = {
-      title: "올해의 00 결산 도우미",
+      title: "올해의 결산 도우미",
       questions: uniqueQuestions(DEFAULT_QUESTIONS),
       idx: 0,
       answers: {},
@@ -1081,7 +1080,7 @@
 
   applyTitleBtn.addEventListener("click", () => {
     const t = (customTitle.value ?? "").trim();
-    state.title = t.length ? t : "올해의 00 결산 도우미";
+    state.title = t.length ? t : "올해의 결산 도우미";
     save(state);
     renderAll();
     showToast("제목 적용 완료!");
