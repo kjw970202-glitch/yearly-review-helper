@@ -1,0 +1,1077 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>올해의 00 결산 도우미</title>
+
+  <style>
+    :root{
+      /* 🎄 Red / White Holiday Theme */
+      --bg:#fff6f7;
+      --card:#ffffff;
+
+      --text:#1b1b1b;
+      --muted:#5d5d5d;
+
+      --line:rgba(0,0,0,.08);
+
+      --red:#d12b2b;        /* main */
+      --red2:#ff4a4a;       /* highlight */
+      --white:#ffffff;
+
+      --accent:var(--red);
+      --accent2:var(--red2);
+
+      --danger:#d12b2b;
+      --ok:#0c8f47;         /* (토스트 점/OK 표시만) */
+
+      --shadow: 0 16px 50px rgba(0,0,0,.08);
+      --r: 18px;
+      --pad: 18px;
+
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+        "Noto Sans KR", AppleSDGothicNeo, "Malgun Gothic", Arial, sans-serif;
+    }
+
+    *{ box-sizing:border-box; }
+
+    /* ✅ 배경: 레드/화이트 패턴 "이미지" (SVG data URI) */
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      padding:24px 14px 60px;
+
+      background:
+        /* 눈/스노우 도트 레이어 */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Crect width='240' height='240' fill='none'/%3E%3Cg fill='%23ffffff' fill-opacity='0.9'%3E%3Ccircle cx='30' cy='40' r='2'/%3E%3Ccircle cx='80' cy='90' r='1.8'/%3E%3Ccircle cx='140' cy='60' r='2.2'/%3E%3Ccircle cx='200' cy='110' r='1.6'/%3E%3Ccircle cx='50' cy='160' r='2'/%3E%3Ccircle cx='120' cy='170' r='1.6'/%3E%3Ccircle cx='210' cy='190' r='2.2'/%3E%3C/g%3E%3C/svg%3E"),
+        /* 리본/체크 느낌 레이어 */
+        url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%23fff6f7'/%3E%3Cg opacity='0.16'%3E%3Cpath d='M0 40 L220 40' stroke='%23d12b2b' stroke-width='6'/%3E%3Cpath d='M0 110 L220 110' stroke='%23d12b2b' stroke-width='6'/%3E%3Cpath d='M0 180 L220 180' stroke='%23d12b2b' stroke-width='6'/%3E%3C/g%3E%3Cg opacity='0.10'%3E%3Cpath d='M40 0 L40 220' stroke='%23d12b2b' stroke-width='6'/%3E%3Cpath d='M110 0 L110 220' stroke='%23d12b2b' stroke-width='6'/%3E%3Cpath d='M180 0 L180 220' stroke='%23d12b2b' stroke-width='6'/%3E%3C/g%3E%3C/svg%3E\"),
+        linear-gradient(180deg, #fff6f7 0%, #ffeef0 100%);
+
+      background-repeat: repeat, repeat, no-repeat;
+      background-size: 240px 240px, 220px 220px, cover;
+      background-attachment: fixed;
+    }
+
+    .wrap{ width:min(980px, 100%); }
+
+    header{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+
+    .brand{ display:flex; flex-direction:column; gap:6px; }
+
+    .title{
+      font-size:22px;
+      font-weight:900;
+      letter-spacing:-.2px;
+      margin:0;
+    }
+
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(255,255,255,.8);
+      color:var(--muted);
+      font-size:12px;
+      user-select:none;
+      backdrop-filter: blur(6px);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:14px;
+    }
+    @media (max-width:900px){ .grid{grid-template-columns:1fr} }
+
+    .card{
+      background:rgba(255,255,255,.9);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      backdrop-filter: blur(8px);
+    }
+
+    .card .head{
+      padding:16px var(--pad);
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .card .head h2{
+      margin:0;
+      font-size:13px;
+      color:var(--muted);
+      font-weight:800;
+      letter-spacing:-.1px;
+    }
+
+    .card .body{ padding:18px var(--pad); }
+
+    .progress{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
+    .bar{
+      flex:1;
+      height:10px;
+      background:rgba(0,0,0,.06);
+      border-radius:999px;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.06);
+    }
+
+    .bar > i{
+      display:block;
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius:999px;
+      transition:width .35s ease;
+    }
+
+    .pct{
+      font-size:12px;
+      color:var(--muted);
+      min-width:86px;
+      text-align:right;
+    }
+
+    .qbox{
+      padding:16px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:
+        radial-gradient(400px 120px at 20% 20%, rgba(209,43,43,.10), transparent 60%),
+        radial-gradient(420px 140px at 80% 30%, rgba(255,74,74,.08), transparent 60%),
+        rgba(255,255,255,.75);
+      margin-bottom:12px;
+    }
+
+    .qnum{ color:var(--muted); font-size:12px; margin-bottom:6px; }
+
+    .qtext{
+      margin:0;
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:-.3px;
+      line-height:1.35;
+    }
+
+    textarea{
+      width:100%;
+      min-height:110px;
+      resize:vertical;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(0,0,0,.10);
+      background:rgba(255,255,255,.92);
+      color:var(--text);
+      outline:none;
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    textarea:focus{
+      border-color:rgba(209,43,43,.45);
+      box-shadow: 0 0 0 3px rgba(209,43,43,.14);
+    }
+
+    .hint{
+      margin-top:8px;
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .hint code{
+      color:#1b1b1b;
+      background:rgba(0,0,0,.04);
+      border:1px solid rgba(0,0,0,.08);
+      padding:2px 6px;
+      border-radius:8px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:12px;
+    }
+
+    .btns{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+
+    button{
+      border:1px solid rgba(0,0,0,.10);
+      background:rgba(255,255,255,.92);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:900;
+      font-size:13px;
+      transition: transform .05s ease, background .2s ease, border-color .2s ease, opacity .2s ease;
+      user-select:none;
+    }
+
+    button:hover{
+      background:#ffffff;
+      border-color:rgba(0,0,0,.16);
+    }
+
+    button:active{ transform: translateY(1px); }
+    button:disabled{ opacity:.45; cursor:not-allowed; }
+
+    .primary{
+      color:white;
+      background:linear-gradient(90deg, var(--accent), var(--accent2));
+      border-color:rgba(209,43,43,.25);
+    }
+
+    .primary:hover{ filter:brightness(1.03); }
+
+    .danger{
+      color:white;
+      background:linear-gradient(90deg, #b51f1f, #ff4a4a);
+      border-color:rgba(209,43,43,.25);
+    }
+
+    .danger:hover{ filter:brightness(1.03); }
+
+    .ghost{
+      background:transparent;
+      border-color:rgba(0,0,0,.10);
+    }
+
+    .ghost:hover{ background:rgba(255,255,255,.75); }
+
+    .side-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      max-height:520px;
+      overflow:auto;
+      padding-right:6px;
+    }
+
+    .item{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.85);
+      border-radius:14px;
+      padding:12px;
+    }
+
+    .item .meta{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:6px;
+    }
+
+    .item .meta b{ font-size:12px; color:var(--muted); }
+
+    .tag{
+      font-size:11px;
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.10);
+      color:var(--muted);
+      background:rgba(255,255,255,.9);
+      white-space:nowrap;
+    }
+
+    .ans{
+      margin:0;
+      font-size:13px;
+      line-height:1.55;
+      color:#222;
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+
+    .empty{ color:rgba(93,93,93,.75); font-style:italic; }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      background:rgba(255,255,255,.95);
+      border:1px solid rgba(0,0,0,.12);
+      box-shadow:var(--shadow);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:999px;
+      font-size:13px;
+      display:none;
+      gap:10px;
+      align-items:center;
+      z-index:50;
+      max-width:min(720px, 92vw);
+    }
+
+    .dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:var(--ok);
+      box-shadow:0 0 0 3px rgba(12,143,71,.12);
+      flex:0 0 auto;
+    }
+
+    .footer-tools{ margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; }
+    .small{ font-size:12px; color:var(--muted); line-height:1.6; margin:0; }
+
+    details{
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:rgba(255,255,255,.85);
+      padding:10px 12px;
+      margin-top:12px;
+    }
+
+    summary{
+      cursor:pointer;
+      color:var(--muted);
+      font-weight:900;
+      font-size:13px;
+      list-style:none;
+    }
+    summary::-webkit-details-marker{display:none}
+
+    .qedit{ margin-top:10px; }
+    .qedit textarea{ min-height:160px; }
+
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:10px;
+    }
+
+    .row input{
+      flex:1;
+      min-width:240px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(0,0,0,.10);
+      background:rgba(255,255,255,.92);
+      color:var(--text);
+      outline:none;
+      font-size:13px;
+    }
+
+    .row input:focus{
+      border-color:rgba(209,43,43,.45);
+      box-shadow: 0 0 0 3px rgba(209,43,43,.14);
+    }
+
+    /* roundRect polyfill fallback for older browsers */
+    canvas { display:none; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <h1 class="title">올해의 00 결산 도우미</h1>
+        <p class="subtitle">질문을 하나씩 던져주고, 답을 모아 한 번에 정리해주는 결산 페이지 (패스/중단/복사/인스타 카드 PNG)</p>
+      </div>
+      <div class="pill" id="yearPill">🎁 <span id="yearText"></span> 연말 결산</div>
+    </header>
+
+    <div class="grid">
+      <!-- Left -->
+      <section class="card" id="flowCard">
+        <div class="head">
+          <h2 id="modeTitle">진행</h2>
+          <div class="pill">⌨️ <code>Ctrl</code>+<code>Enter</code> 다음</div>
+        </div>
+        <div class="body">
+          <div class="progress">
+            <div class="bar"><i id="barFill"></i></div>
+            <div class="pct" id="pctText">0% · 0/0</div>
+          </div>
+
+          <div class="qbox">
+            <div class="qnum" id="qNum">Q1</div>
+            <p class="qtext" id="qText">질문이 여기에 표시됩니다</p>
+          </div>
+
+          <textarea id="answer" placeholder="여기에 답을 입력해줘. (비워두고 다음으로 넘어가면 ‘패스’로 처리돼)"></textarea>
+          <div class="hint">
+            <span>팁: 답이 길어도 괜찮아. 줄바꿈 그대로 저장돼.</span>
+            <span>패스는 <code>다음</code>만 눌러도 OK</span>
+          </div>
+
+          <div class="btns">
+            <button class="primary" id="nextBtn">다음</button>
+            <button id="skipBtn">패스</button>
+            <button class="danger" id="stopBtn">여기서 멈추고 결산 보기</button>
+            <button class="ghost" id="restartBtn" title="답변은 초기화됩니다">처음부터 다시</button>
+          </div>
+
+          <details>
+            <summary>⚙️ 커스터마이즈 (질문/제목 바꾸기)</summary>
+            <div class="qedit">
+              <p class="small">
+                - 위 제목을 바꾸면 페이지 타이틀도 함께 바뀜<br/>
+                - 질문은 줄바꿈으로 구분 (빈 줄 무시)
+              </p>
+              <div class="row">
+                <input id="customTitle" placeholder="예: 올해의 기록 / 올해의 감사 / 올해의 소비" />
+                <button id="applyTitleBtn">제목 적용</button>
+              </div>
+              <textarea id="questionsEditor"></textarea>
+              <div class="row">
+                <button id="applyQuestionsBtn">질문 적용 (진행 초기화)</button>
+                <button id="resetQuestionsBtn">기본 질문으로 복원</button>
+              </div>
+              <p class="small">* 서버 없이 동작: 진행 상태는 내 브라우저(localStorage)에만 저장돼.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- Right -->
+      <aside class="card" id="summaryCard">
+        <div class="head">
+          <h2>지금까지 답변</h2>
+          <div class="pill">🧾 자동 요약</div>
+        </div>
+        <div class="body">
+          <div class="side-list" id="sideList"></div>
+
+          <div class="footer-tools">
+            <button id="copyAllBtn">전체 복사</button>
+            <button id="copyNumberedBtn">번호 리스트로 복사</button>
+            <button class="ghost" id="copyAnsweredOnlyBtn">답변한 것만 복사</button>
+            <button class="primary" id="exportImageBtn" title="답변 중 일부를 골라 1080x1080 인스타 카드 PNG로 저장">📸 인스타 카드 만들기</button>
+          </div>
+          <p class="small">* 복사는 클립보드로, 인스타 카드는 PNG로 다운로드돼.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">
+    <span class="dot"></span>
+    <span id="toastText">복사 완료!</span>
+  </div>
+
+<script>
+(() => {
+  // ====== 기본 질문 세트 ======
+  const DEFAULT_QUESTIONS = [
+    "올해의 유튜브는?",
+    "올해의 배우는?",
+    "올해의 영화는?",
+    "올해의 앨범은?",
+    "올해의 노래는?",
+    "올해의 드라마는?",
+    "올해의 전시는?",
+    "올해의 책은?",
+    "올해의 서적은?",
+    "올해의 작가는?",
+    "올해의 문장은?",
+    "올해의 말은?",
+    "올해의 색깔은?",
+    "올해의 풍경은?",
+    "올해의 나무는?",
+    "올해의 새는?",
+    "올해의 숲은?",
+    "올해의 여행은?",
+    "올해의 달리기는?",
+    "올해의 순간은?",
+    "올해의 처음은?",
+    "올해의 끝은?",
+    "올해의 음식은?",
+    "올해의 디저트는?",
+    "올해의 음료는?",
+    "올해의 커피는?",
+    "올해의 식당은?",
+    "올해의 테이크아웃은?",
+    "올해의 매운 맛은?",
+    "올해의 소비는?",
+    "올해의 투자는?",
+    "올해의 손실은?",
+    "올해의 득템은?",
+    "올해의 구독은?",
+    "올해의 브랜드는?",
+    "올해의 신발은?",
+    "올해의 티셔츠는?",
+    "올해의 옷은?",
+    "올해의 알콜은?",
+    "올해의 운동은?",
+    "올해의 건강관리는?",
+    "올해의 관리는?",
+    "올해의 습관은?",
+    "올해의 동네는?",
+    "올해의 공간은?",
+    "올해의 집은?",
+    "올해의 이동수단은?",
+    "올해의 산책로는?",
+    "올해의 산은?",
+    "올해의 다리는?",
+    "올해의 동료는?",
+    "올해의 동역자는?",
+    "올해의 도움은?",
+    "올해의 호스트는?",
+    "올해의 사장님은?",
+    "올해의 셀럽은?",
+    "올해의 짝꿍은?",
+    "올해의 재발견은?",
+    "올해의 발견은?",
+    "올해의 감사는?",
+    "올해의 나눔은?",
+    "올해의 선물은?",
+    "올해의 성취는?",
+    "올해의 도전은?",
+    "올해의 프로젝트는?",
+    "올해의 포기는?",
+    "올해의 발전은?",
+    "올해의 퇴보는?",
+    "올해의 야근은?",
+    "올해의 기능은?",
+    "올해의 어플은?",
+    "올해의 기쁨/행복은?",
+    "올해의 뿌듯함은?",
+    "올해의 박장대소는?",
+    "올해의 재미는?",
+    "올해의 낭만은?",
+    "올해의 평화는?",
+    "올해의 감동은?",
+    "올해의 희열은?",
+    "올해의 놀람은?",
+    "올해의 서프라이즈는?",
+    "올해의 의외는?",
+    "올해의 차가움은?",
+    "올해의 뜨거움은?",
+    "올해의 절망은?",
+    "올해의 고난은?",
+    "올해의 고통은?",
+    "올해의 슬픔은?",
+    "올해의 분노는?",
+    "올해의 아찔함은?",
+    "올해의 충격은?",
+    "올해의 걱정은?",
+    "올해의 고민은?",
+    "올해의 집착은?",
+    "올해의 흐지부지는?",
+    "올해의 후회는?",
+    "올해의 죄송은?",
+    "올해의 낭비는?",
+    "올해의 분실은?",
+    "올해의 실패는?",
+    "올해의 실수는?",
+    "올해의 뒷북은?",
+    "올해의 쌤통은?",
+    "올해의 최고 킹받는 순간은?",
+    "올해의 코피는?",
+    "올해의 진땀은?",
+    "올해의 우연은?",
+    "올해의 만남은?",
+    "올해의 편지는?",
+    "올해의 철학은?",
+    "올해의 심경변화는?",
+    "올해의 성장(배움)은?",
+    "올해의 영감은?",
+    "올해의 강연은?",
+    "올해의 예배는?",
+    "올해의 찬양은?",
+    "올해의 말씀은?",
+    "올해의 선교는?",
+    "올해의 수집은?",
+    "올해의 상담은?",
+    "올해의 클래스는?",
+    "올해의 티비출연은?",
+    "올해의 셀카는?",
+    "올해의 귀여움은?",
+    "올해의 돼지는?",
+    "올해의 당근은?"
+  ];
+
+  const LS_KEY = "year_review_helper_redwhite_v1";
+
+  // ====== DOM ======
+  const yearText = document.getElementById("yearText");
+  const modeTitle = document.getElementById("modeTitle");
+  const barFill = document.getElementById("barFill");
+  const pctText = document.getElementById("pctText");
+  const qNum = document.getElementById("qNum");
+  const qText = document.getElementById("qText");
+  const answerEl = document.getElementById("answer");
+  const sideList = document.getElementById("sideList");
+
+  const nextBtn = document.getElementById("nextBtn");
+  const skipBtn = document.getElementById("skipBtn");
+  const stopBtn = document.getElementById("stopBtn");
+  const restartBtn = document.getElementById("restartBtn");
+
+  const copyAllBtn = document.getElementById("copyAllBtn");
+  const copyNumberedBtn = document.getElementById("copyNumberedBtn");
+  const copyAnsweredOnlyBtn = document.getElementById("copyAnsweredOnlyBtn");
+  const exportImageBtn = document.getElementById("exportImageBtn");
+
+  const toast = document.getElementById("toast");
+  const toastText = document.getElementById("toastText");
+
+  const customTitle = document.getElementById("customTitle");
+  const applyTitleBtn = document.getElementById("applyTitleBtn");
+  const questionsEditor = document.getElementById("questionsEditor");
+  const applyQuestionsBtn = document.getElementById("applyQuestionsBtn");
+  const resetQuestionsBtn = document.getElementById("resetQuestionsBtn");
+
+  // ====== Year ======
+  const now = new Date();
+  const YEAR = now.getFullYear();
+  yearText.textContent = YEAR;
+
+  // ====== Utils ======
+  function showToast(msg){
+    toastText.textContent = msg;
+    toast.style.display = "inline-flex";
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(()=> toast.style.display = "none", 1600);
+  }
+
+  function safeParseJSON(s){ try { return JSON.parse(s); } catch { return null; } }
+  function save(state){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+  function load(){
+    const raw = localStorage.getItem(LS_KEY);
+    return raw ? safeParseJSON(raw) : null;
+  }
+  function normalizeQuestions(text){
+    return text.split("\n").map(s => s.trim()).filter(s => s.length > 0);
+  }
+  function esc(s){
+    return (s ?? "").replace(/[&<>"']/g, (m) => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+    })[m]);
+  }
+
+  // ====== State ======
+  let state = load() || {
+    title: "올해의 00 결산 도우미",
+    questions: DEFAULT_QUESTIONS,
+    idx: 0,
+    answers: {},     // { [index]: string }
+    skipped: {},     // { [index]: true }
+    stoppedAt: null
+  };
+
+  // ====== Render ======
+  function setPageTitle(){
+    document.title = state.title;
+    document.querySelector(".title").textContent = state.title;
+  }
+
+  function renderEditor(){
+    customTitle.value = state.title;
+    questionsEditor.value = state.questions.join("\n");
+  }
+
+  function renderProgress(){
+    const total = state.questions.length;
+    const doneCount = Object.keys(state.answers).length + Object.keys(state.skipped).length;
+    const pct = total ? Math.round((doneCount / total) * 100) : 0;
+    barFill.style.width = `${pct}%`;
+    pctText.textContent = `${pct}% · ${doneCount}/${total}`;
+  }
+
+  function renderQuestion(){
+    const total = state.questions.length;
+    const isFinished = state.idx >= total;
+
+    if(isFinished){
+      modeTitle.textContent = "결산 완료";
+      qNum.textContent = "DONE";
+      qText.textContent = "결산완료! 오른쪽에서 답변을 확인하고 복사/인스타 카드(PNG)로 저장해줘.";
+      answerEl.value = "";
+      answerEl.disabled = true;
+      nextBtn.disabled = true;
+      skipBtn.disabled = true;
+      stopBtn.disabled = true;
+      return;
+    }
+
+    modeTitle.textContent = "진행";
+    answerEl.disabled = false;
+    nextBtn.disabled = false;
+    skipBtn.disabled = false;
+    stopBtn.disabled = false;
+
+    qNum.textContent = `Q${state.idx + 1}/${total}`;
+    qText.textContent = state.questions[state.idx];
+
+    const existing = state.answers[state.idx] ?? "";
+    answerEl.value = existing;
+    setTimeout(() => answerEl.focus(), 0);
+  }
+
+  function renderSideList(){
+    const total = state.questions.length;
+    const rows = [];
+    for(let i=0;i<total;i++){
+      const q = state.questions[i];
+      const a = state.answers[i];
+      const isSkip = !!state.skipped[i] && (!a || a.trim()==="");
+      const tag = a && a.trim() ? "답변" : (isSkip ? "패스" : "미응답");
+      const ansHtml =
+        (a && a.trim())
+          ? `<p class="ans">${esc(a)}</p>`
+          : `<p class="ans empty">${isSkip ? "패스 처리됨" : "아직 답변 없음"}</p>`;
+
+      rows.push(`
+        <div class="item">
+          <div class="meta">
+            <b>${esc(`Q${i+1}. ${q}`)}</b>
+            <span class="tag">${esc(tag)}</span>
+          </div>
+          ${ansHtml}
+        </div>
+      `);
+    }
+    sideList.innerHTML = rows.join("");
+
+    const answeredCount = Object.keys(state.answers).filter(k => (state.answers[k] ?? "").trim().length > 0).length;
+    exportImageBtn.disabled = answeredCount === 0;
+  }
+
+  function renderAll(){
+    setPageTitle();
+    renderEditor();
+    renderProgress();
+    renderQuestion();
+    renderSideList();
+  }
+
+  // ====== Actions ======
+  function setAnswerAndAdvance({skip=false} = {}){
+    const total = state.questions.length;
+    if(state.idx >= total) return;
+
+    const val = (answerEl.value ?? "").trimEnd();
+    if(skip){
+      delete state.answers[state.idx];
+      state.skipped[state.idx] = true;
+    }else{
+      if(val.trim() === ""){
+        delete state.answers[state.idx];
+        state.skipped[state.idx] = true;
+      }else{
+        state.answers[state.idx] = val;
+        delete state.skipped[state.idx];
+      }
+    }
+
+    state.idx += 1;
+    save(state);
+    renderAll();
+  }
+
+  function stopAndShow(){
+    state.stoppedAt = state.idx;
+
+    const val = (answerEl.value ?? "").trimEnd();
+    if(val.trim()===""){
+      delete state.answers[state.idx];
+      state.skipped[state.idx] = true;
+    }else{
+      state.answers[state.idx] = val;
+      delete state.skipped[state.idx];
+    }
+
+    state.idx = state.questions.length;
+    save(state);
+    renderAll();
+    showToast("결산 화면으로 이동!");
+  }
+
+  function restart(){
+    state.idx = 0;
+    state.answers = {};
+    state.skipped = {};
+    state.stoppedAt = null;
+    save(state);
+    renderAll();
+    showToast("처음부터 다시 시작!");
+  }
+
+  function buildText({numbered=false, answeredOnly=false} = {}){
+    const lines = [];
+    const total = state.questions.length;
+
+    for(let i=0;i<total;i++){
+      const q = state.questions[i];
+      const a = (state.answers[i] ?? "").trim();
+      const isSkip = !!state.skipped[i] && !a;
+
+      if(answeredOnly && !a) continue;
+
+      if(numbered){
+        if(a){
+          lines.push(`${i+1}) ${q} - ${a}`);
+        }else{
+          lines.push(`${i+1}) ${q} - ${isSkip ? "(패스)" : "(미응답)"}`);
+        }
+      }else{
+        lines.push(`Q${i+1}. ${q}`);
+        lines.push(`A${i+1}. ${a ? a : (isSkip ? "(패스)" : "(미응답)")}`);
+        lines.push("");
+      }
+    }
+
+    return lines.join("\n").trim() + "\n";
+  }
+
+  async function copyToClipboard(text){
+    try{
+      await navigator.clipboard.writeText(text);
+      showToast("복사 완료!");
+    }catch(e){
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+      showToast("복사 완료! (fallback)");
+    }
+  }
+
+  // ====== Events ======
+  nextBtn.addEventListener("click", () => setAnswerAndAdvance({skip:false}));
+  skipBtn.addEventListener("click", () => setAnswerAndAdvance({skip:true}));
+  stopBtn.addEventListener("click", stopAndShow);
+  restartBtn.addEventListener("click", restart);
+
+  copyAllBtn.addEventListener("click", () => copyToClipboard(buildText({numbered:false, answeredOnly:false})));
+  copyNumberedBtn.addEventListener("click", () => copyToClipboard(buildText({numbered:true, answeredOnly:false})));
+  copyAnsweredOnlyBtn.addEventListener("click", () => copyToClipboard(buildText({numbered:true, answeredOnly:true})));
+
+  answerEl.addEventListener("keydown", (e) => {
+    if((e.ctrlKey || e.metaKey) && e.key === "Enter"){
+      e.preventDefault();
+      setAnswerAndAdvance({skip:false});
+    }
+  });
+
+  applyTitleBtn.addEventListener("click", () => {
+    const t = (customTitle.value ?? "").trim();
+    state.title = t.length ? t : "올해의 00 결산 도우미";
+    save(state);
+    renderAll();
+    showToast("제목 적용 완료!");
+  });
+
+  applyQuestionsBtn.addEventListener("click", () => {
+    const qs = normalizeQuestions(questionsEditor.value ?? "");
+    if(qs.length < 1){
+      showToast("질문이 최소 1개는 필요해!");
+      return;
+    }
+    state.questions = qs;
+    state.idx = 0;
+    state.answers = {};
+    state.skipped = {};
+    state.stoppedAt = null;
+    save(state);
+    renderAll();
+    showToast("질문 적용 & 초기화 완료!");
+  });
+
+  resetQuestionsBtn.addEventListener("click", () => {
+    questionsEditor.value = DEFAULT_QUESTIONS.join("\n");
+    showToast("기본 질문으로 복원!");
+  });
+
+  // =============================
+  // 📸 인스타 카드 이미지 생성 (1080x1080 PNG) - Red/White
+  // =============================
+  exportImageBtn.addEventListener("click", generateInstagramCard);
+
+  function generateInstagramCard(){
+    const SIZE = 1080;
+    const PAD = 86;
+
+    const answered = Object.keys(state.answers)
+      .map(k => Number(k))
+      .filter(i => (state.answers[i] ?? "").trim().length > 0)
+      .map(i => ({ q: state.questions[i], a: String(state.answers[i]) }));
+
+    if(answered.length === 0){
+      showToast("아직 답변이 없어! 한 개라도 작성해줘.");
+      return;
+    }
+
+    shuffle(answered);
+    const picks = answered.slice(0, Math.min(7, answered.length));
+
+    const canvas = document.createElement("canvas");
+    canvas.width = SIZE;
+    canvas.height = SIZE;
+    const ctx = canvas.getContext("2d");
+
+    // 배경: 화이트 + 레드 리본 라인 + 스노우 도트 느낌
+    ctx.fillStyle = "#fff6f7";
+    ctx.fillRect(0, 0, SIZE, SIZE);
+
+    // 리본 라인
+    ctx.strokeStyle = "rgba(209,43,43,0.10)";
+    ctx.lineWidth = 12;
+    for(let y=110; y<SIZE; y+=240){
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(SIZE, y);
+      ctx.stroke();
+    }
+
+    // 스노우 도트
+    ctx.fillStyle = "rgba(255,255,255,0.95)";
+    for(let i=0;i<65;i++){
+      const x = Math.random() * SIZE;
+      const y = Math.random() * SIZE;
+      const r = 1.5 + Math.random()*2.2;
+      ctx.beginPath();
+      ctx.arc(x,y,r,0,Math.PI*2);
+      ctx.fill();
+    }
+
+    // 카드 외곽
+    roundRect(ctx, 44, 44, SIZE-88, SIZE-88, 28);
+    ctx.strokeStyle = "rgba(0,0,0,0.10)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // 타이틀
+    ctx.fillStyle = "#1b1b1b";
+    ctx.textAlign = "left";
+    ctx.font = "900 56px sans-serif";
+    ctx.fillText(`${YEAR} 올해의 결산`, PAD, 150);
+
+    ctx.font = "600 28px sans-serif";
+    ctx.fillStyle = "rgba(0,0,0,0.55)";
+    ctx.fillText(state.title, PAD, 200);
+
+    let y = 285;
+    const maxWidth = SIZE - PAD*2;
+
+    for(const {q, a} of picks){
+      ctx.font = "900 30px sans-serif";
+      ctx.fillStyle = "#d12b2b";
+      y = wrapText(ctx, `• ${q}`, PAD, y, maxWidth, 40);
+
+      ctx.font = "500 28px sans-serif";
+      ctx.fillStyle = "#1b1b1b";
+      y = wrapText(ctx, a, PAD + 18, y + 6, maxWidth - 18, 38);
+
+      y += 20;
+      if(y > SIZE - 180) break;
+    }
+
+    // 하단
+    ctx.fillStyle = "rgba(0,0,0,0.55)";
+    ctx.font = "600 24px sans-serif";
+    ctx.fillText(`© ${YEAR}`, PAD, SIZE - 92);
+
+    ctx.textAlign = "right";
+    ctx.fillText(`#연말결산 #올해의`, SIZE - PAD, SIZE - 92);
+
+    const link = document.createElement("a");
+    link.download = `올해의_결산_${YEAR}_redwhite.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+
+    showToast("인스타 카드 PNG 생성!");
+  }
+
+  function shuffle(arr){
+    for(let i = arr.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
+
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight){
+    const hard = String(text).split("\n");
+    for(const block of hard){
+      const words = block.split(" ");
+      let line = "";
+
+      for(let n=0; n<words.length; n++){
+        const testLine = line + words[n] + " ";
+        const metrics = ctx.measureText(testLine);
+        if(metrics.width > maxWidth && n > 0){
+          ctx.fillText(line.trimEnd(), x, y);
+          line = words[n] + " ";
+          y += lineHeight;
+        }else{
+          line = testLine;
+        }
+      }
+      ctx.fillText(line.trimEnd(), x, y);
+      y += lineHeight;
+    }
+    return y;
+  }
+
+  // roundRect helper (지원 안 되면 직접 path)
+  function roundRect(ctx, x, y, w, h, r){
+    r = Math.min(r, w/2, h/2);
+    if (typeof ctx.roundRect === "function"){
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, r);
+      ctx.closePath();
+      return;
+    }
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  // ====== Start ======
+  renderAll();
+})();
+</script>
+</body>
+</html>
