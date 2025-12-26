@@ -5,9 +5,19 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>올해의 결산 도우미</title>
 
+  <!-- ✅ GA4: 사용자 제공 코드 그대로 (head에 1회) -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CD6MLMJ7B9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-CD6MLMJ7B9');
+  </script>
+
   <style>
     :root{
-      /* 🎄 Red / White Holiday Theme */
+      /* 🎄 Default: Red / White Holiday Theme */
       --bg:#fff6f7;
       --card:#ffffff;
 
@@ -18,10 +28,10 @@
 
       --red:#d12b2b;
       --red2:#ff4a4a;
-      --white:#ffffff;
 
-      --accent:var(--red);
-      --accent2:var(--red2);
+      /* ✅ 사용자 커스텀 가능한 핵심 색상(초기값 레드 계열) */
+      --accent: var(--red);
+      --accent2: var(--red2);
 
       --danger:#d12b2b;
       --ok:#0c8f47;
@@ -36,7 +46,6 @@
 
     *{ box-sizing:border-box; }
 
-    /* ✅ 배경: 레드/화이트 패턴 (라인/줄무늬는 SVG에 있지만 "붉은 줄" 같은 강한 선이 나오지 않도록 opacity를 낮춤) */
     body{
       margin:0;
       font-family:var(--font);
@@ -132,8 +141,7 @@
       width:260px;
       height:260px;
       border-radius:50%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,74,74,.25), rgba(209,43,43,.18) 35%, transparent 70%);
-      filter: blur(0px);
+      background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--accent2) 25%, transparent), color-mix(in srgb, var(--accent) 18%, transparent) 35%, transparent 70%);
     }
 
     header{
@@ -247,8 +255,8 @@
       border-radius:14px;
       border:1px solid var(--line);
       background:
-        radial-gradient(400px 120px at 20% 20%, rgba(209,43,43,.10), transparent 60%),
-        radial-gradient(420px 140px at 80% 30%, rgba(255,74,74,.08), transparent 60%),
+        radial-gradient(400px 120px at 20% 20%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 60%),
+        radial-gradient(420px 140px at 80% 30%, color-mix(in srgb, var(--accent2) 8%, transparent), transparent 60%),
         rgba(255,255,255,.75);
       margin-bottom:12px;
     }
@@ -278,8 +286,8 @@
     }
 
     textarea:focus{
-      border-color:rgba(209,43,43,.45);
-      box-shadow: 0 0 0 3px rgba(209,43,43,.14);
+      border-color:color-mix(in srgb, var(--accent) 45%, transparent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
     }
 
     .hint{
@@ -292,17 +300,7 @@
       flex-wrap:wrap;
     }
 
-    .hint code{
-      color:#1b1b1b;
-      background:rgba(0,0,0,.04);
-      border:1px solid rgba(0,0,0,.08);
-      padding:2px 6px;
-      border-radius:8px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size:12px;
-    }
-
-    .btns{
+    .btns, .footer-tools{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
@@ -337,14 +335,14 @@
     .primary{
       color:white !important;
       background:linear-gradient(90deg, var(--accent), var(--accent2)) !important;
-      border-color:rgba(209,43,43,.25) !important;
+      border-color:color-mix(in srgb, var(--accent) 25%, transparent) !important;
     }
     .primary:hover{ filter:brightness(1.03); }
 
     .danger{
       color:white !important;
-      background:linear-gradient(90deg, #b51f1f, #ff4a4a) !important;
-      border-color:rgba(209,43,43,.25) !important;
+      background:linear-gradient(90deg, #b51f1f, var(--accent2)) !important;
+      border-color:color-mix(in srgb, var(--accent) 25%, transparent) !important;
     }
     .danger:hover{ filter:brightness(1.03); }
 
@@ -409,8 +407,8 @@
       font-size:12px;
       font-weight:900;
       color: var(--accent);
-      background: rgba(209,43,43,.06);
-      border:1px solid rgba(209,43,43,.12);
+      background: color-mix(in srgb, var(--accent) 6%, transparent);
+      border:1px solid color-mix(in srgb, var(--accent) 12%, transparent);
       padding:7px 10px;
       border-radius:12px;
       cursor:pointer;
@@ -445,9 +443,6 @@
       box-shadow:0 0 0 3px rgba(12,143,71,.12);
       flex:0 0 auto;
     }
-
-    .footer-tools{ margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; }
-    .small{ font-size:12px; color:var(--muted); line-height:1.6; margin:0; }
 
     details{
       border:1px solid var(--line);
@@ -490,40 +485,46 @@
     }
 
     .row input:focus{
-      border-color:rgba(209,43,43,.45);
-      box-shadow: 0 0 0 3px rgba(209,43,43,.14);
+      border-color:color-mix(in srgb, var(--accent) 45%, transparent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
     }
 
-    .icon{
-      width:18px;height:18px;display:inline-block;flex:0 0 auto;
+    .icon{ width:18px;height:18px;display:inline-block;flex:0 0 auto; }
+    .icon svg{ width:100%;height:100%; }
+
+    .mini-tools{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:12px;
     }
-    .icon svg{width:100%;height:100%}
+    .mini-tools .label{
+      font-size:12px;
+      color:var(--muted);
+      font-weight:900;
+    }
+    .colorpick{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.85);
+    }
+    .colorpick input[type="color"]{
+      width:44px;height:32px;
+      border:none;background:transparent; padding:0;
+      cursor:pointer;
+    }
+    .small{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.6;
+      margin:0;
+    }
   </style>
-
-  <!-- =============================
-       ✅ GA4 (동적 로더)
-       1) 아래 GA4_MEASUREMENT_ID를 G-XXXX 로 바꾸면 자동 활성화
-       2) 그대로 두면(placeholder) 아예 로드하지 않음
-  ============================== -->
-  <script>
-    // TODO: 여기에 네 GA4 Measurement ID를 넣어줘. 예) "G-PSW1MY7HB4"
-    const GA4_MEASUREMENT_ID = "G-CD6MLMJ7B9";
-    (function initGA4(){
-      const id = String(GA4_MEASUREMENT_ID || "").trim();
-      if(!/^G-[A-Z0-9]+$/i.test(id) || id === "G-CD6MLMJ7B9") return;
-
-      const s1 = document.createElement("script");
-      s1.async = true;
-      s1.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
-      document.head.appendChild(s1);
-
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){ dataLayer.push(arguments); }
-      window.gtag = gtag;
-      gtag("js", new Date());
-      gtag("config", id);
-    })();
-  </script>
 </head>
 
 <body>
@@ -546,10 +547,10 @@
           <button class="ghost" id="startResetBtn" title="저장된 진행 상태를 초기화합니다">저장된 진행 초기화</button>
         </div>
 
+        <!-- ✅ 예시 링크(로고 포함) -->
         <div class="start-cta" style="margin-top:10px;">
           <a class="btn" id="blogLink" target="_blank" rel="noopener">
             <span class="icon" aria-hidden="true">
-              <!-- Naver-ish "N" (단순화 아이콘) -->
               <svg viewBox="0 0 24 24" fill="none">
                 <path d="M6 18V6h4l4 6V6h4v12h-4l-4-6v6H6z" fill="#03C75A"/>
               </svg>
@@ -559,14 +560,24 @@
 
           <a class="btn" id="instaLink" target="_blank" rel="noopener">
             <span class="icon" aria-hidden="true">
-              <!-- Instagram-ish 카메라 아이콘 (단색) -->
               <svg viewBox="0 0 24 24" fill="none">
-                <path d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5Z" stroke="#d12b2b" stroke-width="2"/>
-                <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#d12b2b" stroke-width="2"/>
-                <path d="M17.5 6.5h.01" stroke="#d12b2b" stroke-width="3" stroke-linecap="round"/>
+                <path d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M17.5 6.5h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
               </svg>
             </span>
             인스타 예시
+          </a>
+
+          <!-- ✅ 피드백 버튼 (링크는 추후 교체) -->
+          <a class="btn" id="feedbackBtn" target="_blank" rel="noopener">
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 5h16v10H7l-3 3V5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M8 9h8M8 12h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            피드백 보내기
           </a>
         </div>
 
@@ -586,7 +597,22 @@
         <div class="pill" id="yearPill">🎁 <span id="yearText"></span> 연말 결산</div>
       </header>
 
-      <div class="grid">
+      <!-- ✅ 상단 미니툴: 홈으로 / 피드백 / 색상 커스텀 -->
+      <div class="mini-tools">
+        <button class="ghost" id="goHomeBtn">🏠 첫 화면</button>
+        <a class="btn ghost" id="feedbackBtn2" target="_blank" rel="noopener">💬 피드백</a>
+
+        <div class="colorpick" title="사용자 색상 커스텀">
+          <span class="label">🎨 색상</span>
+          <label class="small">메인</label>
+          <input id="colorAccent" type="color" value="#d12b2b" />
+          <label class="small">그라데이션</label>
+          <input id="colorAccent2" type="color" value="#ff4a4a" />
+          <button class="ghost" id="resetColorsBtn">기본값</button>
+        </div>
+      </div>
+
+      <div class="grid" style="margin-top:12px;">
         <!-- Left -->
         <section class="card" id="flowCard">
           <div class="head">
@@ -605,9 +631,6 @@
             </div>
 
             <textarea id="answer" placeholder="여기에 답변해줘! (비워두고 넘어가도 괜찮아!)"></textarea>
-            <div class="hint">
-              <span>팁: 답이 길어도 괜찮아. 줄바꿈 그대로 저장돼.</span>
-            </div>
 
             <div class="btns">
               <button class="primary" id="nextBtn">다음</button>
@@ -620,7 +643,8 @@
               <div class="qedit">
                 <p class="small">
                   - 위 제목을 바꾸면 페이지 타이틀도 함께 바뀜<br/>
-                  - 질문은 줄바꿈으로 구분 (빈 줄 무시)
+                  - 타이틀은 이미지 다운로드에 반영돼요!<br/>
+                  - 원하는 질문을 마음껏 추가해보세요~!(ex. 올해의 방구는?!)<br/>
                 </p>
                 <div class="row">
                   <input id="customTitle" placeholder="예: 올해의 기록 / 올해의 감사 / 올해의 소비" />
@@ -667,103 +691,24 @@
 <script>
 (() => {
   // =========================
-  // ✅ 예시 링크 (너가 나중에 URL만 바꾸면 됨)
+  // ✅ 네가 나중에 링크만 바꾸면 됨
   // =========================
-  const EXAMPLE_BLOG_URL = "https://blog.naver.com/garden_2_2?Redirect=Log&logNo=223720793794&from=postView&trackingCode=blog_bloghome_searchlist";
+  const EXAMPLE_BLOG_URL = "https://blog.naver.com/garden_2_2/223720793794?trackingCode=blog_bloghome_searchlist";
   const EXAMPLE_INSTA_URL = "https://www.instagram.com/p/Cm0F7U4SH9C/?igsh=OGViY2FiZ29qcml4";
+  const FEEDBACK_URL = "https://forms.gle/JdtPGW3zK1kDGtKp6"; // TODO: 구글폼/노션폼/메일링크로 교체
+
+  // ✅ 색상 저장 키
+  const LS_KEY = "year_review_helper_final_v1";
+  const LS_COLOR_KEY = "year_review_helper_final_colors";
 
   // ====== 기본 질문 세트 ======
   const DEFAULT_QUESTIONS = [
-    "올해의 유튜브는?",
-    "올해의 배우는?",
-    "올해의 영화는?",
-    "올해의 노래는?",
-    "올해의 드라마는?",
-    "올해의 전시는?",
-    "올해의 책은?",
-    "올해의 작가는?",
-    "올해의 문장은?",
-    "올해의 색깔은?",
-    "올해의 여행은?",
-    "올해의 처음은?",
-    "올해의 끝은?",
-    "올해의 디저트는?",
-    "올해의 음료는?",
-    "올해의 커피는?",
-    "올해의 식당은?",
-    "올해의 소비는?",
-    "올해의 투자는?",
-    "올해의 손실은?",
-    "올해의 득템은?",
-    "올해의 구독은?",
-    "올해의 브랜드는?",
-    "올해의 신발은?",
-    "올해의 티셔츠는?",
-    "올해의 운동은?",
-    "올해의 건강관리는?",
-    "올해의 습관은?",
-    "올해의 동네는?",
-    "올해의 공간은?",
-    "올해의 산책로는?",
-    "올해의 동료는?",
-    "올해의 호스트는?",
-    "올해의 사장님은?",
-    "올해의 셀럽은?",
-    "올해의 짝꿍은?",
-    "올해의 재발견은?",
-    "올해의 감사는?",
-    "올해의 선물은?",
-    "올해의 성취는?",
-    "올해의 도전은?",
-    "올해의 프로젝트는?",
-    "올해의 포기는?",
-    "올해의 발전은?",
-    "올해의 퇴보는?",
-    "올해의 야근은?",
-    "올해의 어플은?",
-    "올해의 기쁨/행복은?",
-    "올해의 뿌듯함은?",
-    "올해의 박장대소는?",
-    "올해의 낭만은?",
-    "올해의 평화는?",
-    "올해의 감동은?",
-    "올해의 희열은?",
-    "올해의 놀람은?",
-    "올해의 의외는?",
-    "올해의 차가움은?",
-    "올해의 뜨거움은?",
-    "올해의 절망은?",
-    "올해의 고난은?",
-    "올해의 고통은?",
-    "올해의 슬픔은?",
-    "올해의 분노는?",
-    "올해의 아찔함은?",
-    "올해의 충격은?",
-    "올해의 걱정은?",
-    "올해의 고민은?",
-    "올해의 집착은?",
-    "올해의 흐지부지는?",
-    "올해의 후회는?",
-    "올해의 낭비는?",
-    "올해의 분실은?",
-    "올해의 실패는?",
-    "올해의 실수는?",
-    "올해의 뒷북은?",
-    "올해의 만남은?",
-    "올해의 편지는?",
-    "올해의 심경변화는?",
-    "올해의 성장(배움)은?",
-    "올해의 영감은?",
-    "올해의 강연은?",
-    "올해의 예배는?",
-    "올해의 찬양은?",
-    "올해의 말씀은?",
-    "올해의 선교는?",
-    "올해의 수집은?",
-    "올해의 상담은?",
-    "올해의 셀카는?",
-    "올해의 귀여움은?",
-    "올해의 당근은?"
+    "올해의 유튜브는?","올해의 배우는?","올해의 영화는?","올해의 앨범은?","올해의 노래는?",
+    "올해의 드라마는?","올해의 전시는?","올해의 책은?","올해의 작가는?","올해의 문장은?",
+    "올해의 말은?","올해의 여행은?","올해의 음식은?","올해의 커피는?","올해의 식당은?",
+    "올해의 소비는?","올해의 투자는?","올해의 손실은?","올해의 구독은?","올해의 운동은?",
+    "올해의 습관은?","올해의 공간은?","올해의 감동은?","올해의 걱정은?","올해의 고민은?",
+    "올해의 실패는?","올해의 실수는?","올해의 우연은?","올해의 만남은?","올해의 프로젝트는?"
   ];
 
   const normalizeText = (s) => String(s ?? "").trim().replace(/\s+/g, " ");
@@ -780,8 +725,6 @@
     return out;
   };
 
-  const LS_KEY = "year_review_helper_redwhite_v2";
-
   // ====== DOM ======
   const startScreen = document.getElementById("startScreen");
   const appScreen = document.getElementById("appScreen");
@@ -791,6 +734,14 @@
 
   const blogLink = document.getElementById("blogLink");
   const instaLink = document.getElementById("instaLink");
+  const feedbackBtn = document.getElementById("feedbackBtn");
+  const feedbackBtn2 = document.getElementById("feedbackBtn2");
+
+  const goHomeBtn = document.getElementById("goHomeBtn");
+
+  const colorAccent = document.getElementById("colorAccent");
+  const colorAccent2 = document.getElementById("colorAccent2");
+  const resetColorsBtn = document.getElementById("resetColorsBtn");
 
   const yearText = document.getElementById("yearText");
   const modeTitle = document.getElementById("modeTitle");
@@ -824,6 +775,12 @@
   const YEAR = now.getFullYear();
   yearText.textContent = YEAR;
 
+  // ====== Start Screen links ======
+  blogLink.href = EXAMPLE_BLOG_URL;
+  instaLink.href = EXAMPLE_INSTA_URL;
+  feedbackBtn.href = FEEDBACK_URL;
+  feedbackBtn2.href = FEEDBACK_URL;
+
   // ====== Utils ======
   function showToast(msg){
     toastText.textContent = msg;
@@ -838,6 +795,7 @@
     const raw = localStorage.getItem(LS_KEY);
     return raw ? safeParseJSON(raw) : null;
   }
+
   function normalizeQuestions(text){
     return uniqueQuestions(text.split("\n").map(s => s.trim()).filter(Boolean));
   }
@@ -857,11 +815,7 @@
     stoppedAt: null
   };
 
-  // ====== Start Screen Links ======
-  blogLink.href = EXAMPLE_BLOG_URL;
-  instaLink.href = EXAMPLE_INSTA_URL;
-
-  // ====== Screen Transition ======
+  // ====== Screen transition ======
   function goAppScreen(){
     startScreen.classList.remove("visible");
     startScreen.classList.add("hidden");
@@ -871,6 +825,58 @@
 
     setTimeout(()=> answerEl?.focus(), 60);
   }
+
+  function goStartScreen(){
+    appScreen.classList.remove("visible");
+    appScreen.classList.add("hidden");
+
+    startScreen.classList.remove("hidden");
+    startScreen.classList.add("visible");
+  }
+
+  // ====== Theme (color custom) ======
+  function setCSSVar(name, val){
+    document.documentElement.style.setProperty(name, val);
+  }
+
+  function loadColors(){
+    const raw = localStorage.getItem(LS_COLOR_KEY);
+    const obj = raw ? safeParseJSON(raw) : null;
+    if(obj && obj.accent && obj.accent2){
+      setCSSVar("--accent", obj.accent);
+      setCSSVar("--accent2", obj.accent2);
+      colorAccent.value = obj.accent;
+      colorAccent2.value = obj.accent2;
+    }else{
+      // default
+      setCSSVar("--accent", "#d12b2b");
+      setCSSVar("--accent2", "#ff4a4a");
+      colorAccent.value = "#d12b2b";
+      colorAccent2.value = "#ff4a4a";
+    }
+  }
+
+  function saveColors(accent, accent2){
+    localStorage.setItem(LS_COLOR_KEY, JSON.stringify({accent, accent2}));
+  }
+
+  function applyColors(){
+    const a1 = colorAccent.value;
+    const a2 = colorAccent2.value;
+    setCSSVar("--accent", a1);
+    setCSSVar("--accent2", a2);
+    saveColors(a1, a2);
+    showToast("색상 적용 완료!");
+  }
+
+  colorAccent.addEventListener("input", applyColors);
+  colorAccent2.addEventListener("input", applyColors);
+
+  resetColorsBtn.addEventListener("click", () => {
+    colorAccent.value = "#d12b2b";
+    colorAccent2.value = "#ff4a4a";
+    applyColors();
+  });
 
   // ====== Render ======
   function setPageTitle(){
@@ -884,9 +890,7 @@
   }
 
   function doneCount(){
-    const answeredKeys = Object.keys(state.answers);
-    const skippedKeys = Object.keys(state.skipped);
-    return answeredKeys.length + skippedKeys.length;
+    return Object.keys(state.answers).length + Object.keys(state.skipped).length;
   }
 
   function renderProgress(){
@@ -979,6 +983,7 @@
     if(state.idx >= total) return;
 
     const val = (answerEl.value ?? "").trimEnd();
+
     if(val.trim() === ""){
       delete state.answers[state.idx];
       state.skipped[state.idx] = true;
@@ -1068,25 +1073,21 @@
     }
   }
 
-  // =============================
-  // ✅ 예시보기: 샘플 답변 자동 입력
-  // =============================
+  // ====== Example mode ======
   function applyExample(){
-    // 질문 텍스트 -> 답변 매핑 (원하는 만큼 추가/수정 가능)
     const exampleMap = {
-      "올해의 유튜브는?": "뜬뜬(핑계고)",
-      "올해의 배우는?": "박정민",
-      "올해의 영화는?": "화양연화",
-      "올해의 앨범은?": "Midnight Sun / Moon haewon · Tsuyoshi Yamamoto",
-      "올해의 문장은?": "인생의 100M도 자유할 수 없는 효율에 저당 잡힌 삶",
-      "올해의 음식은?": "고추장 닭날개 조림 (+바질)",
-      "올해의 여행은?": "남해바래길",
-      "올해의 말은?": "친절이 남는다.",
-      "올해의 찬양은?": "하늘소망",
-      "올해의 말씀은?": "갈라디아서 6장 9절"
+      "올해의 영화는?": "헤어질 결심",
+      "올해의 드라마는?": "나의 해방일지",
+      "올해의 책은?": "이석원 - 언제들어도 좋은 말",
+      "올해의 앨범은?": "Harry Styles - Harry’s House",
+      "올해의 노래는?": "난 항상 혼자 있어",
+      "올해의 여행은?": "태안",
+      "올해의 식당은?": "마포옥",
+      "올해의 커피는?": "피카워크샵",
+      "올해의 소비는?": "올림푸스 PEN EE-3",
+      "올해의 문장은?": "냉소적으로 구는건 누구나 할 수 있어 담대하게 낙관 주의자가 되라구"
     };
 
-    // 현재 질문 목록 기준으로 answers 채우기
     const answers = {};
     const skipped = {};
     state.questions.forEach((q, idx) => {
@@ -1100,12 +1101,12 @@
     state.title = "올해의 결산 도우미 (예시)";
     state.answers = answers;
     state.skipped = skipped;
-    state.idx = state.questions.length; // 완료 화면으로
+    state.idx = state.questions.length;
     state.stoppedAt = null;
 
     save(state);
     renderAll();
-    showToast("예시가 로드됐어!");
+    showToast("예시가 로드됐어! (첫 화면으로도 돌아갈 수 있어)");
   }
 
   // ====== Events ======
@@ -1116,9 +1117,13 @@
   });
 
   exampleBtn.addEventListener("click", () => {
-    // 예시보기는 저장 상태를 덮어씀(원하면 여기만 수정해서 별도 모드로도 가능)
     applyExample();
     goAppScreen();
+  });
+
+  goHomeBtn.addEventListener("click", () => {
+    goStartScreen();
+    showToast("첫 화면으로 이동!");
   });
 
   startResetBtn.addEventListener("click", () => {
@@ -1181,7 +1186,8 @@
 
   // =============================
   // 📸 인스타 스토리 카드 (1080x1920 PNG)
-  // ✅ 강한 붉은 줄/선 그리기 없음
+  // ✅ 라인/붉은 줄 없음
+  // ✅ 사용자 커스텀 색 반영(메인/그라데이션)
   // =============================
   exportImageBtn.addEventListener("click", generateInstagramStoryCard);
 
@@ -1189,6 +1195,9 @@
     const W = 1080;
     const H = 1920;
     const PAD = 92;
+
+    const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#d12b2b";
+    const accent2 = getComputedStyle(document.documentElement).getPropertyValue("--accent2").trim() || "#ff4a4a";
 
     const answered = Object.keys(state.answers)
       .map(k => Number(k))
@@ -1212,8 +1221,8 @@
     ctx.fillStyle = "#fff6f7";
     ctx.fillRect(0, 0, W, H);
 
-    radialGlow(ctx, W*0.2, H*0.18, 420, "rgba(255,74,74,0.22)");
-    radialGlow(ctx, W*0.85, H*0.78, 520, "rgba(209,43,43,0.16)");
+    radialGlow(ctx, W*0.2, H*0.18, 420, hexToRgba(accent2, 0.22));
+    radialGlow(ctx, W*0.85, H*0.78, 520, hexToRgba(accent, 0.16));
 
     // 스노우 도트
     ctx.fillStyle = "rgba(255,255,255,0.95)";
@@ -1251,7 +1260,7 @@
 
     for(const {q, a} of picks){
       ctx.font = "900 34px sans-serif";
-      ctx.fillStyle = "#d12b2b";
+      ctx.fillStyle = accent;
       y = wrapText(ctx, `• ${q}`, PAD, y, maxWidth, 44);
 
       ctx.font = "500 32px sans-serif";
@@ -1271,11 +1280,20 @@
     ctx.fillText(`#연말결산 #올해의`, W - PAD, H - 130);
 
     const link = document.createElement("a");
-    link.download = `올해의_결산_${YEAR}_story_redwhite.png`;
+    link.download = `올해의_결산_${YEAR}_story_custom.png`;
     link.href = canvas.toDataURL("image/png");
     link.click();
 
     showToast("스토리 카드 PNG 생성!");
+  }
+
+  function hexToRgba(hex, a){
+    const h = (hex || "").replace("#","").trim();
+    if(h.length !== 6) return `rgba(209,43,43,${a})`;
+    const r = parseInt(h.slice(0,2),16);
+    const g = parseInt(h.slice(2,4),16);
+    const b = parseInt(h.slice(4,6),16);
+    return `rgba(${r},${g},${b},${a})`;
   }
 
   function radialGlow(ctx, x, y, r, color){
@@ -1334,6 +1352,7 @@
   }
 
   // ====== Start ======
+  loadColors();
   renderAll();
 })();
 </script>
