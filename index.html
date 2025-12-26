@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>올해의 00 결산 도우미</title>
+  <title>올해의"O_O" 결산 도우미</title>
 
   <style>
     :root{
@@ -16,15 +16,15 @@
 
       --line:rgba(0,0,0,.08);
 
-      --red:#d12b2b;        /* main */
-      --red2:#ff4a4a;       /* highlight */
+      --red:#d12b2b;
+      --red2:#ff4a4a;
       --white:#ffffff;
 
       --accent:var(--red);
       --accent2:var(--red2);
 
       --danger:#d12b2b;
-      --ok:#0c8f47;         /* (토스트 점/OK 표시만) */
+      --ok:#0c8f47;
 
       --shadow: 0 16px 50px rgba(0,0,0,.08);
       --r: 18px;
@@ -47,10 +47,8 @@
       padding:24px 14px 60px;
 
       background:
-        /* 눈/스노우 도트 레이어 */
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Crect width='240' height='240' fill='none'/%3E%3Cg fill='%23ffffff' fill-opacity='0.9'%3E%3Ccircle cx='30' cy='40' r='2'/%3E%3Ccircle cx='80' cy='90' r='1.8'/%3E%3Ccircle cx='140' cy='60' r='2.2'/%3E%3Ccircle cx='200' cy='110' r='1.6'/%3E%3Ccircle cx='50' cy='160' r='2'/%3E%3Ccircle cx='120' cy='170' r='1.6'/%3E%3Ccircle cx='210' cy='190' r='2.2'/%3E%3C/g%3E%3C/svg%3E"),
-        /* 리본/체크 느낌 레이어 */
-        url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%23fff6f7'/%3E%3Cg opacity='0.16'%3E%3Cpath d='M0 40 L220 40' stroke='%23d12b2b' stroke-width='6'/%3E%3Cpath d='M0 110 L220 110' stroke='%23d12b2b' stroke-width='6'/%3E%3Cpath d='M0 180 L220 180' stroke='%23d12b2b' stroke-width='6'/%3E%3C/g%3E%3Cg opacity='0.10'%3E%3Cpath d='M40 0 L40 220' stroke='%23d12b2b' stroke-width='6'/%3E%3Cpath d='M110 0 L110 220' stroke='%23d12b2b' stroke-width='6'/%3E%3Cpath d='M180 0 L180 220' stroke='%23d12b2b' stroke-width='6'/%3E%3C/g%3E%3C/svg%3E\"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%23fff6f7'/%3E%3Cg opacity='0.14'%3E%3Cpath d='M0 40 L220 40' stroke='%23d12b2b' stroke-width='5'/%3E%3Cpath d='M0 110 L220 110' stroke='%23d12b2b' stroke-width='5'/%3E%3Cpath d='M0 180 L220 180' stroke='%23d12b2b' stroke-width='5'/%3E%3C/g%3E%3Cg opacity='0.08'%3E%3Cpath d='M40 0 L40 220' stroke='%23d12b2b' stroke-width='5'/%3E%3Cpath d='M110 0 L110 220' stroke='%23d12b2b' stroke-width='5'/%3E%3Cpath d='M180 0 L180 220' stroke='%23d12b2b' stroke-width='5'/%3E%3C/g%3E%3C/svg%3E"),
         linear-gradient(180deg, #fff6f7 0%, #ffeef0 100%);
 
       background-repeat: repeat, repeat, no-repeat;
@@ -59,6 +57,84 @@
     }
 
     .wrap{ width:min(980px, 100%); }
+
+    /* ============== Start Screen + App Screen Transition ============== */
+    .screen{
+      transition: opacity .45s ease, transform .45s ease;
+      will-change: opacity, transform;
+    }
+    .hidden{
+      opacity:0;
+      transform: translateY(8px);
+      pointer-events:none;
+      position:absolute;
+      inset:0;
+    }
+    .visible{
+      opacity:1;
+      transform: translateY(0);
+      position:relative;
+    }
+
+    .start-card{
+      width:min(760px, 100%);
+      margin: 10px auto 0;
+      background:rgba(255,255,255,.90);
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:26px 22px;
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+      position:relative;
+    }
+    .start-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.85);
+      color:var(--muted);
+      font-weight:800;
+      font-size:12px;
+    }
+    .start-title{
+      margin:14px 0 10px;
+      font-size:28px;
+      font-weight:1000;
+      letter-spacing:-.6px;
+      line-height:1.2;
+    }
+    .start-sub{
+      margin:0 0 18px;
+      color:var(--muted);
+      line-height:1.6;
+      font-size:14px;
+    }
+    .start-cta{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .start-note{
+      margin-top:12px;
+      color:rgba(93,93,93,.85);
+      font-size:12px;
+      line-height:1.6;
+    }
+    .start-deco{
+      position:absolute;
+      top:-110px;
+      right:-110px;
+      width:260px;
+      height:260px;
+      border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,74,74,.25), rgba(209,43,43,.18) 35%, transparent 70%);
+      filter: blur(0px);
+    }
 
     header{
       display:flex;
@@ -324,6 +400,23 @@
 
     .empty{ color:rgba(93,93,93,.75); font-style:italic; }
 
+    .editlink{
+      margin-top:8px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+      font-weight:900;
+      color: var(--accent);
+      background: rgba(209,43,43,.06);
+      border:1px solid rgba(209,43,43,.12);
+      padding:7px 10px;
+      border-radius:12px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .editlink:hover{ filter:brightness(1.02); }
+
     .toast{
       position:fixed;
       left:50%;
@@ -399,94 +492,114 @@
       border-color:rgba(209,43,43,.45);
       box-shadow: 0 0 0 3px rgba(209,43,43,.14);
     }
-
-    /* roundRect polyfill fallback for older browsers */
-    canvas { display:none; }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <header>
-      <div class="brand">
-        <h1 class="title">올해의 00 결산 도우미</h1>
-        <p class="subtitle">질문을 하나씩 던져주고, 답을 모아 한 번에 정리해주는 결산 페이지 (패스/중단/복사/인스타 카드 PNG)</p>
+
+    <!-- ✅ Start Screen -->
+    <section id="startScreen" class="screen visible">
+      <div class="start-card">
+        <div class="start-deco" aria-hidden="true"></div>
+        <span class="start-badge">🎁 연말연초 결산</span>
+        <h1 class="start-title" id="startTitle">2025년 고생했고, 연말결산 시작할 준비 되셨나요?</h1>
+        <p class="start-sub">
+          질문이 하나씩 나와요. 답해도 되고, 비워두고 넘어가면 자동으로 패스됩니다.<br/>
+          작성한 내용은 <b>내 브라우저에만</b> 저장돼요.
+        </p>
+        <div class="start-cta">
+          <button class="primary" id="startBtn">시작하기</button>
+          <button class="ghost" id="startResetBtn" title="저장된 진행 상태를 초기화합니다">저장된 진행 초기화</button>
+        </div>
+        <p class="start-note">TIP: 시작 후 오른쪽 목록에서 아무 질문이나 눌러서 “수정하기”로 되돌아갈 수 있어요.</p>
       </div>
-      <div class="pill" id="yearPill">🎁 <span id="yearText"></span> 연말 결산</div>
-    </header>
+    </section>
 
-    <div class="grid">
-      <!-- Left -->
-      <section class="card" id="flowCard">
-        <div class="head">
-          <h2 id="modeTitle">진행</h2>
-          <div class="pill">⌨️ <code>Ctrl</code>+<code>Enter</code> 다음</div>
+    <!-- ✅ App Screen -->
+    <section id="appScreen" class="screen hidden">
+      <header>
+        <div class="brand">
+          <h1 class="title">올해의 00 결산 도우미</h1>
+          <p class="subtitle">질문을 하나씩 던져주고, 답을 모아 한 번에 정리해주는 결산 페이지 (수정/중단/복사/스토리 카드 PNG)</p>
         </div>
-        <div class="body">
-          <div class="progress">
-            <div class="bar"><i id="barFill"></i></div>
-            <div class="pct" id="pctText">0% · 0/0</div>
-          </div>
+        <div class="pill" id="yearPill">🎁 <span id="yearText"></span> 연말 결산</div>
+      </header>
 
-          <div class="qbox">
-            <div class="qnum" id="qNum">Q1</div>
-            <p class="qtext" id="qText">질문이 여기에 표시됩니다</p>
+      <div class="grid">
+        <!-- Left -->
+        <section class="card" id="flowCard">
+          <div class="head">
+            <h2 id="modeTitle">진행</h2>
+            <div class="pill">⌨️ <code>Ctrl</code>+<code>Enter</code> 다음</div>
           </div>
-
-          <textarea id="answer" placeholder="여기에 답을 입력해줘. (비워두고 다음으로 넘어가면 ‘패스’로 처리돼)"></textarea>
-          <div class="hint">
-            <span>팁: 답이 길어도 괜찮아. 줄바꿈 그대로 저장돼.</span>
-            <span>패스는 <code>다음</code>만 눌러도 OK</span>
-          </div>
-
-          <div class="btns">
-            <button class="primary" id="nextBtn">다음</button>
-            <button id="skipBtn">패스</button>
-            <button class="danger" id="stopBtn">여기서 멈추고 결산 보기</button>
-            <button class="ghost" id="restartBtn" title="답변은 초기화됩니다">처음부터 다시</button>
-          </div>
-
-          <details>
-            <summary>⚙️ 커스터마이즈 (질문/제목 바꾸기)</summary>
-            <div class="qedit">
-              <p class="small">
-                - 위 제목을 바꾸면 페이지 타이틀도 함께 바뀜<br/>
-                - 질문은 줄바꿈으로 구분 (빈 줄 무시)
-              </p>
-              <div class="row">
-                <input id="customTitle" placeholder="예: 올해의 기록 / 올해의 감사 / 올해의 소비" />
-                <button id="applyTitleBtn">제목 적용</button>
-              </div>
-              <textarea id="questionsEditor"></textarea>
-              <div class="row">
-                <button id="applyQuestionsBtn">질문 적용 (진행 초기화)</button>
-                <button id="resetQuestionsBtn">기본 질문으로 복원</button>
-              </div>
-              <p class="small">* 서버 없이 동작: 진행 상태는 내 브라우저(localStorage)에만 저장돼.</p>
+          <div class="body">
+            <div class="progress">
+              <div class="bar"><i id="barFill"></i></div>
+              <div class="pct" id="pctText">0% · 0/0</div>
             </div>
-          </details>
-        </div>
-      </section>
 
-      <!-- Right -->
-      <aside class="card" id="summaryCard">
-        <div class="head">
-          <h2>지금까지 답변</h2>
-          <div class="pill">🧾 자동 요약</div>
-        </div>
-        <div class="body">
-          <div class="side-list" id="sideList"></div>
+            <div class="qbox">
+              <div class="qnum" id="qNum">Q1</div>
+              <p class="qtext" id="qText">질문이 여기에 표시됩니다</p>
+            </div>
 
-          <div class="footer-tools">
-            <button id="copyAllBtn">전체 복사</button>
-            <button id="copyNumberedBtn">번호 리스트로 복사</button>
-            <button class="ghost" id="copyAnsweredOnlyBtn">답변한 것만 복사</button>
-            <button class="primary" id="exportImageBtn" title="답변 중 일부를 골라 1080x1080 인스타 카드 PNG로 저장">📸 인스타 카드 만들기</button>
+            <textarea id="answer" placeholder="여기에 답을 입력해줘. (비워두고 다음으로 넘어가면 ‘패스’로 처리돼)"></textarea>
+            <div class="hint">
+              <span>팁: 답이 길어도 괜찮아. 줄바꿈 그대로 저장돼.</span>
+              <span>패스는 <code>다음</code>만 눌러도 OK</span>
+            </div>
+
+            <div class="btns">
+              <!-- ✅ '다음/패스' 통합: 다음 버튼 하나만 유지 -->
+              <button class="primary" id="nextBtn">다음</button>
+              <button class="danger" id="stopBtn">여기서 멈추고 결산 보기</button>
+              <button class="ghost" id="restartBtn" title="답변은 초기화됩니다">처음부터 다시</button>
+            </div>
+
+            <details>
+              <summary>⚙️ 커스터마이즈 (질문/제목 바꾸기)</summary>
+              <div class="qedit">
+                <p class="small">
+                  - 위 제목을 바꾸면 페이지 타이틀도 함께 바뀜<br/>
+                  - 질문은 줄바꿈으로 구분 (빈 줄 무시)
+                </p>
+                <div class="row">
+                  <input id="customTitle" placeholder="예: 올해의 기록 / 올해의 감사 / 올해의 소비" />
+                  <button id="applyTitleBtn">제목 적용</button>
+                </div>
+                <textarea id="questionsEditor"></textarea>
+                <div class="row">
+                  <button id="applyQuestionsBtn">질문 적용 (진행 초기화)</button>
+                  <button id="resetQuestionsBtn">기본 질문으로 복원</button>
+                </div>
+                <p class="small">* 서버 없이 동작: 진행 상태는 내 브라우저(localStorage)에만 저장돼.</p>
+              </div>
+            </details>
           </div>
-          <p class="small">* 복사는 클립보드로, 인스타 카드는 PNG로 다운로드돼.</p>
-        </div>
-      </aside>
-    </div>
+        </section>
+
+        <!-- Right -->
+        <aside class="card" id="summaryCard">
+          <div class="head">
+            <h2>지금까지 답변</h2>
+            <div class="pill">🧾 수정 가능</div>
+          </div>
+          <div class="body">
+            <div class="side-list" id="sideList"></div>
+
+            <!-- ✅ 버튼 구성 변경 -->
+            <div class="footer-tools">
+              <button class="primary" id="copyNumberedBtn">번호 리스트로 복사</button>
+              <button id="copyAllBtn">전체 복사</button>
+              <button class="ghost" id="copyAnsweredOnlyBtn">답변한 것만 복사</button>
+              <button class="danger" id="exportImageBtn" title="답변 일부를 골라 1080x1920 스토리 PNG로 저장">📸 스토리 카드 제작</button>
+            </div>
+            <p class="small">* 인스타 카드는 1080×1920(스토리) PNG로 다운로드돼.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
   </div>
 
   <div class="toast" id="toast">
@@ -585,6 +698,7 @@
     "올해의 절망은?",
     "올해의 고난은?",
     "올해의 고통은?",
+    "올해의 슬픜은?",   // (오타 그대로 들어올 수 있어 방어하려면 아래서 정규화 가능)
     "올해의 슬픔은?",
     "올해의 분노는?",
     "올해의 아찔함은?",
@@ -626,9 +740,29 @@
     "올해의 당근은?"
   ];
 
-  const LS_KEY = "year_review_helper_redwhite_v1";
+  // "슬픜" 같은 오타가 섞이면 중복될 수 있으니 정리
+  const normalizeText = (s) => String(s ?? "").trim().replace(/\s+/g, " ");
+  const uniqueQuestions = (arr) => {
+    const seen = new Set();
+    const out = [];
+    for(const q of arr){
+      const nq = normalizeText(q);
+      if(!nq) continue;
+      if(seen.has(nq)) continue;
+      seen.add(nq);
+      out.push(nq);
+    }
+    return out;
+  };
+
+  const LS_KEY = "year_review_helper_redwhite_v2";
 
   // ====== DOM ======
+  const startScreen = document.getElementById("startScreen");
+  const appScreen = document.getElementById("appScreen");
+  const startBtn = document.getElementById("startBtn");
+  const startResetBtn = document.getElementById("startResetBtn");
+
   const yearText = document.getElementById("yearText");
   const modeTitle = document.getElementById("modeTitle");
   const barFill = document.getElementById("barFill");
@@ -639,7 +773,6 @@
   const sideList = document.getElementById("sideList");
 
   const nextBtn = document.getElementById("nextBtn");
-  const skipBtn = document.getElementById("skipBtn");
   const stopBtn = document.getElementById("stopBtn");
   const restartBtn = document.getElementById("restartBtn");
 
@@ -677,7 +810,7 @@
     return raw ? safeParseJSON(raw) : null;
   }
   function normalizeQuestions(text){
-    return text.split("\n").map(s => s.trim()).filter(s => s.length > 0);
+    return uniqueQuestions(text.split("\n").map(s => s.trim()).filter(Boolean));
   }
   function esc(s){
     return (s ?? "").replace(/[&<>"']/g, (m) => ({
@@ -688,12 +821,24 @@
   // ====== State ======
   let state = load() || {
     title: "올해의 00 결산 도우미",
-    questions: DEFAULT_QUESTIONS,
+    questions: uniqueQuestions(DEFAULT_QUESTIONS),
     idx: 0,
     answers: {},     // { [index]: string }
     skipped: {},     // { [index]: true }
     stoppedAt: null
   };
+
+  // ====== Screen Transition ======
+  function goAppScreen(){
+    startScreen.classList.remove("visible");
+    startScreen.classList.add("hidden");
+
+    appScreen.classList.remove("hidden");
+    appScreen.classList.add("visible");
+
+    // 포커스
+    setTimeout(()=> answerEl?.focus(), 60);
+  }
 
   // ====== Render ======
   function setPageTitle(){
@@ -706,26 +851,34 @@
     questionsEditor.value = state.questions.join("\n");
   }
 
+  function doneCount(){
+    const answeredKeys = Object.keys(state.answers);
+    const skippedKeys = Object.keys(state.skipped);
+    // answers가 있으면 skipped에서 제거되어 있으므로 단순 합계로 충분
+    return answeredKeys.length + skippedKeys.length;
+  }
+
   function renderProgress(){
     const total = state.questions.length;
-    const doneCount = Object.keys(state.answers).length + Object.keys(state.skipped).length;
-    const pct = total ? Math.round((doneCount / total) * 100) : 0;
+    const done = doneCount();
+    const pct = total ? Math.round((done / total) * 100) : 0;
     barFill.style.width = `${pct}%`;
-    pctText.textContent = `${pct}% · ${doneCount}/${total}`;
+    pctText.textContent = `${pct}% · ${done}/${total}`;
   }
+
+  function isFinished(){ return state.idx >= state.questions.length; }
 
   function renderQuestion(){
     const total = state.questions.length;
-    const isFinished = state.idx >= total;
+    const finished = isFinished();
 
-    if(isFinished){
-      modeTitle.textContent = "결산 완료";
+    if(finished){
+      modeTitle.textContent = "결산 보기";
       qNum.textContent = "DONE";
-      qText.textContent = "결산완료! 오른쪽에서 답변을 확인하고 복사/인스타 카드(PNG)로 저장해줘.";
+      qText.textContent = "결산완료! 오른쪽에서 답변을 확인하고, 필요하면 원하는 질문으로 돌아가 수정할 수 있어.";
       answerEl.value = "";
       answerEl.disabled = true;
       nextBtn.disabled = true;
-      skipBtn.disabled = true;
       stopBtn.disabled = true;
       return;
     }
@@ -733,7 +886,6 @@
     modeTitle.textContent = "진행";
     answerEl.disabled = false;
     nextBtn.disabled = false;
-    skipBtn.disabled = false;
     stopBtn.disabled = false;
 
     qNum.textContent = `Q${state.idx + 1}/${total}`;
@@ -764,12 +916,22 @@
             <span class="tag">${esc(tag)}</span>
           </div>
           ${ansHtml}
+          <div class="editlink" data-edit="${i}">✏️ 이 질문 수정하기</div>
         </div>
       `);
     }
     sideList.innerHTML = rows.join("");
 
-    const answeredCount = Object.keys(state.answers).filter(k => (state.answers[k] ?? "").trim().length > 0).length;
+    // edit handlers
+    sideList.querySelectorAll("[data-edit]").forEach(el => {
+      el.addEventListener("click", () => {
+        const i = Number(el.getAttribute("data-edit"));
+        jumpToQuestion(i);
+      });
+    });
+
+    const answeredCount = Object.keys(state.answers)
+      .filter(k => (state.answers[k] ?? "").trim().length > 0).length;
     exportImageBtn.disabled = answeredCount === 0;
   }
 
@@ -782,41 +944,34 @@
   }
 
   // ====== Actions ======
-  function setAnswerAndAdvance({skip=false} = {}){
+  function markCurrentAnswer(){
     const total = state.questions.length;
     if(state.idx >= total) return;
 
     const val = (answerEl.value ?? "").trimEnd();
-    if(skip){
-      delete state.answers[state.idx];
-      state.skipped[state.idx] = true;
-    }else{
-      if(val.trim() === ""){
-        delete state.answers[state.idx];
-        state.skipped[state.idx] = true;
-      }else{
-        state.answers[state.idx] = val;
-        delete state.skipped[state.idx];
-      }
-    }
 
-    state.idx += 1;
-    save(state);
-    renderAll();
-  }
-
-  function stopAndShow(){
-    state.stoppedAt = state.idx;
-
-    const val = (answerEl.value ?? "").trimEnd();
-    if(val.trim()===""){
+    // ✅ 패스 버튼 없음: 비어있으면 자동 패스
+    if(val.trim() === ""){
       delete state.answers[state.idx];
       state.skipped[state.idx] = true;
     }else{
       state.answers[state.idx] = val;
       delete state.skipped[state.idx];
     }
+  }
 
+  function next(){
+    if(isFinished()) return;
+    markCurrentAnswer();
+    state.idx += 1;
+    save(state);
+    renderAll();
+  }
+
+  function stopAndShow(){
+    if(isFinished()) return;
+    state.stoppedAt = state.idx;
+    markCurrentAnswer();
     state.idx = state.questions.length;
     save(state);
     renderAll();
@@ -831,6 +986,17 @@
     save(state);
     renderAll();
     showToast("처음부터 다시 시작!");
+  }
+
+  function jumpToQuestion(i){
+    // finished 상태에서도 수정 가능
+    state.idx = Math.max(0, Math.min(i, state.questions.length - 1));
+    answerEl.disabled = false;
+    nextBtn.disabled = false;
+    stopBtn.disabled = false;
+    save(state);
+    renderAll();
+    showToast(`Q${i+1}로 이동해서 수정 중`);
   }
 
   function buildText({numbered=false, answeredOnly=false} = {}){
@@ -876,19 +1042,40 @@
   }
 
   // ====== Events ======
-  nextBtn.addEventListener("click", () => setAnswerAndAdvance({skip:false}));
-  skipBtn.addEventListener("click", () => setAnswerAndAdvance({skip:true}));
+  startBtn.addEventListener("click", () => {
+    // 시작 전에 렌더 보장
+    save(state);
+    renderAll();
+    goAppScreen();
+  });
+
+  startResetBtn.addEventListener("click", () => {
+    localStorage.removeItem(LS_KEY);
+    state = {
+      title: "올해의 00 결산 도우미",
+      questions: uniqueQuestions(DEFAULT_QUESTIONS),
+      idx: 0,
+      answers: {},
+      skipped: {},
+      stoppedAt: null
+    };
+    renderAll();
+    showToast("저장된 진행을 초기화했어!");
+  });
+
+  nextBtn.addEventListener("click", next);
   stopBtn.addEventListener("click", stopAndShow);
   restartBtn.addEventListener("click", restart);
 
-  copyAllBtn.addEventListener("click", () => copyToClipboard(buildText({numbered:false, answeredOnly:false})));
+  // ✅ 복사 버튼 구성 변경
   copyNumberedBtn.addEventListener("click", () => copyToClipboard(buildText({numbered:true, answeredOnly:false})));
+  copyAllBtn.addEventListener("click", () => copyToClipboard(buildText({numbered:false, answeredOnly:false})));
   copyAnsweredOnlyBtn.addEventListener("click", () => copyToClipboard(buildText({numbered:true, answeredOnly:true})));
 
   answerEl.addEventListener("keydown", (e) => {
     if((e.ctrlKey || e.metaKey) && e.key === "Enter"){
       e.preventDefault();
-      setAnswerAndAdvance({skip:false});
+      next();
     }
   });
 
@@ -917,18 +1104,20 @@
   });
 
   resetQuestionsBtn.addEventListener("click", () => {
-    questionsEditor.value = DEFAULT_QUESTIONS.join("\n");
+    questionsEditor.value = uniqueQuestions(DEFAULT_QUESTIONS).join("\n");
     showToast("기본 질문으로 복원!");
   });
 
   // =============================
-  // 📸 인스타 카드 이미지 생성 (1080x1080 PNG) - Red/White
+  // 📸 인스타 스토리 카드 (1080x1920 PNG) - Red/White
+  // ✅ 붉은 줄(라인) 제거 요청 반영: 라인 그리기 없음
   // =============================
-  exportImageBtn.addEventListener("click", generateInstagramCard);
+  exportImageBtn.addEventListener("click", generateInstagramStoryCard);
 
-  function generateInstagramCard(){
-    const SIZE = 1080;
-    const PAD = 86;
+  function generateInstagramStoryCard(){
+    const W = 1080;
+    const H = 1920;
+    const PAD = 92;
 
     const answered = Object.keys(state.answers)
       .map(k => Number(k))
@@ -941,84 +1130,92 @@
     }
 
     shuffle(answered);
-    const picks = answered.slice(0, Math.min(7, answered.length));
+
+    // 스토리는 공간이 넉넉하니까 최대 10개 정도
+    const picks = answered.slice(0, Math.min(10, answered.length));
 
     const canvas = document.createElement("canvas");
-    canvas.width = SIZE;
-    canvas.height = SIZE;
+    canvas.width = W;
+    canvas.height = H;
     const ctx = canvas.getContext("2d");
 
-    // 배경: 화이트 + 레드 리본 라인 + 스노우 도트 느낌
+    // 배경: 화이트/핑크 톤 + 은은한 레드 글로우 + 스노우 도트 (라인 없음)
     ctx.fillStyle = "#fff6f7";
-    ctx.fillRect(0, 0, SIZE, SIZE);
+    ctx.fillRect(0, 0, W, H);
 
-    // 리본 라인
-    ctx.strokeStyle = "rgba(209,43,43,0.10)";
-    ctx.lineWidth = 12;
-    for(let y=110; y<SIZE; y+=240){
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(SIZE, y);
-      ctx.stroke();
-    }
+    // 글로우 (상단/하단)
+    radialGlow(ctx, W*0.2, H*0.18, 420, "rgba(255,74,74,0.22)");
+    radialGlow(ctx, W*0.85, H*0.78, 520, "rgba(209,43,43,0.16)");
 
     // 스노우 도트
     ctx.fillStyle = "rgba(255,255,255,0.95)";
-    for(let i=0;i<65;i++){
-      const x = Math.random() * SIZE;
-      const y = Math.random() * SIZE;
-      const r = 1.5 + Math.random()*2.2;
+    for(let i=0;i<120;i++){
+      const x = Math.random() * W;
+      const y = Math.random() * H;
+      const r = 1.3 + Math.random()*2.4;
       ctx.beginPath();
       ctx.arc(x,y,r,0,Math.PI*2);
       ctx.fill();
     }
 
-    // 카드 외곽
-    roundRect(ctx, 44, 44, SIZE-88, SIZE-88, 28);
+    // 메인 카드 박스
+    const cardX = 54, cardY = 120, cardW = W-108, cardH = H-240;
+    roundRect(ctx, cardX, cardY, cardW, cardH, 30);
+    ctx.fillStyle = "rgba(255,255,255,0.88)";
+    ctx.fill();
     ctx.strokeStyle = "rgba(0,0,0,0.10)";
     ctx.lineWidth = 2;
     ctx.stroke();
 
     // 타이틀
-    ctx.fillStyle = "#1b1b1b";
     ctx.textAlign = "left";
-    ctx.font = "900 56px sans-serif";
-    ctx.fillText(`${YEAR} 올해의 결산`, PAD, 150);
+    ctx.fillStyle = "#1b1b1b";
+    ctx.font = "900 64px sans-serif";
+    ctx.fillText(`${YEAR} 올해의 결산`, PAD, 230);
 
-    ctx.font = "600 28px sans-serif";
+    ctx.font = "700 30px sans-serif";
     ctx.fillStyle = "rgba(0,0,0,0.55)";
-    ctx.fillText(state.title, PAD, 200);
+    ctx.fillText(state.title, PAD, 285);
 
-    let y = 285;
-    const maxWidth = SIZE - PAD*2;
+    // 본문
+    let y = 370;
+    const maxWidth = W - PAD*2;
 
     for(const {q, a} of picks){
-      ctx.font = "900 30px sans-serif";
+      ctx.font = "900 34px sans-serif";
       ctx.fillStyle = "#d12b2b";
-      y = wrapText(ctx, `• ${q}`, PAD, y, maxWidth, 40);
+      y = wrapText(ctx, `• ${q}`, PAD, y, maxWidth, 44);
 
-      ctx.font = "500 28px sans-serif";
+      ctx.font = "500 32px sans-serif";
       ctx.fillStyle = "#1b1b1b";
-      y = wrapText(ctx, a, PAD + 18, y + 6, maxWidth - 18, 38);
+      y = wrapText(ctx, a, PAD + 18, y + 6, maxWidth - 18, 42);
 
-      y += 20;
-      if(y > SIZE - 180) break;
+      y += 18;
+      if(y > H - 220) break;
     }
 
     // 하단
     ctx.fillStyle = "rgba(0,0,0,0.55)";
-    ctx.font = "600 24px sans-serif";
-    ctx.fillText(`© ${YEAR}`, PAD, SIZE - 92);
+    ctx.font = "700 26px sans-serif";
+    ctx.fillText(`© ${YEAR}`, PAD, H - 130);
 
     ctx.textAlign = "right";
-    ctx.fillText(`#연말결산 #올해의`, SIZE - PAD, SIZE - 92);
+    ctx.fillText(`#연말결산 #올해의`, W - PAD, H - 130);
 
     const link = document.createElement("a");
-    link.download = `올해의_결산_${YEAR}_redwhite.png`;
+    link.download = `올해의_결산_${YEAR}_story_redwhite.png`;
     link.href = canvas.toDataURL("image/png");
     link.click();
 
-    showToast("인스타 카드 PNG 생성!");
+    showToast("스토리 카드 PNG 생성!");
+  }
+
+  function radialGlow(ctx, x, y, r, color){
+    const g = ctx.createRadialGradient(x,y,0,x,y,r);
+    g.addColorStop(0, color);
+    g.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,ctx.canvas.width, ctx.canvas.height);
   }
 
   function shuffle(arr){
@@ -1051,7 +1248,6 @@
     return y;
   }
 
-  // roundRect helper (지원 안 되면 직접 path)
   function roundRect(ctx, x, y, w, h, r){
     r = Math.min(r, w/2, h/2);
     if (typeof ctx.roundRect === "function"){
