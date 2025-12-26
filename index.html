@@ -7,7 +7,7 @@
 
   <style>
     :root{
-      /* 🎄 Red / White Holiday Theme */
+      /* 🎄 Default Theme (Red/White) */
       --bg:#fff6f7;
       --card:#ffffff;
 
@@ -16,12 +16,8 @@
 
       --line:rgba(0,0,0,.08);
 
-      --red:#d12b2b;
-      --red2:#ff4a4a;
-      --white:#ffffff;
-
-      --accent:var(--red);
-      --accent2:var(--red2);
+      --accent:#d12b2b;
+      --accent2:#ff4a4a;
 
       --danger:#d12b2b;
       --ok:#0c8f47;
@@ -36,7 +32,6 @@
 
     *{ box-sizing:border-box; }
 
-    /* ✅ 배경: 레드/화이트 패턴 "이미지" (SVG data URI) */
     body{
       margin:0;
       font-family:var(--font);
@@ -48,17 +43,15 @@
 
       background:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Crect width='240' height='240' fill='none'/%3E%3Cg fill='%23ffffff' fill-opacity='0.9'%3E%3Ccircle cx='30' cy='40' r='2'/%3E%3Ccircle cx='80' cy='90' r='1.8'/%3E%3Ccircle cx='140' cy='60' r='2.2'/%3E%3Ccircle cx='200' cy='110' r='1.6'/%3E%3Ccircle cx='50' cy='160' r='2'/%3E%3Ccircle cx='120' cy='170' r='1.6'/%3E%3Ccircle cx='210' cy='190' r='2.2'/%3E%3C/g%3E%3C/svg%3E"),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%23fff6f7'/%3E%3Cg opacity='0.14'%3E%3Cpath d='M0 40 L220 40' stroke='%23d12b2b' stroke-width='5'/%3E%3Cpath d='M0 110 L220 110' stroke='%23d12b2b' stroke-width='5'/%3E%3Cpath d='M0 180 L220 180' stroke='%23d12b2b' stroke-width='5'/%3E%3C/g%3E%3Cg opacity='0.08'%3E%3Cpath d='M40 0 L40 220' stroke='%23d12b2b' stroke-width='5'/%3E%3Cpath d='M110 0 L110 220' stroke='%23d12b2b' stroke-width='5'/%3E%3Cpath d='M180 0 L180 220' stroke='%23d12b2b' stroke-width='5'/%3E%3C/g%3E%3C/svg%3E"),
-        linear-gradient(180deg, #fff6f7 0%, #ffeef0 100%);
+        linear-gradient(180deg, var(--bg) 0%, #ffeef0 100%);
 
-      background-repeat: repeat, repeat, no-repeat;
-      background-size: 240px 240px, 220px 220px, cover;
+      background-repeat: repeat, no-repeat;
+      background-size: 240px 240px, cover;
       background-attachment: fixed;
     }
 
     .wrap{ width:min(980px, 100%); }
 
-    /* ============== Start Screen + App Screen Transition ============== */
     .screen{
       transition: opacity .45s ease, transform .45s ease;
       will-change: opacity, transform;
@@ -292,16 +285,6 @@
       flex-wrap:wrap;
     }
 
-    .hint code{
-      color:#1b1b1b;
-      background:rgba(0,0,0,.04);
-      border:1px solid rgba(0,0,0,.08);
-      padding:2px 6px;
-      border-radius:8px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size:12px;
-    }
-
     .btns{
       display:flex;
       gap:10px;
@@ -340,7 +323,7 @@
 
     .danger{
       color:white;
-      background:linear-gradient(90deg, #b51f1f, #ff4a4a);
+      background:linear-gradient(90deg, #b51f1f, var(--accent2));
       border-color:rgba(209,43,43,.25);
     }
 
@@ -492,13 +475,42 @@
       border-color:rgba(209,43,43,.45);
       box-shadow: 0 0 0 3px rgba(209,43,43,.14);
     }
+
+    /* Color pickers */
+    .color-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:10px;
+    }
+    .color-chip{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 10px;
+      border-radius:14px;
+      border:1px solid rgba(0,0,0,.10);
+      background:rgba(255,255,255,.92);
+      font-size:12px;
+      color:var(--muted);
+      font-weight:900;
+    }
+    .color-chip input[type="color"]{
+      width:44px;
+      height:32px;
+      border:none;
+      background:transparent;
+      padding:0;
+      cursor:pointer;
+    }
   </style>
 </head>
 
 <body>
   <div class="wrap">
 
-    <!-- ✅ Start Screen -->
+    <!-- Start Screen -->
     <section id="startScreen" class="screen visible">
       <div class="start-card">
         <div class="start-deco" aria-hidden="true"></div>
@@ -512,11 +524,11 @@
           <button class="primary" id="startBtn">시작하기</button>
           <button class="ghost" id="startResetBtn" title="저장된 진행 상태를 초기화합니다">저장된 진행 초기화</button>
         </div>
-        <p class="start-note">TIP: 시작 후 오른쪽 목록에서 아무 질문이나 눌러서 “수정하기”로 되돌아갈 수 있어요.</p>
+        <p class="start-note">TIP: 시작 후 오른쪽 목록에서 질문을 눌러 “수정하기”로 되돌아갈 수 있어요.</p>
       </div>
     </section>
 
-    <!-- ✅ App Screen -->
+    <!-- App Screen -->
     <section id="appScreen" class="screen hidden">
       <header>
         <div class="brand">
@@ -550,29 +562,49 @@
             </div>
 
             <div class="btns">
-              <!-- ✅ '다음/패스' 통합: 다음 버튼 하나만 유지 -->
               <button class="primary" id="nextBtn">다음</button>
               <button class="danger" id="stopBtn">여기서 멈추고 결산 보기</button>
               <button class="ghost" id="restartBtn" title="답변은 초기화됩니다">처음부터 다시</button>
             </div>
 
             <details>
-              <summary>⚙️ 커스터마이즈 (질문/제목 바꾸기)</summary>
+              <summary>⚙️ 커스터마이즈 (질문/제목/컬러 바꾸기)</summary>
               <div class="qedit">
                 <p class="small">
-                  - 위 제목을 바꾸면 페이지 타이틀도 함께 바뀜<br/>
-                  - 질문은 줄바꿈으로 구분 (빈 줄 무시)
+                  - 제목을 바꾸면 페이지 타이틀도 함께 바뀜<br/>
+                  - 질문은 줄바꿈으로 구분 (빈 줄 무시)<br/>
+                  - 컬러를 바꾸면 UI + 스토리 카드 색감도 함께 바뀜
                 </p>
+
                 <div class="row">
                   <input id="customTitle" placeholder="예: 올해의 기록 / 올해의 감사 / 올해의 소비" />
                   <button id="applyTitleBtn">제목 적용</button>
                 </div>
+
+                <!-- ✅ Color Custom -->
+                <div class="color-row">
+                  <div class="color-chip">
+                    Primary
+                    <input id="colorAccent" type="color" />
+                  </div>
+                  <div class="color-chip">
+                    Secondary
+                    <input id="colorAccent2" type="color" />
+                  </div>
+                  <div class="color-chip">
+                    Background
+                    <input id="colorBg" type="color" />
+                  </div>
+                  <button id="resetColorsBtn">컬러 초기화</button>
+                </div>
+
                 <textarea id="questionsEditor"></textarea>
                 <div class="row">
                   <button id="applyQuestionsBtn">질문 적용 (진행 초기화)</button>
                   <button id="resetQuestionsBtn">기본 질문으로 복원</button>
                 </div>
-                <p class="small">* 서버 없이 동작: 진행 상태는 내 브라우저에만 저장돼.</p>
+
+                <p class="small">* 서버 없이 동작: 진행 상태는 내 브라우저(localStorage)에만 저장돼.</p>
               </div>
             </details>
           </div>
@@ -587,12 +619,13 @@
           <div class="body">
             <div class="side-list" id="sideList"></div>
 
-            <!-- ✅ 버튼 구성 변경 -->
             <div class="footer-tools">
               <button class="primary" id="copyNumberedBtn">번호 리스트로 복사</button>
               <button id="copyAllBtn">전체 복사</button>
               <button class="ghost" id="copyAnsweredOnlyBtn">답변한 것만 복사</button>
               <button class="danger" id="exportImageBtn" title="답변 일부를 골라 1080x1920 스토리 PNG로 저장">📸 스토리 카드 제작</button>
+              <!-- ✅ Feedback button -->
+              <button class="ghost" id="feedbackBtn" title="개발자에게 피드백 보내기">💌 피드백 보내기</button>
             </div>
             <p class="small">* 인스타 카드는 1080×1920(스토리) PNG로 다운로드돼.</p>
           </div>
@@ -603,143 +636,50 @@
 
   <div class="toast" id="toast">
     <span class="dot"></span>
-    <span id="toastText">복사 완료!</span>
+    <span id="toastText">완료!</span>
   </div>
 
 <script>
 (() => {
-  // ====== 기본 질문 세트 ======
+  // =============================
+  // ✅ 나중에 너가 링크만 바꿔 끼우면 됨
+  // =============================
+  const FEEDBACK_URL = "https://example.com/your-feedback-form"; // TODO: 여기에 구글폼/노션폼 링크 넣기
+
+  // ====== 30개 추천 기본 질문 ======
   const DEFAULT_QUESTIONS = [
-    "올해의 유튜브는?",
-    "올해의 배우는?",
     "올해의 영화는?",
-    "올해의 앨범은?",
-    "올해의 노래는?",
     "올해의 드라마는?",
-    "올해의 전시는?",
+    "올해의 노래는?",
+    "올해의 앨범은?",
     "올해의 책은?",
-    "올해의 서적은?",
-    "올해의 작가는?",
+    "올해의 유튜브는?",
+    "올해의 전시는?",
     "올해의 문장은?",
     "올해의 말은?",
     "올해의 색깔은?",
-    "올해의 풍경은?",
-    "올해의 나무는?",
-    "올해의 새는?",
-    "올해의 숲은?",
     "올해의 여행은?",
-    "올해의 달리기는?",
-    "올해의 순간은?",
-    "올해의 처음은?",
-    "올해의 끝은?",
     "올해의 음식은?",
     "올해의 디저트는?",
-    "올해의 음료는?",
     "올해의 커피는?",
     "올해의 식당은?",
-    "올해의 테이크아웃은?",
-    "올해의 매운 맛은?",
     "올해의 소비는?",
-    "올해의 투자는?",
-    "올해의 손실은?",
     "올해의 득템은?",
     "올해의 구독은?",
-    "올해의 브랜드는?",
-    "올해의 신발은?",
-    "올해의 티셔츠는?",
-    "올해의 옷은?",
-    "올해의 알콜은?",
     "올해의 운동은?",
-    "올해의 건강관리는?",
-    "올해의 관리는?",
     "올해의 습관은?",
-    "올해의 동네는?",
     "올해의 공간은?",
-    "올해의 집은?",
-    "올해의 이동수단은?",
     "올해의 산책로는?",
-    "올해의 산은?",
-    "올해의 다리는?",
-    "올해의 동료는?",
-    "올해의 동역자는?",
-    "올해의 도움은?",
-    "올해의 호스트는?",
-    "올해의 사장님은?",
-    "올해의 셀럽은?",
-    "올해의 짝꿍은?",
-    "올해의 재발견은?",
-    "올해의 발견은?",
+    "올해의 만남은?",
     "올해의 감사는?",
     "올해의 나눔은?",
-    "올해의 선물은?",
     "올해의 성취는?",
     "올해의 도전은?",
     "올해의 프로젝트는?",
-    "올해의 포기는?",
-    "올해의 발전은?",
-    "올해의 퇴보는?",
-    "올해의 야근은?",
-    "올해의 기능은?",
-    "올해의 어플은?",
-    "올해의 기쁨/행복은?",
-    "올해의 뿌듯함은?",
-    "올해의 박장대소는?",
-    "올해의 재미는?",
-    "올해의 낭만은?",
-    "올해의 평화는?",
-    "올해의 감동은?",
-    "올해의 희열은?",
-    "올해의 놀람은?",
-    "올해의 서프라이즈는?",
-    "올해의 의외는?",
-    "올해의 차가움은?",
-    "올해의 뜨거움은?",
-    "올해의 절망은?",
-    "올해의 고난은?",
-    "올해의 고통은?",
-    "올해의 슬픜은?",   // (오타 그대로 들어올 수 있어 방어하려면 아래서 정규화 가능)
-    "올해의 슬픔은?",
-    "올해의 분노는?",
-    "올해의 아찔함은?",
-    "올해의 충격은?",
-    "올해의 걱정은?",
     "올해의 고민은?",
-    "올해의 집착은?",
-    "올해의 흐지부지는?",
-    "올해의 후회는?",
-    "올해의 죄송은?",
-    "올해의 낭비는?",
-    "올해의 분실은?",
-    "올해의 실패는?",
-    "올해의 실수는?",
-    "올해의 뒷북은?",
-    "올해의 쌤통은?",
-    "올해의 최고 킹받는 순간은?",
-    "올해의 코피는?",
-    "올해의 진땀은?",
-    "올해의 우연은?",
-    "올해의 만남은?",
-    "올해의 편지는?",
-    "올해의 철학은?",
-    "올해의 심경변화는?",
-    "올해의 성장(배움)은?",
-    "올해의 영감은?",
-    "올해의 강연은?",
-    "올해의 예배는?",
-    "올해의 찬양은?",
-    "올해의 말씀은?",
-    "올해의 선교는?",
-    "올해의 수집은?",
-    "올해의 상담은?",
-    "올해의 클래스는?",
-    "올해의 티비출연은?",
-    "올해의 셀카는?",
-    "올해의 귀여움은?",
-    "올해의 돼지는?",
-    "올해의 당근은?"
+    "올해의 후회는?"
   ];
 
-  // "슬픜" 같은 오타가 섞이면 중복될 수 있으니 정리
   const normalizeText = (s) => String(s ?? "").trim().replace(/\s+/g, " ");
   const uniqueQuestions = (arr) => {
     const seen = new Set();
@@ -754,7 +694,9 @@
     return out;
   };
 
-  const LS_KEY = "year_review_helper_redwhite_v2";
+  // ====== LocalStorage Keys ======
+  const LS_KEY = "year_review_helper_redwhite_v3";
+  const LS_THEME_KEY = "year_review_theme_v1";
 
   // ====== DOM ======
   const startScreen = document.getElementById("startScreen");
@@ -779,6 +721,7 @@
   const copyNumberedBtn = document.getElementById("copyNumberedBtn");
   const copyAnsweredOnlyBtn = document.getElementById("copyAnsweredOnlyBtn");
   const exportImageBtn = document.getElementById("exportImageBtn");
+  const feedbackBtn = document.getElementById("feedbackBtn");
 
   const toast = document.getElementById("toast");
   const toastText = document.getElementById("toastText");
@@ -788,6 +731,12 @@
   const questionsEditor = document.getElementById("questionsEditor");
   const applyQuestionsBtn = document.getElementById("applyQuestionsBtn");
   const resetQuestionsBtn = document.getElementById("resetQuestionsBtn");
+
+  // Theme pickers
+  const colorAccent = document.getElementById("colorAccent");
+  const colorAccent2 = document.getElementById("colorAccent2");
+  const colorBg = document.getElementById("colorBg");
+  const resetColorsBtn = document.getElementById("resetColorsBtn");
 
   // ====== Year ======
   const now = new Date();
@@ -817,6 +766,44 @@
     })[m]);
   }
 
+  // ====== Theme Handling ======
+  const DEFAULT_THEME = { accent:"#d12b2b", accent2:"#ff4a4a", bg:"#fff6f7" };
+
+  function applyTheme(t){
+    const theme = {
+      accent: t?.accent ?? DEFAULT_THEME.accent,
+      accent2: t?.accent2 ?? DEFAULT_THEME.accent2,
+      bg: t?.bg ?? DEFAULT_THEME.bg
+    };
+    document.documentElement.style.setProperty("--accent", theme.accent);
+    document.documentElement.style.setProperty("--accent2", theme.accent2);
+    document.documentElement.style.setProperty("--bg", theme.bg);
+
+    // inputs sync
+    colorAccent.value = theme.accent;
+    colorAccent2.value = theme.accent2;
+    colorBg.value = theme.bg;
+
+    localStorage.setItem(LS_THEME_KEY, JSON.stringify(theme));
+    return theme;
+  }
+
+  function loadTheme(){
+    const raw = localStorage.getItem(LS_THEME_KEY);
+    const t = raw ? safeParseJSON(raw) : null;
+    return applyTheme(t);
+  }
+
+  function getCurrentTheme(){
+    const raw = localStorage.getItem(LS_THEME_KEY);
+    const t = raw ? safeParseJSON(raw) : null;
+    return {
+      accent: t?.accent ?? DEFAULT_THEME.accent,
+      accent2: t?.accent2 ?? DEFAULT_THEME.accent2,
+      bg: t?.bg ?? DEFAULT_THEME.bg
+    };
+  }
+
   // ====== State ======
   let state = load() || {
     title: "올해의 결산 도우미",
@@ -835,7 +822,6 @@
     appScreen.classList.remove("hidden");
     appScreen.classList.add("visible");
 
-    // 포커스
     setTimeout(()=> answerEl?.focus(), 60);
   }
 
@@ -851,10 +837,7 @@
   }
 
   function doneCount(){
-    const answeredKeys = Object.keys(state.answers);
-    const skippedKeys = Object.keys(state.skipped);
-    // answers가 있으면 skipped에서 제거되어 있으므로 단순 합계로 충분
-    return answeredKeys.length + skippedKeys.length;
+    return Object.keys(state.answers).length + Object.keys(state.skipped).length;
   }
 
   function renderProgress(){
@@ -874,7 +857,7 @@
     if(finished){
       modeTitle.textContent = "결산 보기";
       qNum.textContent = "DONE";
-      qText.textContent = "결산완료! 오른쪽에서 답변을 확인하고, 필요하면 원하는 질문으로 돌아가 수정할 수 있어.";
+      qText.textContent = "결산완료! 오른쪽에서 답변을 확인하고, 원하는 질문으로 돌아가 수정할 수 있어.";
       answerEl.value = "";
       answerEl.disabled = true;
       nextBtn.disabled = true;
@@ -921,7 +904,6 @@
     }
     sideList.innerHTML = rows.join("");
 
-    // edit handlers
     sideList.querySelectorAll("[data-edit]").forEach(el => {
       el.addEventListener("click", () => {
         const i = Number(el.getAttribute("data-edit"));
@@ -949,7 +931,6 @@
 
     const val = (answerEl.value ?? "").trimEnd();
 
-    // ✅ 패스 버튼 없음: 비어있으면 자동 패스
     if(val.trim() === ""){
       delete state.answers[state.idx];
       state.skipped[state.idx] = true;
@@ -988,7 +969,6 @@
   }
 
   function jumpToQuestion(i){
-    // finished 상태에서도 수정 가능
     state.idx = Math.max(0, Math.min(i, state.questions.length - 1));
     answerEl.disabled = false;
     nextBtn.disabled = false;
@@ -1010,18 +990,13 @@
       if(answeredOnly && !a) continue;
 
       if(numbered){
-        if(a){
-          lines.push(`${i+1}) ${q} - ${a}`);
-        }else{
-          lines.push(`${i+1}) ${q} - ${isSkip ? "(패스)" : "(미응답)"}`);
-        }
+        lines.push(`${i+1}) ${q} - ${a ? a : (isSkip ? "(패스)" : "(미응답)")}`);
       }else{
         lines.push(`Q${i+1}. ${q}`);
         lines.push(`A${i+1}. ${a ? a : (isSkip ? "(패스)" : "(미응답)")}`);
         lines.push("");
       }
     }
-
     return lines.join("\n").trim() + "\n";
   }
 
@@ -1042,7 +1017,6 @@
 
   // ====== Events ======
   startBtn.addEventListener("click", () => {
-    // 시작 전에 렌더 보장
     save(state);
     renderAll();
     goAppScreen();
@@ -1066,10 +1040,17 @@
   stopBtn.addEventListener("click", stopAndShow);
   restartBtn.addEventListener("click", restart);
 
-  // ✅ 복사 버튼 구성 변경
   copyNumberedBtn.addEventListener("click", () => copyToClipboard(buildText({numbered:true, answeredOnly:false})));
   copyAllBtn.addEventListener("click", () => copyToClipboard(buildText({numbered:false, answeredOnly:false})));
   copyAnsweredOnlyBtn.addEventListener("click", () => copyToClipboard(buildText({numbered:true, answeredOnly:true})));
+
+  feedbackBtn.addEventListener("click", () => {
+    if(!FEEDBACK_URL || FEEDBACK_URL.includes("example.com")){
+      showToast("피드백 링크가 아직 설정되지 않았어! (코드의 FEEDBACK_URL 수정)");
+      return;
+    }
+    window.open(FEEDBACK_URL, "_blank", "noopener,noreferrer");
+  });
 
   answerEl.addEventListener("keydown", (e) => {
     if((e.ctrlKey || e.metaKey) && e.key === "Enter"){
@@ -1104,16 +1085,37 @@
 
   resetQuestionsBtn.addEventListener("click", () => {
     questionsEditor.value = uniqueQuestions(DEFAULT_QUESTIONS).join("\n");
-    showToast("기본 질문으로 복원!");
+    showToast("기본 질문(30개)으로 복원!");
+  });
+
+  // ====== Theme events ======
+  function onThemeChange(){
+    const theme = {
+      accent: colorAccent.value,
+      accent2: colorAccent2.value,
+      bg: colorBg.value
+    };
+    applyTheme(theme);
+    showToast("컬러 적용!");
+  }
+  colorAccent.addEventListener("input", onThemeChange);
+  colorAccent2.addEventListener("input", onThemeChange);
+  colorBg.addEventListener("input", onThemeChange);
+
+  resetColorsBtn.addEventListener("click", () => {
+    applyTheme(DEFAULT_THEME);
+    showToast("컬러 초기화!");
   });
 
   // =============================
-  // 📸 인스타 스토리 카드 (1080x1920 PNG) - Red/White
-  // ✅ 붉은 줄(라인) 제거 요청 반영: 라인 그리기 없음
+  // 📸 인스타 스토리 카드 (1080x1920 PNG)
+  // ✅ 현재 테마 컬러를 반영해서 생성
   // =============================
   exportImageBtn.addEventListener("click", generateInstagramStoryCard);
 
   function generateInstagramStoryCard(){
+    const theme = getCurrentTheme();
+
     const W = 1080;
     const H = 1920;
     const PAD = 92;
@@ -1130,7 +1132,6 @@
 
     shuffle(answered);
 
-    // 스토리는 공간이 넉넉하니까 최대 10개 정도
     const picks = answered.slice(0, Math.min(10, answered.length));
 
     const canvas = document.createElement("canvas");
@@ -1138,13 +1139,13 @@
     canvas.height = H;
     const ctx = canvas.getContext("2d");
 
-    // 배경: 화이트/핑크 톤 + 은은한 레드 글로우 + 스노우 도트 (라인 없음)
-    ctx.fillStyle = "#fff6f7";
+    // 배경 (사용자 bg 반영)
+    ctx.fillStyle = theme.bg || "#fff6f7";
     ctx.fillRect(0, 0, W, H);
 
-    // 글로우 (상단/하단)
-    radialGlow(ctx, W*0.2, H*0.18, 420, "rgba(255,74,74,0.22)");
-    radialGlow(ctx, W*0.85, H*0.78, 520, "rgba(209,43,43,0.16)");
+    // 글로우: accent/accent2 기반
+    radialGlow(ctx, W*0.2, H*0.18, 420, hexToRgba(theme.accent2, 0.22));
+    radialGlow(ctx, W*0.85, H*0.78, 520, hexToRgba(theme.accent, 0.16));
 
     // 스노우 도트
     ctx.fillStyle = "rgba(255,255,255,0.95)";
@@ -1157,7 +1158,7 @@
       ctx.fill();
     }
 
-    // 메인 카드 박스
+    // 메인 카드
     const cardX = 54, cardY = 120, cardW = W-108, cardH = H-240;
     roundRect(ctx, cardX, cardY, cardW, cardH, 30);
     ctx.fillStyle = "rgba(255,255,255,0.88)";
@@ -1182,7 +1183,7 @@
 
     for(const {q, a} of picks){
       ctx.font = "900 34px sans-serif";
-      ctx.fillStyle = "#d12b2b";
+      ctx.fillStyle = theme.accent || "#d12b2b";
       y = wrapText(ctx, `• ${q}`, PAD, y, maxWidth, 44);
 
       ctx.font = "500 32px sans-serif";
@@ -1202,7 +1203,7 @@
     ctx.fillText(`#연말결산 #올해의`, W - PAD, H - 130);
 
     const link = document.createElement("a");
-    link.download = `올해의_결산_${YEAR}_story_redwhite.png`;
+    link.download = `올해의_결산_${YEAR}_story.png`;
     link.href = canvas.toDataURL("image/png");
     link.click();
 
@@ -1229,7 +1230,6 @@
     for(const block of hard){
       const words = block.split(" ");
       let line = "";
-
       for(let n=0; n<words.length; n++){
         const testLine = line + words[n] + " ";
         const metrics = ctx.measureText(testLine);
@@ -1264,7 +1264,17 @@
     ctx.closePath();
   }
 
-  // ====== Start ======
+  function hexToRgba(hex, a){
+    const h = String(hex || "").replace("#","").trim();
+    if(h.length !== 6) return `rgba(209,43,43,${a})`;
+    const r = parseInt(h.slice(0,2), 16);
+    const g = parseInt(h.slice(2,4), 16);
+    const b = parseInt(h.slice(4,6), 16);
+    return `rgba(${r},${g},${b},${a})`;
+  }
+
+  // ====== Init ======
+  loadTheme();          // theme 먼저 반영
   renderAll();
 })();
 </script>
