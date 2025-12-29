@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>올해의 결산 도우미</title>
+  <title>연말 결산 도우미</title>
 
   <!-- ✅ GA4: 사용자 제공 코드 그대로 (head에 1회) -->
   <!-- Google tag (gtag.js) -->
@@ -17,7 +17,7 @@
 
   <style>
     :root{
-      /* 🎄 Default: Red / White Holiday Theme */
+      /* 🎄 Holiday Theme (fixed) */
       --bg:#fff6f7;
       --card:#ffffff;
 
@@ -26,12 +26,8 @@
 
       --line:rgba(0,0,0,.08);
 
-      --red:#d12b2b;
-      --red2:#ff4a4a;
-
-      /* ✅ 사용자 커스텀 가능한 핵심 색상(초기값 레드 계열) */
-      --accent: var(--red);
-      --accent2: var(--red2);
+      --accent:#d12b2b;
+      --accent2:#ff4a4a;
 
       --danger:#d12b2b;
       --ok:#0c8f47;
@@ -259,6 +255,8 @@
         radial-gradient(420px 140px at 80% 30%, color-mix(in srgb, var(--accent2) 8%, transparent), transparent 60%),
         rgba(255,255,255,.75);
       margin-bottom:12px;
+      transform: translateY(0);
+      opacity: 1;
     }
 
     .qnum{ color:var(--muted); font-size:12px; margin-bottom:6px; }
@@ -283,6 +281,7 @@
       outline:none;
       font-size:14px;
       line-height:1.6;
+      transition: box-shadow .2s ease, transform .18s ease, opacity .18s ease;
     }
 
     textarea:focus{
@@ -290,21 +289,12 @@
       box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
     }
 
-    .hint{
-      margin-top:8px;
-      color:var(--muted);
-      font-size:12px;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .btns, .footer-tools{
+    .btns, .footer-tools, .mini-tools{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
       margin-top:14px;
+      align-items:center;
     }
 
     button, a.btn{
@@ -366,6 +356,17 @@
       background:rgba(255,255,255,.85);
       border-radius:14px;
       padding:12px;
+      transition: background .35s ease, transform .2s ease, border-color .2s ease;
+    }
+
+    /* ✅ 3) 답변 완료 카드: 배경 은은하게 변화 */
+    .item.answered{
+      background:
+        radial-gradient(520px 120px at 12% 20%, color-mix(in srgb, var(--accent2) 10%, transparent), transparent 60%),
+        radial-gradient(520px 140px at 88% 70%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 62%),
+        rgba(255,255,255,.92);
+      border-color: color-mix(in srgb, var(--accent) 14%, rgba(0,0,0,.10));
+      transform: translateY(0);
     }
 
     .item .meta{
@@ -492,38 +493,60 @@
     .icon{ width:18px;height:18px;display:inline-block;flex:0 0 auto; }
     .icon svg{ width:100%;height:100%; }
 
-    .mini-tools{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      margin-top:12px;
-    }
-    .mini-tools .label{
-      font-size:12px;
-      color:var(--muted);
-      font-weight:900;
-    }
-    .colorpick{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.85);
-    }
-    .colorpick input[type="color"]{
-      width:44px;height:32px;
-      border:none;background:transparent; padding:0;
-      cursor:pointer;
-    }
     .small{
       font-size:12px;
       color:var(--muted);
       line-height:1.6;
       margin:0;
     }
+
+    /* ✅ 4) 다음으로 넘어갈 때 효과 */
+    @keyframes nextPop {
+      0%   { opacity: 0; transform: translateY(10px) scale(.985); }
+      60%  { opacity: 1; transform: translateY(0) scale(1.01); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .animate-next .qbox,
+    .animate-next textarea{
+      animation: nextPop .38s ease both;
+    }
+
+    /* ✅ 5) 결산 완료 축하 효과(콘페티) */
+    .confetti-layer{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:60;
+      overflow:hidden;
+    }
+    .confetti{
+      position:absolute;
+      top:-14px;
+      width:10px;
+      height:16px;
+      border-radius:4px;
+      opacity:.95;
+      transform: translateY(0) rotate(0deg);
+      animation: confettiFall linear forwards;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.08));
+    }
+    @keyframes confettiFall{
+      to { transform: translateY(110vh) rotate(540deg); opacity: 1; }
+    }
+
+    .done-banner{
+      margin-top:10px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid color-mix(in srgb, var(--accent) 14%, rgba(0,0,0,.10));
+      background:
+        radial-gradient(520px 120px at 18% 30%, color-mix(in srgb, var(--accent2) 12%, transparent), transparent 60%),
+        radial-gradient(520px 140px at 82% 70%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 62%),
+        rgba(255,255,255,.92);
+      color:#1b1b1b;
+      display:none;
+    }
+    .done-banner b{ color: var(--accent); }
   </style>
 </head>
 
@@ -535,7 +558,7 @@
       <div class="start-card">
         <div class="start-deco" aria-hidden="true"></div>
         <span class="start-badge">🎁 연말 결산</span>
-        <h1 class="start-title" id="startTitle">2025년 고생하셨습니다. 연말결산 시작할 준비 되셨나요?</h1>
+        <h1 class="start-title" id="startTitle">2025년 고생하셨습니다. 연말 결산 시작할 준비 되셨나요?</h1>
         <p class="start-sub">
           질문이 하나씩 나와요. 답해도 되고, 비워두고 넘어가도 됩니다.<br/>
           걱정마세요! 작성한 내용은 <b>내 브라우저에만</b> 저장돼요.
@@ -543,7 +566,7 @@
 
         <div class="start-cta">
           <button class="primary" id="startBtn">시작하기</button>
-          <button class="ghost" id="exampleBtn">연말결산 예시보기</button>
+          <button class="ghost" id="exampleBtn">연말 결산 예시보기</button>
           <button class="ghost" id="startResetBtn" title="저장된 진행 상태를 초기화합니다">저장된 진행 초기화</button>
         </div>
 
@@ -569,7 +592,6 @@
             인스타 예시
           </a>
 
-          <!-- ✅ 피드백 버튼 (링크는 추후 교체) -->
           <a class="btn" id="feedbackBtn" target="_blank" rel="noopener">
             <span class="icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none">
@@ -591,25 +613,16 @@
     <section id="appScreen" class="screen hidden">
       <header>
         <div class="brand">
-          <h1 class="title">올해의 결산 도우미</h1>
-          <p class="subtitle">질문에 답하다보면, 어느새 연말결산 끝! (수정/복사/스토리 카드 제작)</p>
+          <h1 class="title">연말 결산 도우미</h1>
+          <p class="subtitle">질문에 답하다보면, 어느새 연말 결산 끝! (수정/복사/스토리 카드 제작)</p>
         </div>
         <div class="pill" id="yearPill">🎁 <span id="yearText"></span> 연말 결산</div>
       </header>
 
-      <!-- ✅ 상단 미니툴: 홈으로 / 피드백 / 색상 커스텀 -->
+      <!-- ✅ 상단 미니툴: 홈으로 / 피드백 (색 커스텀 삭제) -->
       <div class="mini-tools">
         <button class="ghost" id="goHomeBtn">🏠 첫 화면</button>
         <a class="btn ghost" id="feedbackBtn2" target="_blank" rel="noopener">💬 피드백</a>
-
-        <div class="colorpick" title="사용자 색상 커스텀">
-          <span class="label">🎨 색상</span>
-          <label class="small">메인</label>
-          <input id="colorAccent" type="color" value="#d12b2b" />
-          <label class="small">그라데이션</label>
-          <input id="colorAccent2" type="color" value="#ff4a4a" />
-          <button class="ghost" id="resetColorsBtn">기본값</button>
-        </div>
       </div>
 
       <div class="grid" style="margin-top:12px;">
@@ -625,7 +638,7 @@
               <div class="pct" id="pctText">0% · 0/0</div>
             </div>
 
-            <div class="qbox">
+            <div class="qbox" id="qBox">
               <div class="qnum" id="qNum">Q1</div>
               <p class="qtext" id="qText">질문이 여기에 표시됩니다</p>
             </div>
@@ -638,7 +651,12 @@
               <button class="ghost" id="restartBtn" title="답변은 초기화됩니다">처음부터 다시</button>
             </div>
 
-            <details>
+            <div class="done-banner" id="doneBanner">
+              🎉 <b>연말 결산 완료!</b> 오른쪽에서 답변을 확인하고, 원하는 질문을 눌러 수정할 수 있어요.
+            </div>
+
+            <!-- ✅ 6) 커스터마이즈: 펼침 우선(open) -->
+            <details open>
               <summary>⚙️ 커스터마이즈 (질문/제목 바꾸기)</summary>
               <div class="qedit">
                 <p class="small">
@@ -647,7 +665,7 @@
                   - 원하는 질문을 마음껏 추가해보세요~!(ex. 올해의 방구는?!)<br/>
                 </p>
                 <div class="row">
-                  <input id="customTitle" placeholder="예: 올해의 기록 / 올해의 감사 / 올해의 소비" />
+                  <input id="customTitle" placeholder="예: 연말 결산 / 올해의 기록 / 올해의 감사 / 올해의 소비" />
                   <button id="applyTitleBtn">제목 적용</button>
                 </div>
                 <textarea id="questionsEditor"></textarea>
@@ -671,9 +689,10 @@
             <div class="side-list" id="sideList"></div>
 
             <div class="footer-tools">
-              <button class="primary" id="copyNumberedBtn">번호 리스트로 복사</button>
-              <button id="copyAllBtn">전체 복사</button>
+              <!-- ✅ 2) 복사 버튼 2개로 단순화 + 형식 통일 -->
+              <button class="primary" id="copyAllBtn">전체 복사</button>
               <button class="ghost" id="copyAnsweredOnlyBtn">답변한 것만 복사</button>
+
               <button class="danger" id="exportImageBtn" title="답변 일부를 골라 1080x1920 스토리 PNG로 저장">📸 스토리 카드 제작</button>
             </div>
             <p class="small">* 인스타 카드는 1080×1920(스토리) PNG로 다운로드돼.</p>
@@ -695,11 +714,10 @@
   // =========================
   const EXAMPLE_BLOG_URL = "https://blog.naver.com/garden_2_2/223720793794?trackingCode=blog_bloghome_searchlist";
   const EXAMPLE_INSTA_URL = "https://www.instagram.com/p/Cm0F7U4SH9C/?igsh=OGViY2FiZ29qcml4";
-  const FEEDBACK_URL = "https://forms.gle/JdtPGW3zK1kDGtKp6"; // TODO: 구글폼/노션폼/메일링크로 교체
+  const FEEDBACK_URL = "https://forms.gle/JdtPGW3zK1kDGtKp6";
 
-  // ✅ 색상 저장 키
-  const LS_KEY = "year_review_helper_final_v1";
-  const LS_COLOR_KEY = "year_review_helper_final_colors";
+  // ✅ 저장 키
+  const LS_KEY = "year_review_helper_final_v2";
 
   // ====== 기본 질문 세트 ======
   const DEFAULT_QUESTIONS = [
@@ -739,25 +757,23 @@
 
   const goHomeBtn = document.getElementById("goHomeBtn");
 
-  const colorAccent = document.getElementById("colorAccent");
-  const colorAccent2 = document.getElementById("colorAccent2");
-  const resetColorsBtn = document.getElementById("resetColorsBtn");
-
   const yearText = document.getElementById("yearText");
   const modeTitle = document.getElementById("modeTitle");
   const barFill = document.getElementById("barFill");
   const pctText = document.getElementById("pctText");
   const qNum = document.getElementById("qNum");
   const qText = document.getElementById("qText");
+  const qBox = document.getElementById("qBox");
   const answerEl = document.getElementById("answer");
   const sideList = document.getElementById("sideList");
+  const flowCard = document.getElementById("flowCard");
+  const doneBanner = document.getElementById("doneBanner");
 
   const nextBtn = document.getElementById("nextBtn");
   const stopBtn = document.getElementById("stopBtn");
   const restartBtn = document.getElementById("restartBtn");
 
   const copyAllBtn = document.getElementById("copyAllBtn");
-  const copyNumberedBtn = document.getElementById("copyNumberedBtn");
   const copyAnsweredOnlyBtn = document.getElementById("copyAnsweredOnlyBtn");
   const exportImageBtn = document.getElementById("exportImageBtn");
 
@@ -807,12 +823,13 @@
 
   // ====== State ======
   let state = load() || {
-    title: "올해의 결산 도우미",
+    title: "연말 결산 도우미",
     questions: uniqueQuestions(DEFAULT_QUESTIONS),
     idx: 0,
     answers: {},
     skipped: {},
-    stoppedAt: null
+    stoppedAt: null,
+    celebrated: false
   };
 
   // ====== Screen transition ======
@@ -834,49 +851,47 @@
     startScreen.classList.add("visible");
   }
 
-  // ====== Theme (color custom) ======
-  function setCSSVar(name, val){
-    document.documentElement.style.setProperty(name, val);
+  // ✅ 4) 다음으로 넘어갈 때 효과
+  function animateNext(){
+    flowCard.classList.remove("animate-next");
+    // reflow
+    void flowCard.offsetWidth;
+    flowCard.classList.add("animate-next");
+    clearTimeout(animateNext._t);
+    animateNext._t = setTimeout(()=> flowCard.classList.remove("animate-next"), 450);
   }
 
-  function loadColors(){
-    const raw = localStorage.getItem(LS_COLOR_KEY);
-    const obj = raw ? safeParseJSON(raw) : null;
-    if(obj && obj.accent && obj.accent2){
-      setCSSVar("--accent", obj.accent);
-      setCSSVar("--accent2", obj.accent2);
-      colorAccent.value = obj.accent;
-      colorAccent2.value = obj.accent2;
-    }else{
-      // default
-      setCSSVar("--accent", "#d12b2b");
-      setCSSVar("--accent2", "#ff4a4a");
-      colorAccent.value = "#d12b2b";
-      colorAccent2.value = "#ff4a4a";
+  // ✅ 5) 결산 완료 축하 효과
+  function fireConfetti(){
+    const layer = document.createElement("div");
+    layer.className = "confetti-layer";
+
+    const colors = ["#d12b2b", "#ff4a4a", "#0c8f47", "#f2c14e", "#ffffff", "#ff7aa2"];
+    const count = 70;
+
+    for(let i=0;i<count;i++){
+      const c = document.createElement("i");
+      c.className = "confetti";
+      const left = Math.random() * 100;
+      const dur = 1.6 + Math.random() * 1.4;
+      const delay = Math.random() * 0.25;
+      const w = 8 + Math.random() * 8;
+      const h = 12 + Math.random() * 14;
+
+      c.style.left = left + "vw";
+      c.style.width = w + "px";
+      c.style.height = h + "px";
+      c.style.background = colors[Math.floor(Math.random()*colors.length)];
+      c.style.animationDuration = dur + "s";
+      c.style.animationDelay = delay + "s";
+      c.style.animationTimingFunction = "cubic-bezier(.2,.6,.2,1)";
+
+      layer.appendChild(c);
     }
+
+    document.body.appendChild(layer);
+    setTimeout(()=> layer.remove(), 2600);
   }
-
-  function saveColors(accent, accent2){
-    localStorage.setItem(LS_COLOR_KEY, JSON.stringify({accent, accent2}));
-  }
-
-  function applyColors(){
-    const a1 = colorAccent.value;
-    const a2 = colorAccent2.value;
-    setCSSVar("--accent", a1);
-    setCSSVar("--accent2", a2);
-    saveColors(a1, a2);
-    showToast("색상 적용 완료!");
-  }
-
-  colorAccent.addEventListener("input", applyColors);
-  colorAccent2.addEventListener("input", applyColors);
-
-  resetColorsBtn.addEventListener("click", () => {
-    colorAccent.value = "#d12b2b";
-    colorAccent2.value = "#ff4a4a";
-    applyColors();
-  });
 
   // ====== Render ======
   function setPageTitle(){
@@ -910,14 +925,24 @@
     if(finished){
       modeTitle.textContent = "결산 보기";
       qNum.textContent = "DONE";
-      qText.textContent = "결산완료! 오른쪽에서 답변을 확인하고, 필요하면 원하는 질문으로 돌아가 수정할 수 있어.";
+      qText.textContent = "연말 결산 완료! 🎉 오른쪽에서 답변을 확인하고, 필요하면 원하는 질문으로 돌아가 수정할 수 있어.";
+      doneBanner.style.display = "block";
       answerEl.value = "";
       answerEl.disabled = true;
       nextBtn.disabled = true;
       stopBtn.disabled = true;
+
+      // ✅ 완료 축하(최초 1회)
+      if(!state.celebrated){
+        state.celebrated = true;
+        save(state);
+        fireConfetti();
+        showToast("연말 결산 완료! 🎉");
+      }
       return;
     }
 
+    doneBanner.style.display = "none";
     modeTitle.textContent = "진행";
     answerEl.disabled = false;
     nextBtn.disabled = false;
@@ -928,6 +953,9 @@
 
     const existing = state.answers[state.idx] ?? "";
     answerEl.value = existing;
+
+    // ✅ 다음 진입 애니메이션
+    animateNext();
     setTimeout(() => answerEl.focus(), 0);
   }
 
@@ -937,15 +965,17 @@
     for(let i=0;i<total;i++){
       const q = state.questions[i];
       const a = state.answers[i];
+      const hasAns = !!(a && a.trim());
       const isSkip = !!state.skipped[i] && (!a || a.trim()==="");
-      const tag = a && a.trim() ? "답변" : (isSkip ? "패스" : "미응답");
+
+      const tag = hasAns ? "답변" : (isSkip ? "패스" : "미응답");
       const ansHtml =
-        (a && a.trim())
+        hasAns
           ? `<p class="ans">${esc(a)}</p>`
           : `<p class="ans empty">${isSkip ? "패스 처리됨" : "아직 답변 없음"}</p>`;
 
       rows.push(`
-        <div class="item">
+        <div class="item ${hasAns ? "answered" : ""}">
           <div class="meta">
             <b>${esc(`Q${i+1}. ${q}`)}</b>
             <span class="tag">${esc(tag)}</span>
@@ -1016,6 +1046,7 @@
     state.answers = {};
     state.skipped = {};
     state.stoppedAt = null;
+    state.celebrated = false;
     save(state);
     renderAll();
     showToast("처음부터 다시 시작!");
@@ -1031,7 +1062,8 @@
     showToast(`Q${i+1}로 이동해서 수정 중`);
   }
 
-  function buildText({numbered=false, answeredOnly=false} = {}){
+  // ✅ 2) 복사 포맷: "번호) 질문 - 답변" 으로 통일
+  function buildText({answeredOnly=false} = {}){
     const lines = [];
     const total = state.questions.length;
 
@@ -1042,19 +1074,9 @@
 
       if(answeredOnly && !a) continue;
 
-      if(numbered){
-        if(a){
-          lines.push(`${i+1}) ${q} - ${a}`);
-        }else{
-          lines.push(`${i+1}) ${q} - ${isSkip ? "(패스)" : "(미응답)"}`);
-        }
-      }else{
-        lines.push(`Q${i+1}. ${q}`);
-        lines.push(`A${i+1}. ${a ? a : (isSkip ? "(패스)" : "(미응답)")}`);
-        lines.push("");
-      }
+      const ansText = a ? a : (isSkip ? "(패스)" : "(미응답)");
+      lines.push(`${i+1}) ${q} - ${ansText}`);
     }
-
     return lines.join("\n").trim() + "\n";
   }
 
@@ -1098,11 +1120,12 @@
       }
     });
 
-    state.title = "올해의 결산 도우미 (예시)";
+    state.title = "연말 결산 도우미 (예시)";
     state.answers = answers;
     state.skipped = skipped;
     state.idx = state.questions.length;
     state.stoppedAt = null;
+    state.celebrated = false;
 
     save(state);
     renderAll();
@@ -1129,12 +1152,13 @@
   startResetBtn.addEventListener("click", () => {
     localStorage.removeItem(LS_KEY);
     state = {
-      title: "올해의 결산 도우미",
+      title: "연말 결산 도우미",
       questions: uniqueQuestions(DEFAULT_QUESTIONS),
       idx: 0,
       answers: {},
       skipped: {},
-      stoppedAt: null
+      stoppedAt: null,
+      celebrated: false
     };
     renderAll();
     showToast("저장된 진행을 초기화했어!");
@@ -1144,9 +1168,8 @@
   stopBtn.addEventListener("click", stopAndShow);
   restartBtn.addEventListener("click", restart);
 
-  copyNumberedBtn.addEventListener("click", () => copyToClipboard(buildText({numbered:true, answeredOnly:false})));
-  copyAllBtn.addEventListener("click", () => copyToClipboard(buildText({numbered:false, answeredOnly:false})));
-  copyAnsweredOnlyBtn.addEventListener("click", () => copyToClipboard(buildText({numbered:true, answeredOnly:true})));
+  copyAllBtn.addEventListener("click", () => copyToClipboard(buildText({answeredOnly:false})));
+  copyAnsweredOnlyBtn.addEventListener("click", () => copyToClipboard(buildText({answeredOnly:true})));
 
   answerEl.addEventListener("keydown", (e) => {
     if((e.ctrlKey || e.metaKey) && e.key === "Enter"){
@@ -1157,7 +1180,7 @@
 
   applyTitleBtn.addEventListener("click", () => {
     const t = (customTitle.value ?? "").trim();
-    state.title = t.length ? t : "올해의 결산 도우미";
+    state.title = t.length ? t : "연말 결산 도우미";
     save(state);
     renderAll();
     showToast("제목 적용 완료!");
@@ -1174,6 +1197,7 @@
     state.answers = {};
     state.skipped = {};
     state.stoppedAt = null;
+    state.celebrated = false;
     save(state);
     renderAll();
     showToast("질문 적용 & 초기화 완료!");
@@ -1186,8 +1210,7 @@
 
   // =============================
   // 📸 인스타 스토리 카드 (1080x1920 PNG)
-  // ✅ 라인/붉은 줄 없음
-  // ✅ 사용자 커스텀 색 반영(메인/그라데이션)
+  // ✅ 7) 타이틀 텍스트: "2025 연말결산"
   // =============================
   exportImageBtn.addEventListener("click", generateInstagramStoryCard);
 
@@ -1196,8 +1219,8 @@
     const H = 1920;
     const PAD = 92;
 
-    const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#d12b2b";
-    const accent2 = getComputedStyle(document.documentElement).getPropertyValue("--accent2").trim() || "#ff4a4a";
+    const accent = "#d12b2b";
+    const accent2 = "#ff4a4a";
 
     const answered = Object.keys(state.answers)
       .map(k => Number(k))
@@ -1248,7 +1271,7 @@
     ctx.textAlign = "left";
     ctx.fillStyle = "#1b1b1b";
     ctx.font = "900 64px sans-serif";
-    ctx.fillText(`${YEAR} 올해의 결산`, PAD, 230);
+    ctx.fillText(`${YEAR} 연말결산`, PAD, 230);
 
     ctx.font = "700 30px sans-serif";
     ctx.fillStyle = "rgba(0,0,0,0.55)";
@@ -1277,10 +1300,10 @@
     ctx.fillText(`© ${YEAR}`, PAD, H - 130);
 
     ctx.textAlign = "right";
-    ctx.fillText(`#연말결산 #올해의`, W - PAD, H - 130);
+    ctx.fillText(`#연말결산 #연말결산도우미`, W - PAD, H - 130);
 
     const link = document.createElement("a");
-    link.download = `올해의_결산_${YEAR}_story_custom.png`;
+    link.download = `연말결산_${YEAR}_story.png`;
     link.href = canvas.toDataURL("image/png");
     link.click();
 
@@ -1352,7 +1375,6 @@
   }
 
   // ====== Start ======
-  loadColors();
   renderAll();
 })();
 </script>
