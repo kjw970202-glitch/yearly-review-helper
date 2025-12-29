@@ -1098,16 +1098,16 @@
   // ====== Example mode ======
   function applyExample(){
     const exampleMap = {
-      "올해의 영화는?": "헤어질 결심",
-      "올해의 드라마는?": "나의 해방일지",
-      "올해의 책은?": "이석원 - 언제들어도 좋은 말",
-      "올해의 앨범은?": "Harry Styles - Harry’s House",
-      "올해의 노래는?": "난 항상 혼자 있어",
-      "올해의 여행은?": "태안",
-      "올해의 식당은?": "마포옥",
-      "올해의 커피는?": "피카워크샵",
-      "올해의 소비는?": "올림푸스 PEN EE-3",
-      "올해의 문장은?": "냉소적으로 구는건 누구나 할 수 있어 담대하게 낙관 주의자가 되라구"
+      "올해의 영화는?": "어쩔수가없다",
+      "올해의 드라마는?": "폭싹 속았수다",
+      "올해의 책은?": "니코스 카잔차키스 - 그리스인 조르바",
+      "올해의 앨범은?": "이상순 - Leesangsoon",
+      "올해의 노래는?": "니가 잠든 사이에 나는",
+      "올해의 여행은?": "전주",
+      "올해의 식당은?": "콘부",
+      "올해의 커피는?": "스탠드업 플리즈",
+      "올해의 소비는?": "퍼즐 2개 그리고 꽃기린",
+      "올해의 문장은?": "책은 당신을 다양한 곳으로 데려다 준다."
     };
 
     const answers = {};
@@ -1271,7 +1271,7 @@
     ctx.textAlign = "left";
     ctx.fillStyle = "#1b1b1b";
     ctx.font = "900 64px sans-serif";
-    ctx.fillText(`${YEAR} 연말결산`, PAD, 230);
+    ctx.fillText(`${YEAR} 연말결산🎁`, PAD, 230);
 
     ctx.font = "700 30px sans-serif";
     ctx.fillStyle = "rgba(0,0,0,0.55)";
@@ -1297,10 +1297,10 @@
     // 하단
     ctx.fillStyle = "rgba(0,0,0,0.55)";
     ctx.font = "700 26px sans-serif";
-    ctx.fillText(`© ${YEAR}`, PAD, H - 130);
+    ctx.fillText(`©Good Bye ${YEAR}`, PAD, H - 130);
 
     ctx.textAlign = "right";
-    ctx.fillText(`#연말결산 #연말결산도우미`, W - PAD, H - 130);
+    ctx.fillText(`#수고했어 #연말결산`, W - PAD, H - 130);
 
     const link = document.createElement("a");
     link.download = `연말결산_${YEAR}_story.png`;
