@@ -3,10 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+
   <title>연말 결산 도우미</title>
 
-  <!-- ✅ GA4: 사용자 제공 코드 그대로 (head에 1회) -->
-  <!-- Google tag (gtag.js) -->
+  <!-- ✅ 링크 공유 시 썸네일/미리보기(OG) -->
+  <!-- 배포 시 같은 폴더에 thumbnail.png를 두면 가장 안정적 -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="연말 결산 도우미" />
+  <meta property="og:description" content="질문 카드로 빠르게 연말 결산하고, 완료 페이지에서 복사/수정까지 한 번에!" />
+<meta property="og:image" content="https://https://kjw970202-glitch.github.io/yearly-review-helper/thumbnail.png" />
+<meta property="og:url" content="https://https://kjw970202-glitch.github.io/yearly-review-helper/" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="ko_KR" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="연말 결산 도우미" />
+  <meta name="twitter:description" content="질문 카드로 빠르게 연말 결산하고, 완료 페이지에서 복사/수정까지 한 번에!" />
+  <meta name="twitter:image" content="thumbnail.png" />
+
+  <!-- ✅ GA4 (head 1회) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-CD6MLMJ7B9"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -17,23 +33,20 @@
 
   <style>
     :root{
-      /* 🎄 Holiday Theme (fixed) */
       --bg:#fff6f7;
-      --card:#ffffff;
-
+      --card: rgba(255,255,255,.92);
       --text:#1b1b1b;
       --muted:#5d5d5d;
-
       --line:rgba(0,0,0,.08);
 
       --accent:#d12b2b;
       --accent2:#ff4a4a;
 
-      --danger:#d12b2b;
       --ok:#0c8f47;
+      --danger:#d12b2b;
 
       --shadow: 0 16px 50px rgba(0,0,0,.08);
-      --r: 18px;
+      --r: 20px;
       --pad: 18px;
 
       --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
@@ -49,23 +62,20 @@
       min-height:100vh;
       display:flex;
       justify-content:center;
-      padding:24px 14px 60px;
+      padding:22px 14px 60px;
 
       background:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Crect width='240' height='240' fill='none'/%3E%3Cg fill='%23ffffff' fill-opacity='0.9'%3E%3Ccircle cx='30' cy='40' r='2'/%3E%3Ccircle cx='80' cy='90' r='1.8'/%3E%3Ccircle cx='140' cy='60' r='2.2'/%3E%3Ccircle cx='200' cy='110' r='1.6'/%3E%3Ccircle cx='50' cy='160' r='2'/%3E%3Ccircle cx='120' cy='170' r='1.6'/%3E%3Ccircle cx='210' cy='190' r='2.2'/%3E%3C/g%3E%3C/svg%3E"),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%23fff6f7'/%3E%3Cg opacity='0.06'%3E%3Cpath d='M0 40 L220 40' stroke='%23d12b2b' stroke-width='5'/%3E%3Cpath d='M0 110 L220 110' stroke='%23d12b2b' stroke-width='5'/%3E%3Cpath d='M0 180 L220 180' stroke='%23d12b2b' stroke-width='5'/%3E%3C/g%3E%3Cg opacity='0.04'%3E%3Cpath d='M40 0 L40 220' stroke='%23d12b2b' stroke-width='5'/%3E%3Cpath d='M110 0 L110 220' stroke='%23d12b2b' stroke-width='5'/%3E%3Cpath d='M180 0 L180 220' stroke='%23d12b2b' stroke-width='5'/%3E%3C/g%3E%3C/svg%3E"),
         linear-gradient(180deg, #fff6f7 0%, #ffeef0 100%);
-
-      background-repeat: repeat, repeat, no-repeat;
-      background-size: 240px 240px, 220px 220px, cover;
+      background-repeat: repeat, no-repeat;
+      background-size: 240px 240px, cover;
       background-attachment: fixed;
     }
 
-    .wrap{ width:min(980px, 100%); }
+    .wrap{ width:min(920px, 100%); }
 
-    /* ============== Start Screen + App Screen Transition ============== */
     .screen{
-      transition: opacity .45s ease, transform .45s ease;
+      transition: opacity .35s ease, transform .35s ease;
       will-change: opacity, transform;
     }
     .hidden{
@@ -81,19 +91,31 @@
       position:relative;
     }
 
-    .start-card{
-      width:min(760px, 100%);
-      margin: 10px auto 0;
-      background:rgba(255,255,255,.90);
+    .start{
+      width:min(820px, 100%);
+      margin: 18px auto 0;
+      border-radius:28px;
+      padding:30px 22px 22px;
+      background: rgba(255,255,255,.90);
       border:1px solid var(--line);
-      border-radius:24px;
-      box-shadow:var(--shadow);
-      padding:26px 22px;
+      box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
-      overflow:hidden;
       position:relative;
+      overflow:hidden;
     }
-    .start-badge{
+
+    .start::before{
+      content:"";
+      position:absolute; inset:-120px -120px auto auto;
+      width:320px; height:320px;
+      border-radius:50%;
+      background: radial-gradient(circle at 30% 30%,
+        color-mix(in srgb, var(--accent2) 28%, transparent),
+        color-mix(in srgb, var(--accent) 18%, transparent) 40%,
+        transparent 72%);
+    }
+
+    .badge{
       display:inline-flex;
       align-items:center;
       gap:8px;
@@ -102,68 +124,93 @@
       border:1px solid var(--line);
       background:rgba(255,255,255,.85);
       color:var(--muted);
-      font-weight:800;
+      font-weight:900;
       font-size:12px;
     }
+
     .start-title{
-      margin:14px 0 10px;
-      font-size:28px;
+      margin:16px 0 18px;
+      font-size:34px;
       font-weight:1000;
-      letter-spacing:-.6px;
-      line-height:1.2;
+      letter-spacing:-.9px;
+      line-height:1.15;
     }
-    .start-sub{
-      margin:0 0 18px;
-      color:var(--muted);
-      line-height:1.6;
-      font-size:14px;
-    }
-    .start-cta{
+
+    .start-actions{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
       align-items:center;
     }
-    .start-note{
-      margin-top:12px;
-      color:rgba(93,93,93,.85);
-      font-size:12px;
-      line-height:1.6;
+
+    button, a.btn{
+      border:1px solid rgba(0,0,0,.10);
+      background:rgba(255,255,255,.92);
+      color:var(--text);
+      padding:12px 14px;
+      border-radius:16px;
+      cursor:pointer;
+      font-weight:1000;
+      font-size:14px;
+      transition: transform .06s ease, background .2s ease, border-color .2s ease, opacity .2s ease, filter .2s ease;
+      user-select:none;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
     }
-    .start-deco{
-      position:absolute;
-      top:-110px;
-      right:-110px;
-      width:260px;
-      height:260px;
-      border-radius:50%;
-      background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--accent2) 25%, transparent), color-mix(in srgb, var(--accent) 18%, transparent) 35%, transparent 70%);
+    button:hover, a.btn:hover{ background:#fff; border-color:rgba(0,0,0,.16); }
+    button:active, a.btn:active{ transform: translateY(1px); }
+    button:disabled{ opacity:.45; cursor:not-allowed; }
+
+    .primary{
+      color:#fff !important;
+      background: linear-gradient(90deg, var(--accent), var(--accent2)) !important;
+      border-color: color-mix(in srgb, var(--accent) 25%, transparent) !important;
+      padding:14px 16px;
+      border-radius:18px;
+      box-shadow: 0 18px 40px color-mix(in srgb, var(--accent) 18%, transparent);
     }
+    .primary:hover{ filter: brightness(1.03); }
+
+    .ghost{
+      background:transparent !important;
+      border-color:rgba(0,0,0,.12) !important;
+    }
+/* 💬 피드백 버튼 hover UX 강화 */
+.btn.ghost:hover {
+  border-color: rgba(209,43,43,0.35);
+  background: rgba(209,43,43,0.05);
+}
+    .ghost:hover{ background:rgba(255,255,255,.75) !important; }
+
+    .danger{
+      color:#fff !important;
+      background: linear-gradient(90deg, #b51f1f, var(--accent2)) !important;
+      border-color: color-mix(in srgb, var(--accent) 25%, transparent) !important;
+    }
+
+    .icon{ width:18px;height:18px;display:inline-block;flex:0 0 auto; }
+    .icon svg{ width:100%;height:100%; }
 
     header{
       display:flex;
-      gap:14px;
-      align-items:flex-start;
       justify-content:space-between;
-      margin-bottom:18px;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:14px;
     }
-
-    .brand{ display:flex; flex-direction:column; gap:6px; }
-
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
     .title{
+      margin:0;
       font-size:22px;
-      font-weight:900;
-      letter-spacing:-.2px;
-      margin:0;
+      font-weight:1000;
+      letter-spacing:-.3px;
     }
-
-    .subtitle{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.5;
-    }
-
     .pill{
       display:inline-flex;
       align-items:center;
@@ -171,30 +218,32 @@
       padding:8px 10px;
       border:1px solid var(--line);
       border-radius:999px;
-      background:rgba(255,255,255,.8);
+      background:rgba(255,255,255,.85);
       color:var(--muted);
       font-size:12px;
       user-select:none;
       backdrop-filter: blur(6px);
+      white-space:nowrap;
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap:14px;
+    .top-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-end;
+      margin-bottom:12px;
     }
-    @media (max-width:900px){ .grid{grid-template-columns:1fr} }
 
     .card{
-      background:rgba(255,255,255,.9);
+      background: var(--card);
       border:1px solid var(--line);
-      border-radius:var(--r);
-      box-shadow:var(--shadow);
-      overflow:hidden;
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
       backdrop-filter: blur(8px);
+      overflow:hidden;
     }
-
-    .card .head{
+    .card-head{
       padding:16px var(--pad);
       border-bottom:1px solid var(--line);
       display:flex;
@@ -202,25 +251,23 @@
       justify-content:space-between;
       gap:10px;
     }
-
-    .card .head h2{
+    .card-head h2{
       margin:0;
       font-size:13px;
       color:var(--muted);
-      font-weight:800;
+      font-weight:1000;
       letter-spacing:-.1px;
     }
-
-    .card .body{ padding:18px var(--pad); }
+    .card-body{
+      padding:18px var(--pad);
+    }
 
     .progress{
       display:flex;
-      align-items:center;
-      justify-content:space-between;
       gap:12px;
+      align-items:center;
       margin-bottom:14px;
     }
-
     .bar{
       flex:1;
       height:10px;
@@ -229,67 +276,131 @@
       overflow:hidden;
       border:1px solid rgba(0,0,0,.06);
     }
-
     .bar > i{
       display:block;
       height:100%;
       width:0%;
-      background:linear-gradient(90deg, var(--accent), var(--accent2));
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
       border-radius:999px;
-      transition:width .35s ease;
+      transition: width .28s ease;
     }
-
     .pct{
+      min-width:100px;
+      text-align:right;
       font-size:12px;
       color:var(--muted);
-      min-width:86px;
-      text-align:right;
+      font-weight:900;
     }
 
-    .qbox{
-      padding:16px;
-      border-radius:14px;
+    .qcard{
+      border-radius:18px;
       border:1px solid var(--line);
       background:
-        radial-gradient(400px 120px at 20% 20%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 60%),
-        radial-gradient(420px 140px at 80% 30%, color-mix(in srgb, var(--accent2) 8%, transparent), transparent 60%),
-        rgba(255,255,255,.75);
+        radial-gradient(520px 160px at 16% 20%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 60%),
+        radial-gradient(520px 180px at 86% 60%, color-mix(in srgb, var(--accent2) 9%, transparent), transparent 65%),
+        rgba(255,255,255,.78);
+      padding:16px;
       margin-bottom:12px;
-      transform: translateY(0);
-      opacity: 1;
+      will-change: transform, opacity;
     }
-
-    .qnum{ color:var(--muted); font-size:12px; margin-bottom:6px; }
-
+    .qnum{
+      font-size:12px;
+      color:var(--muted);
+      font-weight:900;
+      margin-bottom:6px;
+    }
     .qtext{
       margin:0;
-      font-size:18px;
-      font-weight:900;
-      letter-spacing:-.3px;
-      line-height:1.35;
+      font-size:20px;
+      font-weight:1000;
+      letter-spacing:-.35px;
+      line-height:1.25;
     }
 
     textarea{
       width:100%;
-      min-height:110px;
+      min-height:120px;
       resize:vertical;
       padding:12px 12px;
-      border-radius:14px;
+      border-radius:16px;
       border:1px solid rgba(0,0,0,.10);
       background:rgba(255,255,255,.92);
       color:var(--text);
       outline:none;
       font-size:14px;
       line-height:1.6;
-      transition: box-shadow .2s ease, transform .18s ease, opacity .18s ease;
+      transition: box-shadow .2s ease, border-color .2s ease;
     }
-
     textarea:focus{
-      border-color:color-mix(in srgb, var(--accent) 45%, transparent);
+      border-color: color-mix(in srgb, var(--accent) 45%, transparent);
       box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
     }
 
-    .btns, .footer-tools, .mini-tools{
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .actions-left, .actions-right{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    @keyframes slideOutLeft{
+      0% { opacity:1; transform: translateX(0) scale(1); }
+      100% { opacity:0; transform: translateX(-26px) scale(.985); }
+    }
+    @keyframes slideInRight{
+      0% { opacity:0; transform: translateX(26px) scale(.985); }
+      55% { opacity:1; transform: translateX(-2px) scale(1.008); }
+      100% { opacity:1; transform: translateX(0) scale(1); }
+    }
+    @keyframes slideOutRight{
+      0% { opacity:1; transform: translateX(0) scale(1); }
+      100% { opacity:0; transform: translateX(26px) scale(.985); }
+    }
+    @keyframes slideInLeft{
+      0% { opacity:0; transform: translateX(-26px) scale(.985); }
+      55% { opacity:1; transform: translateX(2px) scale(1.008); }
+      100% { opacity:1; transform: translateX(0) scale(1); }
+    }
+    .anim-out-left{ animation: slideOutLeft .22s cubic-bezier(.2,.9,.2,1) both; }
+    .anim-in-right{ animation: slideInRight .34s cubic-bezier(.2,.9,.2,1) both; }
+    .anim-out-right{ animation: slideOutRight .22s cubic-bezier(.2,.9,.2,1) both; }
+    .anim-in-left{ animation: slideInLeft .34s cubic-bezier(.2,.9,.2,1) both; }
+
+    .done-hero{
+      padding:20px;
+      border-radius:24px;
+      border:1px solid color-mix(in srgb, var(--accent) 14%, rgba(0,0,0,.10));
+      background:
+        radial-gradient(620px 200px at 12% 20%, color-mix(in srgb, var(--accent2) 18%, transparent), transparent 60%),
+        radial-gradient(620px 220px at 88% 80%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 65%),
+        rgba(255,255,255,.92);
+      margin-bottom:12px;
+      position:relative;
+      overflow:hidden;
+    }
+    .done-hero h2{
+      margin:0 0 8px;
+      font-size:22px;
+      letter-spacing:-.35px;
+      font-weight:1000;
+    }
+    .done-hero p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+      font-weight:700;
+    }
+
+    .tools{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
@@ -297,52 +408,7 @@
       align-items:center;
     }
 
-    button, a.btn{
-      border:1px solid rgba(0,0,0,.10);
-      background:rgba(255,255,255,.92);
-      color:var(--text);
-      padding:10px 12px;
-      border-radius:14px;
-      cursor:pointer;
-      font-weight:900;
-      font-size:13px;
-      transition: transform .05s ease, background .2s ease, border-color .2s ease, opacity .2s ease;
-      user-select:none;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
-
-    button:hover, a.btn:hover{
-      background:#ffffff;
-      border-color:rgba(0,0,0,.16);
-    }
-
-    button:active, a.btn:active{ transform: translateY(1px); }
-    button:disabled{ opacity:.45; cursor:not-allowed; }
-
-    .primary{
-      color:white !important;
-      background:linear-gradient(90deg, var(--accent), var(--accent2)) !important;
-      border-color:color-mix(in srgb, var(--accent) 25%, transparent) !important;
-    }
-    .primary:hover{ filter:brightness(1.03); }
-
-    .danger{
-      color:white !important;
-      background:linear-gradient(90deg, #b51f1f, var(--accent2)) !important;
-      border-color:color-mix(in srgb, var(--accent) 25%, transparent) !important;
-    }
-    .danger:hover{ filter:brightness(1.03); }
-
-    .ghost{
-      background:transparent !important;
-      border-color:rgba(0,0,0,.10) !important;
-    }
-    .ghost:hover{ background:rgba(255,255,255,.75) !important; }
-
-    .side-list{
+    .list{
       display:flex;
       flex-direction:column;
       gap:10px;
@@ -353,42 +419,40 @@
 
     .item{
       border:1px solid var(--line);
-      background:rgba(255,255,255,.85);
-      border-radius:14px;
+      background:rgba(255,255,255,.88);
+      border-radius:16px;
       padding:12px;
-      transition: background .35s ease, transform .2s ease, border-color .2s ease;
+      transition: background .35s ease, border-color .2s ease;
     }
-
-    /* ✅ 3) 답변 완료 카드: 배경 은은하게 변화 */
     .item.answered{
       background:
-        radial-gradient(520px 120px at 12% 20%, color-mix(in srgb, var(--accent2) 10%, transparent), transparent 60%),
-        radial-gradient(520px 140px at 88% 70%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 62%),
-        rgba(255,255,255,.92);
+        radial-gradient(520px 140px at 12% 20%, color-mix(in srgb, var(--accent2) 10%, transparent), transparent 60%),
+        radial-gradient(520px 160px at 88% 70%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 62%),
+        rgba(255,255,255,.94);
       border-color: color-mix(in srgb, var(--accent) 14%, rgba(0,0,0,.10));
-      transform: translateY(0);
     }
-
-    .item .meta{
+    .meta{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:8px;
+      gap:10px;
       margin-bottom:6px;
     }
-
-    .item .meta b{ font-size:12px; color:var(--muted); }
-
+    .meta b{
+      font-size:12px;
+      color:var(--muted);
+      font-weight:1000;
+    }
     .tag{
       font-size:11px;
       padding:3px 8px;
       border-radius:999px;
       border:1px solid rgba(0,0,0,.10);
       color:var(--muted);
-      background:rgba(255,255,255,.9);
+      background:rgba(255,255,255,.92);
       white-space:nowrap;
+      font-weight:900;
     }
-
     .ans{
       margin:0;
       font-size:13px;
@@ -397,25 +461,26 @@
       white-space:pre-wrap;
       word-break:break-word;
     }
-
-    .empty{ color:rgba(93,93,93,.75); font-style:italic; }
-
-    .editlink{
-      margin-top:8px;
+    .empty{
+      color:rgba(93,93,93,.75);
+      font-style:italic;
+    }
+    .editbtn{
+      margin-top:10px;
       display:inline-flex;
       align-items:center;
       gap:8px;
       font-size:12px;
-      font-weight:900;
+      font-weight:1000;
       color: var(--accent);
-      background: color-mix(in srgb, var(--accent) 6%, transparent);
-      border:1px solid color-mix(in srgb, var(--accent) 12%, transparent);
-      padding:7px 10px;
+      background: color-mix(in srgb, var(--accent) 7%, transparent);
+      border:1px solid color-mix(in srgb, var(--accent) 14%, transparent);
+      padding:8px 10px;
       border-radius:12px;
       cursor:pointer;
       user-select:none;
     }
-    .editlink:hover{ filter:brightness(1.02); }
+    .editbtn:hover{ filter:brightness(1.02); }
 
     .toast{
       position:fixed;
@@ -432,39 +497,51 @@
       display:none;
       gap:10px;
       align-items:center;
-      z-index:50;
+      z-index:80;
       max-width:min(720px, 92vw);
+      font-weight:900;
     }
-
     .dot{
-      width:9px;
-      height:9px;
+      width:9px; height:9px;
       border-radius:50%;
       background:var(--ok);
       box-shadow:0 0 0 3px rgba(12,143,71,.12);
       flex:0 0 auto;
     }
 
-    details{
-      border:1px solid var(--line);
-      border-radius:14px;
-      background:rgba(255,255,255,.85);
-      padding:10px 12px;
-      margin-top:12px;
+    .overlay{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,.35);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:90;
+      padding:16px;
     }
-
-    summary{
-      cursor:pointer;
-      color:var(--muted);
-      font-weight:900;
-      font-size:13px;
-      list-style:none;
+    .modal{
+      width:min(860px, 100%);
+      border-radius:22px;
+      background: rgba(255,255,255,.96);
+      border:1px solid rgba(0,0,0,.12);
+      box-shadow: 0 30px 80px rgba(0,0,0,.18);
+      overflow:hidden;
     }
-    summary::-webkit-details-marker{display:none}
-
-    .qedit{ margin-top:10px; }
-    .qedit textarea{ min-height:160px; }
-
+    .modal-head{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(0,0,0,.10);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+    }
+    .modal-head b{
+      font-weight:1000;
+      letter-spacing:-.2px;
+    }
+    .modal-body{
+      padding:16px;
+    }
     .row{
       display:flex;
       gap:10px;
@@ -472,7 +549,6 @@
       align-items:center;
       margin-top:10px;
     }
-
     .row input{
       flex:1;
       min-width:240px;
@@ -480,255 +556,297 @@
       border-radius:12px;
       border:1px solid rgba(0,0,0,.10);
       background:rgba(255,255,255,.92);
-      color:var(--text);
       outline:none;
       font-size:13px;
+      font-weight:800;
     }
-
-    .row input:focus{
-      border-color:color-mix(in srgb, var(--accent) 45%, transparent);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
-    }
-
-    .icon{ width:18px;height:18px;display:inline-block;flex:0 0 auto; }
-    .icon svg{ width:100%;height:100%; }
-
-    .small{
+    .help{
+      margin:10px 0 0;
       font-size:12px;
       color:var(--muted);
-      line-height:1.6;
-      margin:0;
+      line-height:1.55;
+      font-weight:700;
     }
 
-    /* ✅ 4) 다음으로 넘어갈 때 효과 */
-    @keyframes nextPop {
-      0%   { opacity: 0; transform: translateY(10px) scale(.985); }
-      60%  { opacity: 1; transform: translateY(0) scale(1.01); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .animate-next .qbox,
-    .animate-next textarea{
-      animation: nextPop .38s ease both;
-    }
-
-    /* ✅ 5) 결산 완료 축하 효과(콘페티) */
-    .confetti-layer{
+    .fx-layer{
       position:fixed;
       inset:0;
       pointer-events:none;
-      z-index:60;
+      z-index:100;
       overflow:hidden;
     }
     .confetti{
       position:absolute;
-      top:-14px;
+      top:-16px;
       width:10px;
       height:16px;
       border-radius:4px;
       opacity:.95;
-      transform: translateY(0) rotate(0deg);
       animation: confettiFall linear forwards;
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,.08));
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.10));
     }
     @keyframes confettiFall{
-      to { transform: translateY(110vh) rotate(540deg); opacity: 1; }
+      to { transform: translateY(110vh) rotate(640deg); opacity: 1; }
+    }
+    .spark{
+      position:absolute;
+      width:10px;height:10px;
+      border-radius:50%;
+      opacity:.9;
+      animation: sparkBurst .9s ease-out forwards;
+      filter: blur(.1px);
+    }
+    @keyframes sparkBurst{
+      0% { transform: translate(-50%,-50%) scale(.35); opacity:0; }
+      15% { opacity:1; }
+      100% { transform: translate(-50%,-50%) scale(2.6); opacity:0; }
     }
 
-    .done-banner{
-      margin-top:10px;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid color-mix(in srgb, var(--accent) 14%, rgba(0,0,0,.10));
-      background:
-        radial-gradient(520px 120px at 18% 30%, color-mix(in srgb, var(--accent2) 12%, transparent), transparent 60%),
-        radial-gradient(520px 140px at 82% 70%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 62%),
-        rgba(255,255,255,.92);
-      color:#1b1b1b;
-      display:none;
+    .kbd{
+      font-weight:1000;
+      font-size:12px;
+      color:var(--muted);
     }
-    .done-banner b{ color: var(--accent); }
+    code{
+      background: rgba(0,0,0,.06);
+      border: 1px solid rgba(0,0,0,.08);
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-weight: 900;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
   </style>
 </head>
 
 <body>
   <div class="wrap">
 
-    <!-- ✅ Start Screen -->
+    <!-- ===== Start Screen ===== -->
     <section id="startScreen" class="screen visible">
-      <div class="start-card">
-        <div class="start-deco" aria-hidden="true"></div>
-        <span class="start-badge">🎁 연말 결산</span>
-        <h1 class="start-title" id="startTitle">2025년 고생하셨습니다. 연말 결산 시작할 준비 되셨나요?</h1>
-        <p class="start-sub">
-          질문이 하나씩 나와요. 답해도 되고, 비워두고 넘어가도 됩니다.<br/>
-          걱정마세요! 작성한 내용은 <b>내 브라우저에만</b> 저장돼요.
-        </p>
+      <div class="start">
+        <span class="badge">🎁 연말 결산</span>
+        <h1 class="start-title" id="startTitle">2025년 고생하셨습니다.<br/>연말 결산, 시작해볼까요?</h1>
 
-        <div class="start-cta">
-          <button class="primary" id="startBtn">시작하기</button>
-          <button class="ghost" id="exampleBtn">연말 결산 예시보기</button>
-          <button class="ghost" id="startResetBtn" title="저장된 진행 상태를 초기화합니다">저장된 진행 초기화</button>
-        </div>
+        <div class="start-actions">
+          <button class="primary" id="startBtn">✨ 시작하기</button>
 
-        <!-- ✅ 예시 링크(로고 포함) -->
-        <div class="start-cta" style="margin-top:10px;">
-          <a class="btn" id="blogLink" target="_blank" rel="noopener">
+          <a class="btn ghost" id="usageBtn" target="_blank" rel="noopener">
             <span class="icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none">
                 <path d="M6 18V6h4l4 6V6h4v12h-4l-4-6v6H6z" fill="#03C75A"/>
               </svg>
             </span>
-            블로그 예시
+            활용 예시
           </a>
 
-          <a class="btn" id="instaLink" target="_blank" rel="noopener">
-            <span class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5Z" stroke="currentColor" stroke-width="2"/>
-                <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="currentColor" stroke-width="2"/>
-                <path d="M17.5 6.5h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-              </svg>
-            </span>
-            인스타 예시
-          </a>
+          <button class="ghost" id="newStartBtn" title="저장된 진행을 초기화하고 새로 시작합니다">🧹 새로 시작</button>
+<a class="btn ghost" id="feedbackBtnStart" target="_blank" rel="noopener">💬 피드백</a>
 
-          <a class="btn" id="feedbackBtn" target="_blank" rel="noopener">
-            <span class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M4 5h16v10H7l-3 3V5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                <path d="M8 9h8M8 12h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </span>
-            피드백 보내기
-          </a>
         </div>
-
-        <p class="start-note">
-          TIP: 시작 후 오른쪽 목록에서 아무 질문이나 눌러서 “수정하기”로 되돌아갈 수 있어요.
-        </p>
       </div>
     </section>
 
-    <!-- ✅ App Screen -->
-    <section id="appScreen" class="screen hidden">
+    <!-- ===== Q&A Screen ===== -->
+    <section id="qaScreen" class="screen hidden">
       <header>
         <div class="brand">
-          <h1 class="title">연말 결산 도우미</h1>
-          <p class="subtitle">질문에 답하다보면, 어느새 연말 결산 끝! (수정/복사/스토리 카드 제작)</p>
+          <h1 class="title" id="appTitle">연말 결산 도우미</h1>
         </div>
-        <div class="pill" id="yearPill">🎁 <span id="yearText"></span> 연말 결산</div>
+        <div class="pill">🎁 <span id="yearText"></span> 연말 결산</div>
       </header>
 
-      <!-- ✅ 상단 미니툴: 홈으로 / 피드백 (색 커스텀 삭제) -->
-      <div class="mini-tools">
+      <div class="top-actions">
+        <span class="kbd">⌨️ <code>Ctrl</code>+<code>Enter</code> 다음</span>
+        <button class="ghost" id="shareBtnTop">🔗 링크 공유</button>
+        <button class="ghost" id="settingsBtn">⚙️ 설정</button>
+        <button class="ghost" id="goDoneBtn">✅ 완료 페이지</button>
         <button class="ghost" id="goHomeBtn">🏠 첫 화면</button>
-        <a class="btn ghost" id="feedbackBtn2" target="_blank" rel="noopener">💬 피드백</a>
+<a class="btn ghost" id="feedbackBtnTop" target="_blank" rel="noopener">💬 피드백</a>
+
       </div>
 
-      <div class="grid" style="margin-top:12px;">
-        <!-- Left -->
-        <section class="card" id="flowCard">
-          <div class="head">
-            <h2 id="modeTitle">진행</h2>
-            <div class="pill">⌨️ <code>Ctrl</code>+<code>Enter</code> 다음</div>
+      <section class="card">
+        <div class="card-head">
+          <h2 id="modeTitle">질문 카드</h2>
+          <div class="pill" id="modePill">✍️ 작성 중</div>
+        </div>
+
+        <div class="card-body" id="qaBody">
+          <div class="progress">
+            <div class="bar"><i id="barFill"></i></div>
+            <div class="pct" id="pctText">0% · 0/0</div>
           </div>
-          <div class="body">
-            <div class="progress">
-              <div class="bar"><i id="barFill"></i></div>
-              <div class="pct" id="pctText">0% · 0/0</div>
-            </div>
 
-            <div class="qbox" id="qBox">
-              <div class="qnum" id="qNum">Q1</div>
-              <p class="qtext" id="qText">질문이 여기에 표시됩니다</p>
-            </div>
-
-            <textarea id="answer" placeholder="여기에 답변해줘! (비워두고 넘어가도 괜찮아!)"></textarea>
-
-            <div class="btns">
-              <button class="primary" id="nextBtn">다음</button>
-              <button class="danger" id="stopBtn">여기서 멈추고 결산 보기</button>
-              <button class="ghost" id="restartBtn" title="답변은 초기화됩니다">처음부터 다시</button>
-            </div>
-
-            <div class="done-banner" id="doneBanner">
-              🎉 <b>연말 결산 완료!</b> 답변을 복사하거나 스토리 카드로 제작할 수도 있어.
-            </div>
-
-            <!-- ✅ 6) 커스터마이즈: 펼침 우선(open) -->
-            <details open>
-              <summary>⚙️ 커스터마이즈 (질문/제목 바꾸기)</summary>
-              <div class="qedit">
-                <p class="small">
-                  - 제목을 바꿔 나만의 제목을 만들 수 있어!<br/>
-                  - 기본 질문이 아닌 나만의 질문을 만들 수 있어!(ex. 올해의 방구는?!)<br/>
-                  - 새로운 질문을 추가하면, 기존 답변이 초기화 돼! 조심해!<br/>
-                </p>
-                <div class="row">
-                  <input id="customTitle" placeholder="예: 연말 결산 / 올해의 기록 / 올해의 감사 / 올해의 소비" />
-                  <button id="applyTitleBtn">제목 적용</button>
-                </div>
-                <textarea id="questionsEditor"></textarea>
-                <div class="row">
-                  <button id="applyQuestionsBtn">질문 적용 (진행 초기화)</button>
-                  <button id="resetQuestionsBtn">기본 질문으로 복원</button>
-                </div>
-                <p class="small">* 서버 없이 동작: 진행 상태는 너의 브라우저에만 저장돼</p>
-              </div>
-            </details>
+          <div class="qcard" id="qCard">
+            <div class="qnum" id="qNum">Q1</div>
+            <p class="qtext" id="qText">질문</p>
           </div>
-        </section>
 
-        <!-- Right -->
-        <aside class="card" id="summaryCard">
-          <div class="head">
-            <h2>지금까지 답변</h2>
-            <div class="pill">🧾 수정 가능</div>
-          </div>
-          <div class="body">
-            <div class="side-list" id="sideList"></div>
+          <textarea id="answer" placeholder="여기에 답변해줘! (비워두고 넘어가도 괜찮아!)"></textarea>
 
-            <div class="footer-tools">
-              <!-- ✅ 2) 복사 버튼 2개로 단순화 + 형식 통일 -->
-              <button class="primary" id="copyAllBtn">전체 복사</button>
-              <button class="ghost" id="copyAnsweredOnlyBtn">답변한 것만 복사</button>
-
-              <button class="danger" id="exportImageBtn" title="답변 일부를 골라 1080x1920 스토리 PNG로 저장">📸 스토리 카드 제작</button>
+          <div class="actions">
+            <div class="actions-left">
+              <button class="ghost" id="prevBtn">← 이전</button>
+              <button class="ghost" id="skipBtn">⏭️ 패스</button>
             </div>
-            <p class="small">* 인스타 카드는 1080×1920(스토리) PNG로 다운로드돼.</p>
+            <div class="actions-right">
+              <button class="danger" id="finishBtn">🎉 결산 완료</button>
+              <button class="primary" id="nextBtn">다음 →</button>
+            </div>
           </div>
-        </aside>
+        </div>
+      </section>
+    </section>
+
+    <!-- ===== Done Screen ===== -->
+    <section id="doneScreen" class="screen hidden">
+      <header>
+        <div class="brand">
+          <h1 class="title">완료 페이지</h1>
+        </div>
+        <div class="pill">🎁 <span id="yearText2"></span> 연말 결산</div>
+      </header>
+
+      <div class="top-actions">
+        <button class="ghost" id="shareBtnDone">🔗 링크 공유</button>
+        <button class="ghost" id="settingsBtn2">⚙️ 설정</button>
+        <button class="ghost" id="backToQA">✍️ 이어서 작성</button>
+        <button class="ghost" id="goHomeBtn2">🏠 첫 화면</button>
+<a class="btn ghost" id="feedbackBtnDone" target="_blank" rel="noopener">💬 피드백</a>
+
       </div>
+
+      <div class="done-hero">
+        <h2>🎇 연말 결산 완료!</h2>
+        <p>복사하거나, 아래에서 질문별로 눌러서 바로 수정할 수 있어요.</p>
+
+        <div class="tools">
+          <button class="primary" id="copyAllBtn">전체 복사</button>
+          <button class="ghost" id="copyAnsweredOnlyBtn">답변한 것만 복사</button>
+          <button class="danger" id="newStartBtn2">🧹 새로 시작</button>
+        </div>
+      </div>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>질문별 답변 (눌러서 수정)</h2>
+          <div class="pill">🧾 페이지네이션 편집</div>
+        </div>
+        <div class="card-body">
+          <div class="list" id="doneList"></div>
+        </div>
+      </section>
     </section>
   </div>
 
   <div class="toast" id="toast">
     <span class="dot"></span>
-    <span id="toastText">복사 완료!</span>
+    <span id="toastText">완료</span>
+  </div>
+
+  <!-- ===== Settings Modal ===== -->
+  <div class="overlay" id="settingsOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="modal-head">
+        <b id="settingsTitle">⚙️ 설정</b>
+        <button class="ghost" id="closeSettingsBtn">닫기</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <input id="customTitle" placeholder="예: 연말 결산 도우미 / 2025 연말 결산 / 올해의 기록" />
+          <button class="primary" id="applyTitleBtn">제목 적용</button>
+        </div>
+
+        <p class="help">
+          질문은 <b>한 줄에 1개</b>씩 입력하세요. (적용하면 진행 상태가 초기화됩니다)
+        </p>
+
+        <textarea id="questionsEditor" style="min-height:220px;"></textarea>
+
+        <div class="row">
+          <button class="danger" id="applyQuestionsBtn">질문 적용(초기화)</button>
+          <button class="ghost" id="resetQuestionsBtn">기본 질문으로 복원</button>
+        </div>
+
+        <p class="help">* 서버 없이 동작하며, 저장은 내 브라우저(localStorage)에만 됩니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Confirm Modal (new start) ===== -->
+  <div class="overlay" id="confirmOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="modal-head">
+        <b id="confirmTitle">🧹 새로 시작</b>
+        <button class="ghost" id="closeConfirmBtn">닫기</button>
+      </div>
+      <div class="modal-body">
+        <p class="help" style="margin-top:0;">
+          저장된 진행(답변/패스/현재 위치)을 <b>모두 초기화</b>하고 처음부터 다시 시작할까요?
+        </p>
+        <div class="row" style="justify-content:flex-end;">
+          <button class="ghost" id="cancelResetBtn">취소</button>
+          <button class="danger" id="confirmResetBtn">초기화하고 시작</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 <script>
 (() => {
   // =========================
-  // ✅ 네가 나중에 링크만 바꾸면 됨
+  // 링크
   // =========================
   const EXAMPLE_BLOG_URL = "https://blog.naver.com/garden_2_2/223720793794?trackingCode=blog_bloghome_searchlist";
-  const EXAMPLE_INSTA_URL = "https://www.instagram.com/p/Cm0F7U4SH9C/?igsh=OGViY2FiZ29qcml4";
-  const FEEDBACK_URL = "https://forms.gle/JdtPGW3zK1kDGtKp6";
+const FEEDBACK_URL = "https://forms.gle/rzQepJVwQuVyixsy6";
+const feedbackBtnStart = document.getElementById("feedbackBtnStart");
+const feedbackBtnTop = document.getElementById("feedbackBtnTop");
+const feedbackBtnDone = document.getElementById("feedbackBtnDone");
+feedbackBtnStart.href = FEEDBACK_URL;
+feedbackBtnTop.href = FEEDBACK_URL;
+feedbackBtnDone.href = FEEDBACK_URL;
 
-  // ✅ 저장 키
-  const LS_KEY = "year_review_helper_final_v2";
+  // =========================
+  // Storage Key
+  // =========================
+  const LS_KEY = "year_review_helper_final_v4";
 
-  // ====== 기본 질문 세트 ======
+  // =========================
+  // 질문 리스트
+  // =========================
   const DEFAULT_QUESTIONS = [
     "올해의 유튜브는?","올해의 배우는?","올해의 영화는?","올해의 앨범은?","올해의 노래는?",
-    "올해의 드라마는?","올해의 전시는?","올해의 책은?","올해의 작가는?","올해의 문장은?",
-    "올해의 말은?","올해의 여행은?","올해의 음식은?","올해의 커피는?","올해의 식당은?",
-    "올해의 소비는?","올해의 투자는?","올해의 손실은?","올해의 구독은?","올해의 운동은?",
-    "올해의 습관은?","올해의 공간은?","올해의 감동은?","올해의 걱정은?","올해의 친구는?",
-    "올해의 실패는?","올해의 실수는?","올해의 우연은?","올해의 만남은?","올해의 감사는?"
+    "올해의 드라마는?","올해의 전시는?","올해의 책은?","올해의 서점은?","올해의 작가는?",
+    "올해의 문장은?","올해의 말은?","올해의 색깔은?","올해의 풍경은?","올해의 나무는?",
+    "올해의 새는?","올해의 숲은?","올해의 여행은?","올해의 달리기는?","올해의 순간은?",
+    "올해의 처음은?","올해의 끝은?",
+    "올해의 음식은?","올해의 디저트는?","올해의 음료는?","올해의 커피는?","올해의 식당은?",
+    "올해의 테이크아웃은?","올해의 매운 맛은?","올해의 스포츠는?","올해의 소비는?","올해의 투자는?",
+    "올해의 손실은?","올해의 득템은?","올해의 구독은?","올해의 브랜드는?","올해의 신발은?",
+    "올해의 티셔츠는?","올해의 옷은?","올해의 알콜은?",
+    "올해의 운동은?","올해의 건강관리는?","올해의 습관은?",
+    "올해의 동네는?","올해의 공간은?","올해의 집은?","올해의 이동수단은?","올해의 산책로는?",
+    "올해의 산은?","올해의 다리는?",
+    "올해의 동료는?","올해의 동역자는?","올해의 도움은?","올해의 호스트는?","올해의 사장님은?",
+    "올해의 셀럽은?","올해의 짝꿍은?","올해의 재발견은?","올해의 감사는?","올해의 나눔은?",
+    "올해의 선물은?","올해의 성취는?","올해의 도전은?","올해의 프로젝트는?","올해의 포기는?",
+    "올해의 발전은?","올해의 퇴보는?","올해의 야근은?","올해의 기능은?","올해의 어플은?",
+    "올해의 기쁨/행복은?","올해의 뿌듯함은?","올해의 박장대소는?","올해의 재미는?","올해의 낭만은?",
+    "올해의 평화는?","올해의 감동은?","올해의 희열은?","올해의 놀람은?","올해의 서프라이즈는?",
+    "올해의 의외는?","올해의 차가움은?","올해의 뜨거움은?","올해의 절망은?","올해의 고난은?",
+    "올해의 고통은?","올해의 슬픔은?","올해의 분노는?","올해의 아찔함은?","올해의 충격은?",
+    "올해의 걱정은?","올해의 고민은?","올해의 집착은?","올해의 흐지부지는?","올해의 후회는?",
+    "올해의 죄송은?","올해의 낭비는?","올해의 분실은?","올해의 실패는?","올해의 실수는?",
+    "올해의 뒷북은?","올해의 쌤통은?","올해의 최고 킹받는 순간은?","올해의 코피는?","올해의 진땀은?",
+    "올해의 우연은?","올해의 만남은?","올해의 편지는?","올해의 철학은?","올해의 성장은?",
+    "올해의 영감은?","올해의 강연은?","올해의 예배는?","올해의 찬양은?","올해의 말씀은?",
+    "올해의 선교는?",
+    "올해의 수집은?","올해의 상담은?","올해의 셀카는?","올해의 귀여움은?","올해의 당근은?"
   ];
 
+  // =========================
+  // Utils
+  // =========================
   const normalizeText = (s) => String(s ?? "").trim().replace(/\s+/g, " ");
   const uniqueQuestions = (arr) => {
     const seen = new Set();
@@ -743,61 +861,17 @@
     return out;
   };
 
-  // ====== DOM ======
-  const startScreen = document.getElementById("startScreen");
-  const appScreen = document.getElementById("appScreen");
-  const startBtn = document.getElementById("startBtn");
-  const startResetBtn = document.getElementById("startResetBtn");
-  const exampleBtn = document.getElementById("exampleBtn");
-
-  const blogLink = document.getElementById("blogLink");
-  const instaLink = document.getElementById("instaLink");
-  const feedbackBtn = document.getElementById("feedbackBtn");
-  const feedbackBtn2 = document.getElementById("feedbackBtn2");
-
-  const goHomeBtn = document.getElementById("goHomeBtn");
-
-  const yearText = document.getElementById("yearText");
-  const modeTitle = document.getElementById("modeTitle");
-  const barFill = document.getElementById("barFill");
-  const pctText = document.getElementById("pctText");
-  const qNum = document.getElementById("qNum");
-  const qText = document.getElementById("qText");
-  const qBox = document.getElementById("qBox");
-  const answerEl = document.getElementById("answer");
-  const sideList = document.getElementById("sideList");
-  const flowCard = document.getElementById("flowCard");
-  const doneBanner = document.getElementById("doneBanner");
-
-  const nextBtn = document.getElementById("nextBtn");
-  const stopBtn = document.getElementById("stopBtn");
-  const restartBtn = document.getElementById("restartBtn");
-
-  const copyAllBtn = document.getElementById("copyAllBtn");
-  const copyAnsweredOnlyBtn = document.getElementById("copyAnsweredOnlyBtn");
-  const exportImageBtn = document.getElementById("exportImageBtn");
-
-  const toast = document.getElementById("toast");
-  const toastText = document.getElementById("toastText");
-
-  const customTitle = document.getElementById("customTitle");
-  const applyTitleBtn = document.getElementById("applyTitleBtn");
-  const questionsEditor = document.getElementById("questionsEditor");
-  const applyQuestionsBtn = document.getElementById("applyQuestionsBtn");
-  const resetQuestionsBtn = document.getElementById("resetQuestionsBtn");
-
-  // ====== Year ======
-  const now = new Date();
-  const YEAR = now.getFullYear();
-  yearText.textContent = YEAR;
-
-  // ====== Start Screen links ======
-  blogLink.href = EXAMPLE_BLOG_URL;
-  instaLink.href = EXAMPLE_INSTA_URL;
-  feedbackBtn.href = FEEDBACK_URL;
-  feedbackBtn2.href = FEEDBACK_URL;
-
-  // ====== Utils ======
+  function safeParseJSON(s){ try { return JSON.parse(s); } catch { return null; } }
+  function save(state){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+  function load(){
+    const raw = localStorage.getItem(LS_KEY);
+    return raw ? safeParseJSON(raw) : null;
+  }
+  function esc(s){
+    return (s ?? "").replace(/[&<>"']/g, (m) => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+    })[m]);
+  }
   function showToast(msg){
     toastText.textContent = msg;
     toast.style.display = "inline-flex";
@@ -805,109 +879,119 @@
     showToast._t = setTimeout(()=> toast.style.display = "none", 1600);
   }
 
-  function safeParseJSON(s){ try { return JSON.parse(s); } catch { return null; } }
-  function save(state){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
-  function load(){
-    const raw = localStorage.getItem(LS_KEY);
-    return raw ? safeParseJSON(raw) : null;
-  }
+  // =========================
+  // DOM
+  // =========================
+  const startScreen = document.getElementById("startScreen");
+  const qaScreen = document.getElementById("qaScreen");
+  const doneScreen = document.getElementById("doneScreen");
 
-  function normalizeQuestions(text){
-    return uniqueQuestions(text.split("\n").map(s => s.trim()).filter(Boolean));
-  }
-  function esc(s){
-    return (s ?? "").replace(/[&<>"']/g, (m) => ({
-      "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
-    })[m]);
-  }
+  const startBtn = document.getElementById("startBtn");
+  const newStartBtn = document.getElementById("newStartBtn");
+  const usageBtn = document.getElementById("usageBtn");
 
-  // ====== State ======
+  const goHomeBtn = document.getElementById("goHomeBtn");
+  const goHomeBtn2 = document.getElementById("goHomeBtn2");
+
+  const settingsBtn = document.getElementById("settingsBtn");
+  const settingsBtn2 = document.getElementById("settingsBtn2");
+  const goDoneBtn = document.getElementById("goDoneBtn");
+  const backToQA = document.getElementById("backToQA");
+
+  const shareBtnTop = document.getElementById("shareBtnTop");
+  const shareBtnDone = document.getElementById("shareBtnDone");
+
+  const appTitle = document.getElementById("appTitle");
+  const yearText = document.getElementById("yearText");
+  const yearText2 = document.getElementById("yearText2");
+
+  const barFill = document.getElementById("barFill");
+  const pctText = document.getElementById("pctText");
+
+  const qCard = document.getElementById("qCard");
+  const qNum = document.getElementById("qNum");
+  const qText = document.getElementById("qText");
+  const answerEl = document.getElementById("answer");
+
+  const prevBtn = document.getElementById("prevBtn");
+  const skipBtn = document.getElementById("skipBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const finishBtn = document.getElementById("finishBtn");
+
+  const doneList = document.getElementById("doneList");
+
+  const copyAllBtn = document.getElementById("copyAllBtn");
+  const copyAnsweredOnlyBtn = document.getElementById("copyAnsweredOnlyBtn");
+  const newStartBtn2 = document.getElementById("newStartBtn2");
+
+  const toast = document.getElementById("toast");
+  const toastText = document.getElementById("toastText");
+
+  const settingsOverlay = document.getElementById("settingsOverlay");
+  const closeSettingsBtn = document.getElementById("closeSettingsBtn");
+  const customTitle = document.getElementById("customTitle");
+  const applyTitleBtn = document.getElementById("applyTitleBtn");
+  const questionsEditor = document.getElementById("questionsEditor");
+  const applyQuestionsBtn = document.getElementById("applyQuestionsBtn");
+  const resetQuestionsBtn = document.getElementById("resetQuestionsBtn");
+
+  const confirmOverlay = document.getElementById("confirmOverlay");
+  const closeConfirmBtn = document.getElementById("closeConfirmBtn");
+  const cancelResetBtn = document.getElementById("cancelResetBtn");
+  const confirmResetBtn = document.getElementById("confirmResetBtn");
+
+  // =========================
+  // Year
+  // =========================
+  const now = new Date();
+  const YEAR = now.getFullYear();
+  yearText.textContent = YEAR;
+  yearText2.textContent = YEAR;
+
+  usageBtn.href = EXAMPLE_BLOG_URL;
+
+  // =========================
+  // State
+  // =========================
   let state = load() || {
     title: "연말 결산 도우미",
     questions: uniqueQuestions(DEFAULT_QUESTIONS),
     idx: 0,
     answers: {},
     skipped: {},
-    stoppedAt: null,
+    view: "qa",
     celebrated: false
   };
 
-  // ====== Screen transition ======
-  function goAppScreen(){
-    startScreen.classList.remove("visible");
-    startScreen.classList.add("hidden");
-
-    appScreen.classList.remove("hidden");
-    appScreen.classList.add("visible");
-
-    setTimeout(()=> answerEl?.focus(), 60);
-  }
-
-  function goStartScreen(){
-    appScreen.classList.remove("visible");
-    appScreen.classList.add("hidden");
-
-    startScreen.classList.remove("hidden");
-    startScreen.classList.add("visible");
-  }
-
-  // ✅ 4) 다음으로 넘어갈 때 효과
-  function animateNext(){
-    flowCard.classList.remove("animate-next");
-    // reflow
-    void flowCard.offsetWidth;
-    flowCard.classList.add("animate-next");
-    clearTimeout(animateNext._t);
-    animateNext._t = setTimeout(()=> flowCard.classList.remove("animate-next"), 450);
-  }
-
-  // ✅ 5) 결산 완료 축하 효과
-  function fireConfetti(){
-    const layer = document.createElement("div");
-    layer.className = "confetti-layer";
-
-    const colors = ["#d12b2b", "#ff4a4a", "#0c8f47", "#f2c14e", "#ffffff", "#ff7aa2"];
-    const count = 70;
-
-    for(let i=0;i<count;i++){
-      const c = document.createElement("i");
-      c.className = "confetti";
-      const left = Math.random() * 100;
-      const dur = 1.6 + Math.random() * 1.4;
-      const delay = Math.random() * 0.25;
-      const w = 8 + Math.random() * 8;
-      const h = 12 + Math.random() * 14;
-
-      c.style.left = left + "vw";
-      c.style.width = w + "px";
-      c.style.height = h + "px";
-      c.style.background = colors[Math.floor(Math.random()*colors.length)];
-      c.style.animationDuration = dur + "s";
-      c.style.animationDelay = delay + "s";
-      c.style.animationTimingFunction = "cubic-bezier(.2,.6,.2,1)";
-
-      layer.appendChild(c);
-    }
-
-    document.body.appendChild(layer);
-    setTimeout(()=> layer.remove(), 2600);
-  }
-
-  // ====== Render ======
-  function setPageTitle(){
+  function setTitles(){
     document.title = state.title;
-    document.querySelector(".title").textContent = state.title;
+    appTitle.textContent = state.title;
+
+    // OG 타이틀도 런타임에 바꿔주긴 하지만,
+    // 실제 공유 크롤러는 JS 실행 전 메타만 보는 경우가 많아(서버 렌더링이 최우선)
+    // 그래도 브라우저 내 표시용으로는 유지
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if(ogTitle) ogTitle.setAttribute("content", state.title);
+    const twTitle = document.querySelector('meta[name="twitter:title"]');
+    if(twTitle) twTitle.setAttribute("content", state.title);
   }
 
-  function renderEditor(){
-    customTitle.value = state.title;
-    questionsEditor.value = state.questions.join("\n");
+  function showScreen(name){
+    const map = { start: startScreen, qa: qaScreen, done: doneScreen };
+    Object.entries(map).forEach(([k, el]) => {
+      if(k === name){
+        el.classList.remove("hidden");
+        el.classList.add("visible");
+      }else{
+        el.classList.remove("visible");
+        el.classList.add("hidden");
+      }
+    });
   }
 
   function doneCount(){
     return Object.keys(state.answers).length + Object.keys(state.skipped).length;
   }
-
   function renderProgress(){
     const total = state.questions.length;
     const done = doneCount();
@@ -915,64 +999,69 @@
     barFill.style.width = `${pct}%`;
     pctText.textContent = `${pct}% · ${done}/${total}`;
   }
-
-  function isFinished(){ return state.idx >= state.questions.length; }
-
-  function renderQuestion(){
-    const total = state.questions.length;
-    const finished = isFinished();
-
-    if(finished){
-      modeTitle.textContent = "결산 보기";
-      qNum.textContent = "DONE";
-      qText.textContent = "연말 결산 완료! 🎉 짧은 결산 안에, 다 표현 못한 너의 순간들 까지도 응원해! 2025년 정말 수고많았어!";
-      doneBanner.style.display = "block";
-      answerEl.value = "";
-      answerEl.disabled = true;
-      nextBtn.disabled = true;
-      stopBtn.disabled = true;
-
-      // ✅ 완료 축하(최초 1회)
-      if(!state.celebrated){
-        state.celebrated = true;
-        save(state);
-        fireConfetti();
-        showToast("연말 결산 완료! 🎉");
-      }
-      return;
+  function currentAnswer(){
+    return (state.answers[state.idx] ?? "");
+  }
+  function markAnswer(val){
+    const v = String(val ?? "").trimEnd();
+    if(v.trim() === ""){
+      delete state.answers[state.idx];
+      state.skipped[state.idx] = true;
+    }else{
+      state.answers[state.idx] = v;
+      delete state.skipped[state.idx];
     }
-
-    doneBanner.style.display = "none";
-    modeTitle.textContent = "진행";
-    answerEl.disabled = false;
-    nextBtn.disabled = false;
-    stopBtn.disabled = false;
-
-    qNum.textContent = `Q${state.idx + 1}/${total}`;
-    qText.textContent = state.questions[state.idx];
-
-    const existing = state.answers[state.idx] ?? "";
-    answerEl.value = existing;
-
-    // ✅ 다음 진입 애니메이션
-    animateNext();
-    setTimeout(() => answerEl.focus(), 0);
   }
 
-  function renderSideList(){
+  function animateSwap(direction, cb){
+    const outClass = direction === "next" ? "anim-out-left" : "anim-out-right";
+    const inClass  = direction === "next" ? "anim-in-right" : "anim-in-left";
+
+    qCard.classList.remove("anim-out-left","anim-in-right","anim-out-right","anim-in-left");
+    void qCard.offsetWidth;
+    qCard.classList.add(outClass);
+
+    setTimeout(() => {
+      cb?.();
+      qCard.classList.remove(outClass);
+      void qCard.offsetWidth;
+      qCard.classList.add(inClass);
+      setTimeout(()=> qCard.classList.remove(inClass), 380);
+    }, 190);
+  }
+
+  function renderQA(){
+    setTitles();
+    renderProgress();
+
+    const total = state.questions.length;
+    const i = state.idx;
+
+    qNum.textContent = `Q${i+1}/${total}`;
+    qText.textContent = state.questions[i] ?? "질문 없음";
+    answerEl.value = currentAnswer();
+    answerEl.disabled = false;
+
+    prevBtn.disabled = i <= 0;
+
+    save(state);
+  }
+
+  function renderDone(){
+    setTitles();
     const total = state.questions.length;
     const rows = [];
+
     for(let i=0;i<total;i++){
       const q = state.questions[i];
-      const a = state.answers[i];
-      const hasAns = !!(a && a.trim());
-      const isSkip = !!state.skipped[i] && (!a || a.trim()==="");
+      const a = (state.answers[i] ?? "").trim();
+      const isSkip = !!state.skipped[i] && !a;
+      const hasAns = !!a;
 
       const tag = hasAns ? "답변" : (isSkip ? "패스" : "미응답");
-      const ansHtml =
-        hasAns
-          ? `<p class="ans">${esc(a)}</p>`
-          : `<p class="ans empty">${isSkip ? "패스 처리됨" : "아직 답변 없음"}</p>`;
+      const ansHtml = hasAns
+        ? `<p class="ans">${esc(a)}</p>`
+        : `<p class="ans empty">${isSkip ? "패스 처리됨" : "아직 답변 없음"}</p>`;
 
       rows.push(`
         <div class="item ${hasAns ? "answered" : ""}">
@@ -981,89 +1070,35 @@
             <span class="tag">${esc(tag)}</span>
           </div>
           ${ansHtml}
-          <div class="editlink" data-edit="${i}">✏️ 이 질문 수정하기</div>
+          <div class="editbtn" data-edit="${i}">✏️ 이 질문 수정하기</div>
         </div>
       `);
     }
-    sideList.innerHTML = rows.join("");
 
-    sideList.querySelectorAll("[data-edit]").forEach(el => {
+    doneList.innerHTML = rows.join("");
+
+    doneList.querySelectorAll("[data-edit]").forEach(el => {
       el.addEventListener("click", () => {
         const i = Number(el.getAttribute("data-edit"));
-        jumpToQuestion(i);
+        state.idx = Math.max(0, Math.min(i, state.questions.length - 1));
+        state.view = "qa";
+        save(state);
+        showScreen("qa");
+        renderQA();
+        showToast(`Q${i+1} 수정 중`);
+        setTimeout(()=> answerEl.focus(), 50);
       });
     });
 
-    const answeredCount = Object.keys(state.answers)
-      .filter(k => (state.answers[k] ?? "").trim().length > 0).length;
-    exportImageBtn.disabled = answeredCount === 0;
-  }
-
-  function renderAll(){
-    setPageTitle();
-    renderEditor();
-    renderProgress();
-    renderQuestion();
-    renderSideList();
-  }
-
-  // ====== Actions ======
-  function markCurrentAnswer(){
-    const total = state.questions.length;
-    if(state.idx >= total) return;
-
-    const val = (answerEl.value ?? "").trimEnd();
-
-    if(val.trim() === ""){
-      delete state.answers[state.idx];
-      state.skipped[state.idx] = true;
-    }else{
-      state.answers[state.idx] = val;
-      delete state.skipped[state.idx];
-    }
-  }
-
-  function next(){
-    if(isFinished()) return;
-    markCurrentAnswer();
-    state.idx += 1;
     save(state);
-    renderAll();
   }
 
-  function stopAndShow(){
-    if(isFinished()) return;
-    state.stoppedAt = state.idx;
-    markCurrentAnswer();
-    state.idx = state.questions.length;
-    save(state);
-    renderAll();
-    showToast("결산 화면으로 이동!");
-  }
-
-  function restart(){
-    state.idx = 0;
-    state.answers = {};
-    state.skipped = {};
-    state.stoppedAt = null;
-    state.celebrated = false;
-    save(state);
-    renderAll();
-    showToast("처음부터 다시 시작!");
-  }
-
-  function jumpToQuestion(i){
-    state.idx = Math.max(0, Math.min(i, state.questions.length - 1));
-    answerEl.disabled = false;
-    nextBtn.disabled = false;
-    stopBtn.disabled = false;
-    save(state);
-    renderAll();
-    showToast(`Q${i+1}로 이동해서 수정 중`);
-  }
-
-  // ✅ 2) 복사 포맷: "번호) 질문 - 답변" 으로 통일
-  function buildText({answeredOnly=false} = {}){
+  // =========================
+  // ✅ 복사 포맷
+  // - 전체: 원래 질문 번호 유지
+  // - 답변한 것만: 답변만 모아서 1부터 재넘버링
+  // =========================
+  function buildTextAll(){
     const lines = [];
     const total = state.questions.length;
 
@@ -1071,12 +1106,53 @@
       const q = state.questions[i];
       const a = (state.answers[i] ?? "").trim();
       const isSkip = !!state.skipped[i] && !a;
-
-      if(answeredOnly && !a) continue;
-
       const ansText = a ? a : (isSkip ? "(패스)" : "(미응답)");
       lines.push(`${i+1}) ${q} - ${ansText}`);
     }
+    return lines.join("\n").trim() + "\n";
+  }
+
+  function buildTextAnsweredOnlyRenumbered(){
+    const lines = [];
+    const total = state.questions.length;
+    let n = 1;
+
+    for(let i=0;i<total;i++){
+      const q = state.questions[i];
+      const a = (state.answers[i] ?? "").trim();
+      if(!a) continue;
+      lines.push(`${n}) ${q} - ${a}`);
+      n += 1;
+    }
+
+function trackFeedbackClick(position){
+  if (typeof gtag !== "function") return;
+
+  gtag("event", "feedback_click", {
+    event_category: "engagement",
+    event_label: position, // start / top / done
+  });
+}
+
+feedbackBtnStart?.addEventListener("click", () => {
+  trackFeedbackClick("start");
+});
+
+feedbackBtnTop?.addEventListener("click", () => {
+  trackFeedbackClick("top");
+});
+
+feedbackBtnDone?.addEventListener("click", () => {
+  trackFeedbackClick("done");
+});
+
+function handleFeedbackClick(position){
+  trackFeedbackClick(position);
+  showToast("피드백 감사합니다 🙏");
+}
+
+    // 답변이 하나도 없을 때
+    if(lines.length === 0) return "(아직 답변한 항목이 없어요)\n";
     return lines.join("\n").trim() + "\n";
   }
 
@@ -1084,7 +1160,7 @@
     try{
       await navigator.clipboard.writeText(text);
       showToast("복사 완료!");
-    }catch(e){
+    }catch{
       const ta = document.createElement("textarea");
       ta.value = text;
       document.body.appendChild(ta);
@@ -1095,99 +1171,121 @@
     }
   }
 
-  // ====== Example mode ======
-  function applyExample(){
-    const exampleMap = {
-      "올해의 영화는?": "어쩔수가없다",
-      "올해의 드라마는?": "폭싹 속았수다",
-      "올해의 책은?": "니코스 카잔차키스 - 그리스인 조르바",
-      "올해의 앨범은?": "이상순 - Leesangsoon",
-      "올해의 노래는?": "니가 잠든 사이에 나는",
-      "올해의 여행은?": "전주",
-      "올해의 식당은?": "콘부",
-      "올해의 커피는?": "스탠드업 플리즈",
-      "올해의 소비는?": "퍼즐 2개 그리고 꽃기린",
-      "올해의 문장은?": "책은 당신을 다양한 곳으로 데려다 준다."
-    };
+  copyAllBtn.addEventListener("click", () => copyToClipboard(buildTextAll()));
+  copyAnsweredOnlyBtn.addEventListener("click", () => copyToClipboard(buildTextAnsweredOnlyRenumbered()));
 
-    const answers = {};
-    const skipped = {};
-    state.questions.forEach((q, idx) => {
-      if(exampleMap[q]){
-        answers[idx] = exampleMap[q];
-      }else{
-        skipped[idx] = true;
-      }
-    });
-
-    state.title = "연말 결산 도우미 (예시)";
-    state.answers = answers;
-    state.skipped = skipped;
-    state.idx = state.questions.length;
-    state.stoppedAt = null;
-    state.celebrated = false;
-
-    save(state);
-    renderAll();
-    showToast("예시가 로드됐어! (첫 화면으로도 돌아갈 수 있어)");
+  // =========================
+  // ✅ 링크 공유 (썸네일은 OG 메타로)
+  // =========================
+  function getShareUrl(){
+    // 배포 환경에서는 location.href가 사이트 URL이 됨
+    // 로컬 file:// 환경이면 공유가 의미가 약함(미리보기 크롤링 불가)
+    return location.href;
   }
 
-  // ====== Events ======
-  startBtn.addEventListener("click", () => {
-    save(state);
-    renderAll();
-    goAppScreen();
-  });
+  async function shareLink(){
+    const url = getShareUrl();
+    const title = state.title || "연말 결산 도우미";
+    const text = `${YEAR} 연말 결산 링크`;
 
-  exampleBtn.addEventListener("click", () => {
-    applyExample();
-    goAppScreen();
-  });
-
-  goHomeBtn.addEventListener("click", () => {
-    goStartScreen();
-    showToast("첫 화면으로 이동!");
-  });
-
-  startResetBtn.addEventListener("click", () => {
-    localStorage.removeItem(LS_KEY);
-    state = {
-      title: "연말 결산 도우미",
-      questions: uniqueQuestions(DEFAULT_QUESTIONS),
-      idx: 0,
-      answers: {},
-      skipped: {},
-      stoppedAt: null,
-      celebrated: false
-    };
-    renderAll();
-    showToast("저장된 진행을 초기화했어!");
-  });
-
-  nextBtn.addEventListener("click", next);
-  stopBtn.addEventListener("click", stopAndShow);
-  restartBtn.addEventListener("click", restart);
-
-  copyAllBtn.addEventListener("click", () => copyToClipboard(buildText({answeredOnly:false})));
-  copyAnsweredOnlyBtn.addEventListener("click", () => copyToClipboard(buildText({answeredOnly:true})));
-
-  answerEl.addEventListener("keydown", (e) => {
-    if((e.ctrlKey || e.metaKey) && e.key === "Enter"){
-      e.preventDefault();
-      next();
+    // Web Share API(모바일/일부 브라우저)
+    if(navigator.share){
+      try{
+        await navigator.share({ title, text, url });
+        showToast("링크 공유 완료!");
+        return;
+      }catch{
+        // 사용자가 취소한 경우도 여기로 올 수 있음
+      }
     }
+    // fallback: copy
+    await copyToClipboard(url);
+    showToast("링크 복사 완료!");
+  }
+
+  shareBtnTop.addEventListener("click", shareLink);
+  shareBtnDone.addEventListener("click", shareLink);
+
+  // =========================
+  // Celebration
+  // =========================
+  function fireCelebration(){
+    const layer = document.createElement("div");
+    layer.className = "fx-layer";
+
+    const colors = ["#d12b2b","#ff4a4a","#0c8f47","#f2c14e","#ffffff","#ff7aa2","#6dd3ff"];
+    const confCount = 120;
+
+    for(let i=0;i<confCount;i++){
+      const c = document.createElement("i");
+      c.className = "confetti";
+      c.style.left = (Math.random()*100) + "vw";
+      c.style.width = (8 + Math.random()*10) + "px";
+      c.style.height = (10 + Math.random()*16) + "px";
+      c.style.background = colors[Math.floor(Math.random()*colors.length)];
+      c.style.animationDuration = (1.8 + Math.random()*1.6) + "s";
+      c.style.animationDelay = (Math.random()*0.25) + "s";
+      c.style.transform = `translateY(0) rotate(${Math.random()*180}deg)`;
+      layer.appendChild(c);
+    }
+
+    const bursts = 6;
+    for(let b=0;b<bursts;b++){
+      const x = 15 + Math.random()*70;
+      const y = 18 + Math.random()*45;
+      const burstColor = colors[Math.floor(Math.random()*colors.length)];
+      for(let k=0;k<10;k++){
+        const s = document.createElement("i");
+        s.className = "spark";
+        s.style.left = x + "vw";
+        s.style.top  = y + "vh";
+        s.style.background = burstColor;
+        s.style.animationDelay = (0.05*b + Math.random()*0.15) + "s";
+        s.style.width = (8 + Math.random()*10) + "px";
+        s.style.height = s.style.width;
+        layer.appendChild(s);
+      }
+    }
+
+    document.body.appendChild(layer);
+    setTimeout(()=> layer.remove(), 2800);
+  }
+
+  // =========================
+  // Settings
+  // =========================
+  function openSettings(){
+    customTitle.value = state.title;
+    questionsEditor.value = state.questions.join("\n");
+    settingsOverlay.style.display = "flex";
+    settingsOverlay.setAttribute("aria-hidden","false");
+  }
+  function closeSettings(){
+    settingsOverlay.style.display = "none";
+    settingsOverlay.setAttribute("aria-hidden","true");
+  }
+
+  settingsBtn.addEventListener("click", openSettings);
+  settingsBtn2.addEventListener("click", openSettings);
+  closeSettingsBtn.addEventListener("click", closeSettings);
+  settingsOverlay.addEventListener("click", (e) => {
+    if(e.target === settingsOverlay) closeSettings();
   });
 
   applyTitleBtn.addEventListener("click", () => {
     const t = (customTitle.value ?? "").trim();
     state.title = t.length ? t : "연말 결산 도우미";
     save(state);
-    renderAll();
+    setTitles();
     showToast("제목 적용 완료!");
   });
 
+  function normalizeQuestions(text){
+    return uniqueQuestions(String(text ?? "").split("\n").map(s => s.trim()).filter(Boolean));
+  }
+
   applyQuestionsBtn.addEventListener("click", () => {
-    const qs = normalizeQuestions(questionsEditor.value ?? "");
+    const qs = normalizeQuestions(questionsEditor.value);
     if(qs.length < 1){
       showToast("질문이 최소 1개는 필요해!");
       return;
@@ -1196,10 +1294,12 @@
     state.idx = 0;
     state.answers = {};
     state.skipped = {};
-    state.stoppedAt = null;
+    state.view = "qa";
     state.celebrated = false;
     save(state);
-    renderAll();
+    closeSettings();
+    showScreen("qa");
+    renderQA();
     showToast("질문 적용 & 초기화 완료!");
   });
 
@@ -1208,174 +1308,171 @@
     showToast("기본 질문으로 복원!");
   });
 
-  // =============================
-  // 📸 인스타 스토리 카드 (1080x1920 PNG)
-  // ✅ 7) 타이틀 텍스트: "2025 연말결산"
-  // =============================
-  exportImageBtn.addEventListener("click", generateInstagramStoryCard);
+  // =========================
+  // Reset confirm
+  // =========================
+  function openConfirm(){
+    confirmOverlay.style.display = "flex";
+    confirmOverlay.setAttribute("aria-hidden","false");
+  }
+  function closeConfirm(){
+    confirmOverlay.style.display = "none";
+    confirmOverlay.setAttribute("aria-hidden","true");
+  }
+  newStartBtn.addEventListener("click", openConfirm);
+  newStartBtn2.addEventListener("click", openConfirm);
+  closeConfirmBtn.addEventListener("click", closeConfirm);
+  cancelResetBtn.addEventListener("click", closeConfirm);
+  confirmOverlay.addEventListener("click", (e) => {
+    if(e.target === confirmOverlay) closeConfirm();
+  });
 
-  function generateInstagramStoryCard(){
-    const W = 1080;
-    const H = 1920;
-    const PAD = 92;
-
-    const accent = "#d12b2b";
-    const accent2 = "#ff4a4a";
-
-    const answered = Object.keys(state.answers)
-      .map(k => Number(k))
-      .filter(i => (state.answers[i] ?? "").trim().length > 0)
-      .map(i => ({ q: state.questions[i], a: String(state.answers[i]) }));
-
-    if(answered.length === 0){
-      showToast("아직 답변이 없어! 한 개라도 작성해줘.");
-      return;
-    }
-
-    shuffle(answered);
-    const picks = answered.slice(0, Math.min(10, answered.length));
-
-    const canvas = document.createElement("canvas");
-    canvas.width = W;
-    canvas.height = H;
-    const ctx = canvas.getContext("2d");
-
-    // 배경
-    ctx.fillStyle = "#fff6f7";
-    ctx.fillRect(0, 0, W, H);
-
-    radialGlow(ctx, W*0.2, H*0.18, 420, hexToRgba(accent2, 0.22));
-    radialGlow(ctx, W*0.85, H*0.78, 520, hexToRgba(accent, 0.16));
-
-    // 스노우 도트
-    ctx.fillStyle = "rgba(255,255,255,0.95)";
-    for(let i=0;i<120;i++){
-      const x = Math.random() * W;
-      const y = Math.random() * H;
-      const r = 1.3 + Math.random()*2.4;
-      ctx.beginPath();
-      ctx.arc(x,y,r,0,Math.PI*2);
-      ctx.fill();
-    }
-
-    // 카드
-    const cardX = 54, cardY = 120, cardW = W-108, cardH = H-240;
-    roundRect(ctx, cardX, cardY, cardW, cardH, 30);
-    ctx.fillStyle = "rgba(255,255,255,0.88)";
-    ctx.fill();
-    ctx.strokeStyle = "rgba(0,0,0,0.10)";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    // 타이틀
-    ctx.textAlign = "left";
-    ctx.fillStyle = "#1b1b1b";
-    ctx.font = "900 64px sans-serif";
-    ctx.fillText(`${YEAR} 연말결산🎁`, PAD, 230);
-
-    ctx.font = "700 30px sans-serif";
-    ctx.fillStyle = "rgba(0,0,0,0.55)";
-    ctx.fillText(state.title, PAD, 285);
-
-    // 본문
-    let y = 370;
-    const maxWidth = W - PAD*2;
-
-    for(const {q, a} of picks){
-      ctx.font = "900 34px sans-serif";
-      ctx.fillStyle = accent;
-      y = wrapText(ctx, `• ${q}`, PAD, y, maxWidth, 44);
-
-      ctx.font = "500 32px sans-serif";
-      ctx.fillStyle = "#1b1b1b";
-      y = wrapText(ctx, a, PAD + 18, y + 6, maxWidth - 18, 42);
-
-      y += 18;
-      if(y > H - 220) break;
-    }
-
-    // 하단
-    ctx.fillStyle = "rgba(0,0,0,0.55)";
-    ctx.font = "700 26px sans-serif";
-    ctx.fillText(`©Good Bye ${YEAR}`, PAD, H - 130);
-
-    ctx.textAlign = "right";
-    ctx.fillText(`#수고했어 #연말결산`, W - PAD, H - 130);
-
-    const link = document.createElement("a");
-    link.download = `연말결산_${YEAR}_story.png`;
-    link.href = canvas.toDataURL("image/png");
-    link.click();
-
-    showToast("스토리 카드 PNG 생성!");
+  function resetAll(){
+    state = {
+      title: "연말 결산 도우미",
+      questions: uniqueQuestions(DEFAULT_QUESTIONS),
+      idx: 0,
+      answers: {},
+      skipped: {},
+      view: "qa",
+      celebrated: false
+    };
+    save(state);
   }
 
-  function hexToRgba(hex, a){
-    const h = (hex || "").replace("#","").trim();
-    if(h.length !== 6) return `rgba(209,43,43,${a})`;
-    const r = parseInt(h.slice(0,2),16);
-    const g = parseInt(h.slice(2,4),16);
-    const b = parseInt(h.slice(4,6),16);
-    return `rgba(${r},${g},${b},${a})`;
+  confirmResetBtn.addEventListener("click", () => {
+    resetAll();
+    closeConfirm();
+    showScreen("qa");
+    renderQA();
+    showToast("새로 시작!");
+  });
+
+  // =========================
+  // Navigation
+  // =========================
+  function showStart(){
+    showScreen("start");
+  }
+  function showQA(){
+    showScreen("qa");
+    renderQA();
+    setTimeout(()=> answerEl.focus(), 50);
+  }
+  function showDone(){
+    showScreen("done");
+    renderDone();
   }
 
-  function radialGlow(ctx, x, y, r, color){
-    const g = ctx.createRadialGradient(x,y,0,x,y,r);
-    g.addColorStop(0, color);
-    g.addColorStop(1, "rgba(0,0,0,0)");
-    ctx.fillStyle = g;
-    ctx.fillRect(0,0,ctx.canvas.width, ctx.canvas.height);
-  }
+  startBtn.addEventListener("click", () => {
+    state.view = "qa";
+    save(state);
+    showQA();
+  });
 
-  function shuffle(arr){
-    for(let i = arr.length - 1; i > 0; i--){
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
+  goHomeBtn.addEventListener("click", () => {
+    showStart();
+    showToast("첫 화면으로 이동!");
+  });
+  goHomeBtn2.addEventListener("click", () => {
+    showStart();
+    showToast("첫 화면으로 이동!");
+  });
+
+  goDoneBtn.addEventListener("click", () => {
+    state.view = "done";
+    save(state);
+    showDone();
+    showToast("완료 페이지로 이동!");
+  });
+
+  backToQA.addEventListener("click", () => {
+    state.view = "qa";
+    save(state);
+    showQA();
+    showToast("작성 화면으로 이동!");
+  });
+
+  // =========================
+  // Q&A actions
+  // =========================
+  prevBtn.addEventListener("click", () => {
+    markAnswer(answerEl.value);
+    if(state.idx <= 0) return;
+
+    animateSwap("prev", () => {
+      state.idx -= 1;
+      save(state);
+      renderQA();
+    });
+  });
+
+  skipBtn.addEventListener("click", () => {
+    markAnswer("");
+    if(state.idx < state.questions.length - 1){
+      animateSwap("next", () => {
+        state.idx += 1;
+        save(state);
+        renderQA();
+      });
+    }else{
+      showToast("마지막 질문이야! 완료해도 돼.");
+      renderQA();
     }
-  }
+  });
 
-  function wrapText(ctx, text, x, y, maxWidth, lineHeight){
-    const hard = String(text).split("\n");
-    for(const block of hard){
-      const words = block.split(" ");
-      let line = "";
-
-      for(let n=0; n<words.length; n++){
-        const testLine = line + words[n] + " ";
-        const metrics = ctx.measureText(testLine);
-        if(metrics.width > maxWidth && n > 0){
-          ctx.fillText(line.trimEnd(), x, y);
-          line = words[n] + " ";
-          y += lineHeight;
-        }else{
-          line = testLine;
-        }
-      }
-      ctx.fillText(line.trimEnd(), x, y);
-      y += lineHeight;
+  nextBtn.addEventListener("click", () => {
+    markAnswer(answerEl.value);
+    if(state.idx < state.questions.length - 1){
+      animateSwap("next", () => {
+        state.idx += 1;
+        save(state);
+        renderQA();
+      });
+    }else{
+      showToast("마지막 질문이야! 결산 완료 버튼을 눌러봐 🎉");
+      renderQA();
     }
-    return y;
-  }
+  });
 
-  function roundRect(ctx, x, y, w, h, r){
-    r = Math.min(r, w/2, h/2);
-    if (typeof ctx.roundRect === "function"){
-      ctx.beginPath();
-      ctx.roundRect(x, y, w, h, r);
-      ctx.closePath();
-      return;
+  finishBtn.addEventListener("click", () => {
+    markAnswer(answerEl.value);
+
+    state.view = "done";
+    save(state);
+
+    showDone();
+
+    if(!state.celebrated){
+      state.celebrated = true;
+      save(state);
+      fireCelebration();
     }
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.arcTo(x + w, y, x + w, y + h, r);
-    ctx.arcTo(x + w, y + h, x, y + h, r);
-    ctx.arcTo(x, y + h, x, y, r);
-    ctx.arcTo(x, y, x + w, y, r);
-    ctx.closePath();
-  }
+    showToast("연말 결산 완료! 🎇");
+  });
 
-  // ====== Start ======
-  renderAll();
+  answerEl.addEventListener("keydown", (e) => {
+    if((e.ctrlKey || e.metaKey) && e.key === "Enter"){
+      e.preventDefault();
+      nextBtn.click();
+    }
+  });
+
+  // =========================
+  // Boot
+  // =========================
+  setTitles();
+
+  const hasAnyProgress = !!(Object.keys(state.answers).length || Object.keys(state.skipped).length || state.idx > 0);
+  if(hasAnyProgress){
+    if(state.view === "done"){
+      showDone();
+    }else{
+      showQA();
+    }
+  }else{
+    showStart();
+  }
 })();
 </script>
 </body>
